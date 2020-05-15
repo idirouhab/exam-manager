@@ -1,0 +1,11 @@
+{
+  "login": "Login",
+  "sections": {
+    "home": "Inicio",
+    "login": "Login",
+    "test": "Test",
+    "create_exam": "Crear exámen"
+
+  },
+  "exam": "exámen"
+}

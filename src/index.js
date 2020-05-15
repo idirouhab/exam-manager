@@ -1,14 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {createBrowserHistory} from "history";
+import {Router, Route, Switch} from "react-router-dom";
+import {Redirect} from "react-router";
+import PublicSection from "./sections/Public";
+import PrivateSection from "./sections/Private";
+import "assets/main.scss";
+import './i18n';
+
+const hist = createBrowserHistory();
+
+const PrivateRoute = ({render: Component, ...rest}) => {
+    return <Route {...rest} render={(props) => (
+        true === true
+            ? <Component {...props} />
+            : <Redirect to={{
+                pathname: '/public/login',
+                state: {
+                    from: props.location
+                }
+            }}/>
+    )}/>
+};
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Router history={hist}>
+        <Switch>
+            <PrivateRoute path="/admin" render={props => <PrivateSection {...props} />}/>
+            <Route path="/public" render={props => <PublicSection {...props} />}/>
+        </Switch>
+    </Router>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

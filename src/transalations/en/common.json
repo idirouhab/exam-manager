@@ -1,0 +1,10 @@
+{
+  "login": "Login",
+  "sections":{
+    "home": "Home",
+    "login": "Login",
+    "test": "Test",
+    "create_exam": "Create Exam"
+  },
+  "exam": "exam"
+}
