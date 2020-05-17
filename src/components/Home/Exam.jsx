@@ -44,7 +44,6 @@ export default function Exam(props) {
                     >
                         <Icon>equalizer</Icon>
                     </Button>
-
                 </StyledTableCell>
                 <StyledTableCell size="small" align="center">
                     <Button

@@ -6,7 +6,16 @@
   "quiz_player_name": "What's your name?",
   "start": "Start",
   "login": "Login",
+  "register": "Register",
+
   "logout": "Logout",
+  "login_user": "Email",
+  "login_password": "Password",
+  "login_accept": "Enter",
+  "register_name": "Name",
+  "register_lastname": "Last Name",
+  "register_email": "Email",
+  "register_password": "Password",
   "select_correct": "Pick the right one",
   "option_header": "Possible options",
   "sections": {

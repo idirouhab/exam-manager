@@ -80,7 +80,7 @@ export default function Register(props) {
                             <Paper elevation={5}>
                                 <Card>
                                     <CardHeader
-                                        title={t('login')}/>
+                                        title={t('register')}/>
                                     <CardContent>
                                         <form className={classes.form} onSubmit={onSubmit}>
                                             <Box mt={3} style={{textAlign: "center"}}>
