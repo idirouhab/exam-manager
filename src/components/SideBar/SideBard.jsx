@@ -53,7 +53,6 @@ export default function SideBar(props) {
         return props.location.pathname.indexOf(routeName) > -1;
     };
 
-
     const drawer = (<div>
             <div className={classes.toolbar}/>
             <Divider/>

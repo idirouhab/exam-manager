@@ -8,6 +8,8 @@
   "quiz_reminder_copy": "> Contesta lo mejor que puedas, es mejor que copiar",
   "quiz_reminder_back": "> Una vez completes la pregunta, ya no podrás volver atrás",
   "question": "Pregunta",
+  "selected_answer": "Respuesta seleccionada",
+  "correct_answer": "Respuesta correcta",
   "quiz_player_name": "Introduce tu nombre",
   "start": "Comenzar",
   "login": "Login",

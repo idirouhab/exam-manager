@@ -8,6 +8,8 @@
   "quiz_reminder_copy": "> Do your best it's better than cheating",
   "quiz_reminder_back": "> Once you answer the question, you cant't go back",
   "question": "Question",
+  "selected_answer": "Selected answer",
+  "correct_answer": "Correct answer",
   "quiz_player_name": "What's your name?",
   "start": "Start",
   "login": "Login",
