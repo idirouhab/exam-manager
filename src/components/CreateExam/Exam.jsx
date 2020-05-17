@@ -8,7 +8,6 @@ import React from "react";
 
 export default function Exam(props) {
     const {t} = useTranslation("common");
-
     return (
         <>
             <Grid item xs={12}>
@@ -20,9 +19,9 @@ export default function Exam(props) {
                                 onChange={props.updateExamTitle}
                                 fullWidth
                                 value={props.text}
-                                name="exam_title"
-                                error={props.examErrors}
-                                helperText={props.examErrors ? t('create_exam.label.empty') : ''}
+                                id="exam_title"
+                                error={props.submittedForm && !props.text }
+                                helperText={props.submittedForm && !props.text ? t('create_exam.label.empty') : ''}
                             />
                         </Box>
                     </Container>

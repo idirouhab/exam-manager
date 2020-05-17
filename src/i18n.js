@@ -4,18 +4,13 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import common_es from "./transalations/es/common.json";
 import common_en from "./transalations/en/common.json";
 
-// not like to use this?
-// have a look at the Quick start guide
-// for passing in lng and translations on init
-
-
 i18n
     .use(initReactI18next)
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
         interpolation: {escapeValue: false},
-        debug: true,
+        debug: false,
         fallbackLng: 'en',
         resources: {
             en: {
@@ -26,7 +21,5 @@ i18n
             },
         },
     });
-
-
 
 export default i18n;

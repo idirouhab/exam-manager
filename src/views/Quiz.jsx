@@ -107,8 +107,6 @@ export default function Quiz(props) {
             });
             score = (option.correct) ? score + 1 : score;
         });
-        console.log(score)
-
         setScore(score);
     };
 

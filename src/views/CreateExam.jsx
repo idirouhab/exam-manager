@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, {useEffect, useRef, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import green from "@material-ui/core/colors/green";
 import Fab from "@material-ui/core/Fab";
 import CheckIcon from "@material-ui/icons/Check";
 import SaveIcon from "@material-ui/icons/Save";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {makeStyles} from "@material-ui/core/styles";
+import green from "@material-ui/core/colors/green";
 import Exam from "../components/CreateExam/Exam";
 import Question from "../components/CreateExam/Question";
 import ExamProvider from "../providers/exam";
+
 
 const useStyles = makeStyles(() => ({
     buttonSuccess: {
@@ -31,118 +32,46 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
+function EmptyExam() {
+    this.text = '';
+}
+
+function EmptyQuestion() {
+    this.text = '';
+    this.options = [new EmptyOption()]
+}
+
 function EmptyOption() {
     this.text = '';
     this.correct = false;
 
 }
 
-function EmptyQuestion() {
-    this.text = '';
-    this.options = [new EmptyOption()];
-}
-
-function EmptyExam() {
-    this.text = '';
-    this.questions = [new EmptyQuestion()];
-}
-
 export default function CreateExam(props) {
     const classes = useStyles();
-    const [exam, setExam] = useState(new EmptyExam());
-    const [examErrors, setExamErrors] = useState(false);
-    const [questionErrors, setQuestionErrors] = useState({});
+
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [exam, setExam] = useState(new EmptyExam());
+    const [questions, setQuestions] = useState([new EmptyQuestion()])
+
+    const [submittedForm, setSubmittedForm] = useState(false);
+    const [submittedQuestion, setSubmittedQuestion] = useState(false);
     const [checkedOptions, setCheckedOptions] = useState([]);
 
-    const updateExamTitle = (e) => {
-        setExam({...exam, text: e.target.value});
-    };
 
-    const updateCurrentQuestionTitle = (e, questionIndex) => {
-        const oldQuestions = [...exam.questions];
-        oldQuestions[questionIndex].text = e.target.value;
-        setExam({...exam, questions: oldQuestions})
-    };
+    const bottomElement = useRef(null);
 
-    const updateOption = (e, questionIndex, optionIndex) => {
-        const oldQuestions = [...exam.questions];
-        oldQuestions[questionIndex].options[optionIndex].text = e.target.value;
-        setExam({...exam, questions: oldQuestions})
-    };
-
-    const addOption = (questionIndex) => {
-        const oldQuestions = [...exam.questions];
-        oldQuestions[questionIndex].options.push(new EmptyOption());
-        setExam({...exam, questions: oldQuestions})
-    };
-
-    const deleteOption = (questionIndex, optionIndex) => {
-        const oldQuestions = [...exam.questions];
-        oldQuestions[questionIndex].options.splice(optionIndex, 1);
-        setExam({...exam, questions: oldQuestions})
-    };
-
-    const saveQuestion = (questionIndex) => {
-        if (validQuestions()) {
-            const oldQuestions = [...exam.questions];
-            oldQuestions.push(new EmptyQuestion());
-            setExam({...exam, questions: oldQuestions})
-        }
-    }
-
-    const deleteQuestion = (questionIndex) => {
-        const oldQuestions = [...exam.questions];
-        oldQuestions.splice(questionIndex, 1);
-        setExam({...exam, questions: oldQuestions})
-
-    };
-
-    const validExam = () => {
-        const emptyExam = (exam.text.length === 0);
-        setExamErrors((exam.text.length === 0));
-
-
-        return (!emptyExam && validQuestions())
-    }
-
-    const validQuestions = () => {
-        let errorsMap = {};
-        let error = false;
-        const questions = exam.questions;
-
-        questions.map((question, questionIndex) => {
-            let options = question.options;
-            let empty = (question.text.length === 0);
-            let selectedCorrect = isCorrectOptionSelected(question);
-
-            error = empty || !selectedCorrect ? true : error;
-            errorsMap[questionIndex] = {
-                empty: empty,
-                selectedCorrect: selectedCorrect,
-                options: {}
-            };
-
-            options.map((option, optionIndex) => {
-                let empty = (option.text.length === 0);
-                error = empty ? true : error;
-                errorsMap[questionIndex]['options'][optionIndex] = {
-                    empty: empty
-                };
-            });
-        });
-        console.log(errorsMap);
-        setQuestionErrors(errorsMap);
-        return !error;
-
-    }
+    useEffect(() => {
+        bottomElement.current.scrollIntoView({behavior: "smooth"});
+    }, [questions])
 
     const saveExam = (e) => {
         e.preventDefault();
-        if (!validExam()) {
-            return false;
+        if (exam.text.length === 0) {
+            return false
         }
+        setSubmittedForm(true);
         setLoading(true)
         ExamProvider.saveExam(exam).then(() => {
             setExam(new EmptyExam());
@@ -155,6 +84,73 @@ export default function CreateExam(props) {
         }).finally(() => {
             setLoading(false)
         })
+
+    };
+
+    const updateExamTitle = (e) => {
+        setExam({...exam, text: e.target.value});
+    };
+
+
+    const updateOptionText = (e, questionIndex, optionIndex) => {
+        let oldQuestions = [...questions];
+        oldQuestions[questionIndex].options[optionIndex].text = e.target.value;
+
+        setQuestions(oldQuestions)
+    };
+
+    const updateCurrentQuestionTitle = (e, questionIndex) => {
+        let oldQuestion = [...questions]
+        oldQuestion[questionIndex].text = e.target.value;
+        setQuestions(oldQuestion)
+    };
+
+    const saveQuestion = () => {
+        setSubmittedQuestion(true);
+        let emptyQuestion = questions.filter(question => {
+            return question.text.length === 0;
+        });
+
+        let atLeastOneEmptyOption = questions.find(question => {
+            return hasEmptyText(question.options);
+        });
+        if (emptyQuestion.length > 0 || atLeastOneEmptyOption !== undefined) {
+            return
+        }
+
+
+        setSubmittedQuestion(false);
+        const oldQuestions = [...questions];
+        oldQuestions.push(new EmptyQuestion());
+        setQuestions(oldQuestions)
+    };
+
+    const hasEmptyText = (options) => {
+
+        let emptyOption = options.find(option => {
+            return option.text.length === 0;
+        });
+
+        return !(emptyOption === undefined)
+    };
+    const addOptionToQuestion = (questionIndex) => {
+        const oldQuestions = [...questions];
+        oldQuestions[questionIndex].options.push(new EmptyOption());
+        setQuestions(oldQuestions);
+    };
+
+    const deleteOptionFromQuestion = (questionIndex, optionIndex) => {
+        const oldQuestions = [...questions];
+        oldQuestions[questionIndex].options.splice(optionIndex, 1);
+        setQuestions(oldQuestions);
+    };
+
+
+    const deleteQuestion = (questionIndex) => {
+        const oldQuestions = [...questions];
+        oldQuestions.splice(questionIndex, 1);
+        setQuestions(oldQuestions)
+
     };
 
     const updateOptionCheckBox = (e, questionIndex, optionIndex) => {
@@ -162,66 +158,72 @@ export default function CreateExam(props) {
         oldCheckedOptions[questionIndex] = optionIndex;
         setCheckedOptions(oldCheckedOptions);
 
-        const oldQuestions = [...exam.questions];
+        const oldQuestions = [...questions];
 
         for (let i in oldQuestions[questionIndex].options) {
             oldQuestions[questionIndex].options[i].correct = parseInt(i) === optionIndex;
         }
 
-        setExam({...exam, questions: oldQuestions})
+        setQuestions(oldQuestions)
     };
 
-    const isCorrectOptionSelected = (currentQuestion) => {
-        return currentQuestion.options.filter(option => {
-            return option.correct === true;
-        }).length > 0
-    };
 
+    const printJson = (object) => {
+        return JSON.stringify(object, null, 2);
+    };
 
     return (
-        <form onSubmit={saveExam}>
-            <Grid container spacing={3}>
-                <Exam
-                    updateExamTitle={updateExamTitle}
-                    text={exam.text}
-                    examErrors={examErrors}
-                />
-                {exam.questions.map((question, questionIndex) => (
-                    <Question
-                        key={questionIndex}
-                        questionIndex={questionIndex}
-                        question={question}
-                        updateCurrentQuestionTitle={updateCurrentQuestionTitle}
-                        updateOption={updateOption}
-                        checkedOptions={checkedOptions}
-                        updateOptionCheckBox={updateOptionCheckBox}
-                        deleteOption={deleteOption}
-                        addOption={addOption}
-                        saveQuestion={saveQuestion}
-                        deleteQuestion={deleteQuestion}
-                        numberQuestion={exam.questions.length}
-                        questionErrors={questionIndex in questionErrors ? questionErrors[questionIndex] : {}}
+        <>
+            <form onSubmit={saveExam}>
+                <Grid container spacing={3}>
+                    <Exam
+                        updateExamTitle={updateExamTitle}
+                        text={exam.text}
+                        submittedForm={submittedForm}
                     />
-                ))}
-                <Grid container className="navbar" spacing={0}>
-                    <Grid item xs={12}>
-                        <div className={classes.wrapper}>
-                            <Fab
-                                type="submit"
-                                aria-label="save"
-                                color="primary"
-                                className={`${success ? classes.buttonSuccess : ""}`}
-                            >
-                                {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
-                            </Fab>
-                            {loading && (
-                                <CircularProgress size={68}
-                                                  className={classes.fabProgress}/>
-                            )}
-                        </div>
+                    {questions.map((question, questionIndex) => (
+                        <Question
+                            key={questionIndex}
+                            questionIndex={questionIndex}
+                            question={question}
+                            updateCurrentQuestionTitle={updateCurrentQuestionTitle}
+                            saveQuestion={saveQuestion}
+                            numberQuestion={questions.length}
+                            submittedQuestion={submittedQuestion}
+                            deleteQuestion={deleteQuestion}
+                            options={questions[questionIndex].options}
+                            updateOptionText={updateOptionText}
+                            addOptionToQuestion={addOptionToQuestion}
+                            deleteOptionFromQuestion={deleteOptionFromQuestion}
+                            checkedOptions={checkedOptions}
+                            updateOptionCheckBox={updateOptionCheckBox}
+
+
+                        />
+                    ))}
+                    <Grid container className="navbar" spacing={0}>
+                        <Grid item xs={12}>
+                            <div className={classes.wrapper}>
+                                <Fab
+                                    type="submit"
+                                    aria-label="save"
+                                    color="primary"
+                                    className={`${success ? classes.buttonSuccess : ""}`}
+                                >
+                                    {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
+                                </Fab>
+                                {loading && (
+                                    <CircularProgress size={68}
+                                                      className={classes.fabProgress}/>
+                                )}
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </form>
+                <div style={{float: "left", clear: "both"}}
+                     ref={bottomElement}>
+                </div>
+            </form>
+        </>
     );
 }

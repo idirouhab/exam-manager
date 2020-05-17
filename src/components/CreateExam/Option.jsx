@@ -22,9 +22,6 @@ const StyledTableCell = withStyles((theme) => ({
 export default function Option(props) {
     const {t} = useTranslation("common");
 
-    const emptyText = () => {
-        return ("empty" in props.optionErrors > 0 ? props.optionErrors.empty : false)
-    };
     return (
         <>
             <TableRow>
@@ -37,34 +34,35 @@ export default function Option(props) {
                             value={props.option.text}
                             label={
                                 <TextField
-                                    id={`option_${props.questionIndex}_${props.optionIndex}` }
-
+                                    id={`option_${props.questionIndex}_${props.optionIndex}`}
                                     fullWidth
                                     label={t('create_exam.label.option')}
                                     value={props.option.text}
-                                    onChange={(e) => props.updateOption(e, props.questionIndex, props.optionIndex)}
+                                    onChange={(e) => props.updateOptionText(e, props.questionIndex, props.optionIndex)}
                                     autoFocus={props.numberOptions > 1}
-                                    error={emptyText()}
-                                    helperText={emptyText() ? t('create_exam.label.empty') : ''}
+                                    error={props.submittedQuestion && !props.option.text }
+                                    helperText={props.submittedQuestion && !props.option.text ? t('create_exam.label.empty') : ''}
+
                                 />
                             }
                             control={<Radio
-                                id={`option_radio_${props.questionIndex}_${props.optionIndex}` }
+                                id={`option_radio_${props.questionIndex}_${props.optionIndex}`}
                                 checked={props.optionIndex === props.checkedOptions[props.questionIndex]}
 
                                 onChange={(e) => props.updateOptionCheckBox(e, props.questionIndex, props.optionIndex)}
                             />}
+
                         />
                     </FormControl>
                 </TableCell>
                 <StyledTableCell>
                     {props.numberOptions > 1 && (
                         <Button
-                            id={`question_clear_${props.questionIndex}_${props.optionIndex}` }
+                            id={`question_clear_${props.questionIndex}_${props.optionIndex}`}
                             display="none"
                             variant="contained"
                             color="secondary"
-                            onClick={() => props.deleteOption(props.questionIndex, props.optionIndex)}
+                            onClick={() => props.deleteOptionFromQuestion(props.questionIndex, props.optionIndex)}
                         >
                             <Icon>clear</Icon>
                         </Button>
