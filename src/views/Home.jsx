@@ -40,7 +40,8 @@ export default function Home() {
                     {
                         id: exam.id,
                         text: exam.text,
-                        questions: exam.questions
+                        questions: exam.questions,
+                        user: (exam.userId ? exam.userId.name : "")
                     }
                 )
             });

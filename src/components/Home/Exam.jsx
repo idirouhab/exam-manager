@@ -32,6 +32,9 @@ export default function Exam(props) {
     return (
         <>
             <TableRow>
+                <StyledTableCell size="small" align="center">
+                    {props.exam.user}
+                </StyledTableCell>
                 <TableCell component="th" scope="row">
                     {props.exam.text}
                 </TableCell>
@@ -58,15 +61,7 @@ export default function Exam(props) {
                         <Icon>share</Icon>
                     </Button>
                 </StyledTableCell>
-                <StyledTableCell size="small" align="center">
-                    <Button
-                        id={`edit_${props.index}`}
-                        variant="contained"
-                        color="primary"
-                    >
-                        <Icon>edit</Icon>
-                    </Button>
-                </StyledTableCell>
+
                 <StyledTableCell size="small" align="center">
                     <Button
                         id={`delete_${props.index}`}
