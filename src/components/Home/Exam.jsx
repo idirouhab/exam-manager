@@ -55,7 +55,7 @@ export default function Exam(props) {
                         to={`/public/quiz/${props.exam.id}`}
                         target="_blank"
                     >
-                        <Icon>find_in_page</Icon>
+                        <Icon>share</Icon>
                     </Button>
                 </StyledTableCell>
                 <StyledTableCell size="small" align="center">
