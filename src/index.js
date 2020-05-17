@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {createBrowserHistory} from "history";
-import {Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Redirect} from "react-router";
 import PublicSection from "./sections/Public";
 import PrivateSection from "./sections/Private";
@@ -29,10 +29,10 @@ const PrivateRoute = ({render: Component, ...rest}) => {
 
 
 ReactDOM.render(
-    <Router history={hist}>
+    <Router history={hist} >
         <Switch>
-            <PrivateRoute path="/admin" render={props => <PrivateSection {...props} />}/>
-            <Route path="/public" render={props => <PublicSection {...props} />}/>
+            <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
+            <Route path={"/public"} render={props => <PublicSection {...props} />}/>
         </Switch>
     </Router>,
     document.getElementById('root')
