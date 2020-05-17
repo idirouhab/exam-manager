@@ -1,10 +1,32 @@
 {
+  "quiz_reminder_read": "> Read carefully every question before answering",
+  "quiz_reminder_copy": "> Do your best it's better than cheating",
+  "quiz_reminder_back": "> Once you answer the question, you cant't go back",
+  "question": "Question",
+  "quiz_player_name": "What's your name?",
+  "start": "Start",
   "login": "Login",
-  "sections":{
+  "select_correct": "Pick the right one",
+  "option_header": "Possible options",
+  "sections": {
     "home": "Home",
     "login": "Login",
     "test": "Test",
     "create_exam": "Create Exam"
+  },
+  "input": {
+    "error": {
+      "empty": "Required field"
+    }
+  },
+  "create_exam": {
+    "label": {
+      "title": "Exam title",
+      "question": "Question",
+      "option": "Option",
+      "empty": "Required field",
+      "option_not_select": "Select the right answer"
+    }
   },
   "exam": "exam"
 }

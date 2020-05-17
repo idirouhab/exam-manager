@@ -46,7 +46,7 @@ export default function ButtonAppBar(props) {
             return null;
         });
         return t(`sections.${brandName}`);
-    }
+    };
 
     return (
         <AppBar position="fixed" className={classes.appBar}>

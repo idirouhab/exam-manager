@@ -7,13 +7,16 @@ import {Redirect} from "react-router";
 import PublicSection from "./sections/Public";
 import PrivateSection from "./sections/Private";
 import "assets/main.scss";
+import 'typeface-roboto';
+import Auth from './providers/auth';
+
 import './i18n';
 
 const hist = createBrowserHistory();
 
 const PrivateRoute = ({render: Component, ...rest}) => {
     return <Route {...rest} render={(props) => (
-        true === true
+        Auth.isAuthenticated() === true
             ? <Component {...props} />
             : <Redirect to={{
                 pathname: '/public/login',

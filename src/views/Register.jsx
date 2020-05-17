@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import {Box} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
@@ -24,25 +24,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Login(props) {
+export default function Register(props) {
 
     const classes = useStyles();
     const {t} = useTranslation('common');
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [lastname, setLastname] = useState('');
     const [submitted, setSubmitted] = useState(false);
-    const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-
-    const {from} = props.location.state || {from: {pathname: '/'}}
 
 
-    useEffect(() => {
-        if (redirectToReferrer) {
-            props.history.push(from)
-        }
+    const updateLastname = (e) => {
+        setLastname(e.target.value);
+    };
 
-    }, [redirectToReferrer, from])
+    const updateName = (e) => {
+        setName(e.target.value);
+    };
 
     const updateUsername = (e) => {
         setUsername(e.target.value);
@@ -53,13 +53,12 @@ export default function Login(props) {
     };
 
     const onSubmit = (e) => {
-        console.log(e);
         e.preventDefault();
         setSubmitted(true);
 
         if (username && password) {
             Auth.login(username, password).then(() => {
-                setRedirectToReferrer(true);
+                props.history.push('/public/login')
             })
         }
     };
@@ -77,20 +76,42 @@ export default function Login(props) {
                                         title={t('login')}/>
                                     <CardContent>
                                         <form className={classes.form} onSubmit={onSubmit}>
-                                            <div style={{textAlign: "center"}}>
+                                            <Box mt={3} style={{textAlign: "center"}}>
                                                 <TextField
                                                     variant="outlined"
-                                                    label={t('login_user')}
+                                                    label={t('register_name')}
+                                                    onChange={updateName}
+                                                    value={name}
+                                                    error={name.length === 0 && submitted}
+                                                    helperText={name.length === 0 && submitted ? t('input.error.empty') : ""}
+                                                />
+                                            </Box>
+
+                                            <Box mt={3} style={{textAlign: "center"}}>
+                                                <TextField
+                                                    variant="outlined"
+                                                    label={t('register_lastname')}
+                                                    onChange={updateLastname}
+                                                    value={lastname}
+                                                    error={lastname.length === 0 && submitted}
+                                                    helperText={lastname.length === 0 && submitted ? t('input.error.empty') : ""}
+                                                />
+                                            </Box>
+                                            <Box mt={3} style={{textAlign: "center"}}>
+                                                <TextField
+                                                    variant="outlined"
+                                                    label={t('register_email')}
                                                     onChange={updateUsername}
+                                                    type={"email"}
                                                     value={username}
                                                     error={username.length === 0 && submitted}
                                                     helperText={username.length === 0 && submitted ? t('input.error.empty') : ""}
                                                 />
-                                            </div>
+                                            </Box>
                                             <Box mt={3} style={{textAlign: "center"}}>
                                                 <TextField
                                                     variant="outlined"
-                                                    label={t('login_password')}
+                                                    label={t('register_password')}
                                                     onChange={updatePassword}
                                                     value={password}
                                                     type="password"

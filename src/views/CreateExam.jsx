@@ -1,148 +1,227 @@
-import React, {useEffect} from "react";
+import React, {useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import {makeStyles} from "@material-ui/core/styles";
-import TableContainer from "@material-ui/core/TableContainer";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
-import axios from 'axios';
-import {backendUrl} from '../variables/general'
-import Button from "@material-ui/core/Button";
-import {Link as RouterLink} from 'react-router-dom';
-import {MemoryRouter as Router} from 'react-router';
 import green from "@material-ui/core/colors/green";
-import Icon from "@material-ui/core/Icon";
-import {withStyles} from "@material-ui/styles";
-import {useTranslation} from "react-i18next";
+import Fab from "@material-ui/core/Fab";
+import CheckIcon from "@material-ui/icons/Check";
+import SaveIcon from "@material-ui/icons/Save";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Exam from "../components/CreateExam/Exam";
+import Question from "../components/CreateExam/Question";
+import ExamProvider from "../providers/exam";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
+
+const useStyles = makeStyles(() => ({
     buttonSuccess: {
         backgroundColor: green[500],
         "&:hover": {
             backgroundColor: green[700]
         }
     },
+    wrapper: {
+        margin: 0,
+        position: "relative"
+    },
+    fabProgress: {
+        color: green[500],
+        position: "absolute",
+        top: -6,
+        left: -6,
+        zIndex: 1,
+        outline: "none",
+    },
 }));
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        width: "5%",
-    },
-    body: {
-        width: "5%",
-    },
-}))(TableCell);
+function EmptyOption() {
+    this.text = '';
+    this.correct = false;
 
-export default function CreateExam() {
+}
+
+function EmptyQuestion() {
+    this.text = '';
+    this.options = [new EmptyOption()];
+}
+
+function EmptyExam() {
+    this.text = '';
+    this.questions = [new EmptyQuestion()];
+}
+
+export default function CreateExam(props) {
     const classes = useStyles();
-    const {t} = useTranslation("common");
-    const [exams, setExams] = React.useState([]);
+    const [exam, setExam] = useState(new EmptyExam());
+    const [examErrors, setExamErrors] = useState(false);
+    const [questionErrors, setQuestionErrors] = useState({});
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [checkedOptions, setCheckedOptions] = useState([]);
 
-    useEffect(() => {
-        const fetchExams = async () => {
-            const result = await axios.get(`${backendUrl}/api/questionnaire`)
-                .then(res => {
-                    let exams = []
-                    res.data.forEach(exams => {
-                        exams.push(
-                            {
-                                id: exam.id,
-                                title: exam.title,
-                                questions: exam.questions
-                            }
-                        )
-                    });
-                    return exams;
-                })
-            setExams(result);
-        };
-        fetchExams()
-    }, []);
+    const updateExamTitle = (e) => {
+        setExam({...exam, text: e.target.value});
+    };
+
+    const updateCurrentQuestionTitle = (e, questionIndex) => {
+        const oldQuestions = [...exam.questions];
+        oldQuestions[questionIndex].text = e.target.value;
+        setExam({...exam, questions: oldQuestions})
+    };
+
+    const updateOption = (e, questionIndex, optionIndex) => {
+        const oldQuestions = [...exam.questions];
+        oldQuestions[questionIndex].options[optionIndex].text = e.target.value;
+        setExam({...exam, questions: oldQuestions})
+    };
+
+    const addOption = (questionIndex) => {
+        const oldQuestions = [...exam.questions];
+        oldQuestions[questionIndex].options.push(new EmptyOption());
+        setExam({...exam, questions: oldQuestions})
+    };
+
+    const deleteOption = (questionIndex, optionIndex) => {
+        const oldQuestions = [...exam.questions];
+        oldQuestions[questionIndex].options.splice(optionIndex, 1);
+        setExam({...exam, questions: oldQuestions})
+    };
+
+    const saveQuestion = (questionIndex) => {
+        if (validQuestions()) {
+            const oldQuestions = [...exam.questions];
+            oldQuestions.push(new EmptyQuestion());
+            setExam({...exam, questions: oldQuestions})
+        }
+    }
+
+    const deleteQuestion = (questionIndex) => {
+        const oldQuestions = [...exam.questions];
+        oldQuestions.splice(questionIndex, 1);
+        setExam({...exam, questions: oldQuestions})
+
+    };
+
+    const validExam = () => {
+        const emptyExam = (exam.text.length === 0);
+        setExamErrors((exam.text.length === 0));
+
+
+        return (!emptyExam && validQuestions())
+    }
+
+    const validQuestions = () => {
+        let errorsMap = {};
+        let error = false;
+        const questions = exam.questions;
+
+        questions.map((question, questionIndex) => {
+            let options = question.options;
+            let empty = (question.text.length === 0);
+            let selectedCorrect = isCorrectOptionSelected(question);
+
+            error = empty || !selectedCorrect ? true : error;
+            errorsMap[questionIndex] = {
+                empty: empty,
+                selectedCorrect: selectedCorrect,
+                options: {}
+            };
+
+            options.map((option, optionIndex) => {
+                let empty = (option.text.length === 0);
+                error = empty ? true : error;
+                errorsMap[questionIndex]['options'][optionIndex] = {
+                    empty: empty
+                };
+            });
+        });
+        setQuestionErrors(errorsMap);
+        return !error;
+
+    }
+
+    const saveExam = (e) => {
+        e.preventDefault();
+        if (!validExam()) {
+            return false;
+        }
+        setLoading(true)
+        ExamProvider.saveExam(exam).then(() => {
+            setExam(new EmptyExam());
+            setSuccess(true);
+
+            setTimeout(() => {
+                props.history.push("/admin/home")
+            }, 1000)
+
+        }).finally(() => {
+            setLoading(false)
+        })
+    };
+
+    const updateOptionCheckBox = (e, questionIndex, optionIndex) => {
+        const oldCheckedOptions = [...checkedOptions];
+        oldCheckedOptions[questionIndex] = optionIndex;
+        setCheckedOptions(oldCheckedOptions);
+
+        const oldQuestions = [...exam.questions];
+
+        for (let i in oldQuestions[questionIndex].options) {
+            oldQuestions[questionIndex].options[i].correct = parseInt(i) === optionIndex;
+        }
+
+        setExam({...exam, questions: oldQuestions})
+    };
+
+    const isCorrectOptionSelected = (currentQuestion) => {
+        return currentQuestion.options.filter(option => {
+            return option.correct === true;
+        }).length > 0
+    };
+
 
     return (
-        <>
+        <form onSubmit={saveExam}>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className="capitalize">{t('exams')}</TableCell>
-                                    <StyledTableCell size="small" align="center"/>
-                                    <StyledTableCell size="small" align="center"/>
-                                    <StyledTableCell size="small" align="center"/>
-                                    <StyledTableCell size="small" align="center"/>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {exams.map((exam, key) => (
-                                    <TableRow key={key}>
-                                        <TableCell component="th" scope="row">
-                                            {exam.title}
-                                        </TableCell>
-                                        <StyledTableCell size="small" align="center">
-
-                                            <Button variant="contained" component={RouterLink} to="/admin/test">
-                                                <Icon>equalizer</Icon>
-                                            </Button>
-
-                                        </StyledTableCell>
-                                        <StyledTableCell size="small" align="center">
-                                            <Router>
-                                                <div>
-                                                    <Button className={`${classes.buttonSuccess}`}
-                                                            variant="contained"
-                                                            color="primary"
-                                                            component={RouterLink} to="/public/login">
-                                                        <Icon>find_in_page</Icon>
-                                                    </Button>
-                                                </div>
-                                            </Router>
-                                        </StyledTableCell>
-                                        <StyledTableCell size="small" align="center">
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                className={classes.button}
-                                            >
-                                                <Icon>edit</Icon>
-                                            </Button>
-                                        </StyledTableCell>
-                                        <StyledTableCell size="small" align="center">
-                                            <Button
-                                                variant="contained"
-                                                color="secondary"
-                                                className={classes.button}
-                                            >
-                                                <Icon>delete</Icon>
-                                            </Button>
-                                        </StyledTableCell>
-
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>xs=12</Paper>
-                </Grid>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>xs=12</Paper>
+                <Exam
+                    updateExamTitle={updateExamTitle}
+                    text={exam.text}
+                    examErrors={examErrors}
+                />
+                {exam.questions.map((question, questionIndex) => (
+                    <Question
+                        key={questionIndex}
+                        questionIndex={questionIndex}
+                        question={question}
+                        updateCurrentQuestionTitle={updateCurrentQuestionTitle}
+                        updateOption={updateOption}
+                        checkedOptions={checkedOptions}
+                        updateOptionCheckBox={updateOptionCheckBox}
+                        deleteOption={deleteOption}
+                        addOption={addOption}
+                        saveQuestion={saveQuestion}
+                        deleteQuestion={deleteQuestion}
+                        numberQuestion={exam.questions.length}
+                        questionErrors={questionIndex in questionErrors ? questionErrors[questionIndex] : {}}
+                    />
+                ))}
+                <Grid container className="navbar" spacing={0}>
+                    <Grid item xs={12}>
+                        <div className={classes.wrapper}>
+                            <Fab
+                                type="submit"
+                                aria-label="save"
+                                color="primary"
+                                className={`${success ? classes.buttonSuccess : ""}`}
+                            >
+                                {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
+                            </Fab>
+                            {loading && (
+                                <CircularProgress size={68}
+                                                  className={classes.fabProgress}/>
+                            )}
+                        </div>
+                    </Grid>
                 </Grid>
             </Grid>
-        </>
+        </form>
     );
-
 }

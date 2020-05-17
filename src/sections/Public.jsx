@@ -6,9 +6,9 @@ import {Route, Switch} from "react-router";
 export default class Public extends React.Component {
     render() {
         return (
-            <div className="wrapper">
+            <div className="wrapper public-full" style={{margin: "0"}}>
 
-                <div className="main-panel">
+                <div className="main-panel public-full">
                     <Switch>
                         {routes.map((prop, key) => {
                             return (

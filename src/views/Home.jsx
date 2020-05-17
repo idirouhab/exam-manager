@@ -8,15 +8,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import axios from 'axios';
-import {backendUrl} from '../variables/general'
-import Button from "@material-ui/core/Button";
-import {Link as RouterLink} from 'react-router-dom';
-import {MemoryRouter as Router} from 'react-router';
 import green from "@material-ui/core/colors/green";
-import Icon from "@material-ui/core/Icon";
 import {withStyles} from "@material-ui/styles";
 import {useTranslation} from "react-i18next";
+import ExamProvider from "../providers/exam";
+import Exam from "../components/Home/Exam";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,25 +45,31 @@ export default function Home() {
     const {t} = useTranslation("common");
     const [exams, setExams] = React.useState([false]);
 
+
+    const deleteExam = (id) => {
+        ExamProvider.deleteExam(id).then(() => {
+            getExams();
+        })
+    };
+
+    const getExams = () => {
+        ExamProvider.fetchExams().then(data => {
+            let exams = [];
+            data.forEach(exam => {
+                exams.push(
+                    {
+                        id: exam.id,
+                        text: exam.text,
+                        questions: exam.questions
+                    }
+                )
+            });
+            setExams(exams);
+        })
+    };
+
     useEffect(() => {
-        const fetchExams = async () => {
-            const result = await axios.get(`${backendUrl}/api/questionnaire`)
-                .then(res => {
-                    let exams = []
-                    res.data.forEach(exam => {
-                        exams.push(
-                            {
-                                id: exam.id,
-                                title: exam.title,
-                                questions: exam.questions
-                            }
-                        )
-                    });
-                    return exams;
-                })
-            setExams(result);
-        };
-        fetchExams()
+        getExams();
     }, []);
 
     return (
@@ -87,49 +89,11 @@ export default function Home() {
                             </TableHead>
                             <TableBody>
                                 {exams.map((exam, key) => (
-                                    <TableRow key={key}>
-                                        <TableCell component="th" scope="row">
-                                            {exam.title}
-                                        </TableCell>
-                                        <StyledTableCell size="small" align="center">
-
-                                            <Button variant="contained" component={RouterLink} to="/admin/test">
-                                                <Icon>equalizer</Icon>
-                                            </Button>
-
-                                        </StyledTableCell>
-                                        <StyledTableCell size="small" align="center">
-                                            <Router>
-                                                <div>
-                                                    <Button className={`${classes.buttonSuccess}`}
-                                                            variant="contained"
-                                                            color="primary"
-                                                            component={RouterLink} to="/public/login">
-                                                        <Icon>find_in_page</Icon>
-                                                    </Button>
-                                                </div>
-                                            </Router>
-                                        </StyledTableCell>
-                                        <StyledTableCell size="small" align="center">
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                className={classes.button}
-                                            >
-                                                <Icon>edit</Icon>
-                                            </Button>
-                                        </StyledTableCell>
-                                        <StyledTableCell size="small" align="center">
-                                            <Button
-                                                variant="contained"
-                                                color="secondary"
-                                                className={classes.button}
-                                            >
-                                                <Icon>delete</Icon>
-                                            </Button>
-                                        </StyledTableCell>
-
-                                    </TableRow>
+                                    <Exam
+                                        key={key}
+                                        exam={exam}
+                                        deleteExam={deleteExam}
+                                    />
                                 ))}
                             </TableBody>
                         </Table>

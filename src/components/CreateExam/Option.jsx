@@ -1,0 +1,73 @@
+import TextField from "@material-ui/core/TextField";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {withStyles} from "@material-ui/core/styles";
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        width: "5%",
+    },
+    body: {
+        width: "5%",
+    },
+}))(TableCell);
+
+export default function Option(props) {
+    const {t} = useTranslation("common");
+
+    const emptyText = () => {
+        return ("empty" in props.optionErrors > 0 ? props.optionErrors.empty : false)
+    };
+    return (
+        <>
+            <TableRow>
+                <TableCell>
+                    <FormControl
+                        component="fieldset"
+                        fullWidth>
+                        <FormControlLabel
+                            key={props.optionIndex}
+                            value={props.option.text}
+                            label={
+                                <TextField
+                                    fullWidth
+                                    label={t('create_exam.label.option')}
+                                    value={props.option.text}
+                                    onChange={(e) => props.updateOption(e, props.questionIndex, props.optionIndex)}
+                                    autoFocus={props.numberOptions > 1}
+                                    error={emptyText()}
+                                    helperText={emptyText() ? t('create_exam.label.empty') : ''}
+                                />
+                            }
+                            control={<Radio
+
+                                checked={props.optionIndex === props.checkedOptions[props.questionIndex]}
+
+                                onChange={(e) => props.updateOptionCheckBox(e, props.questionIndex, props.optionIndex)}
+                            />}
+                        />
+                    </FormControl>
+                </TableCell>
+                <StyledTableCell>
+                    {props.numberOptions > 1 && (
+                        <Button
+                            display="none"
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => props.deleteOption(props.questionIndex, props.optionIndex)}
+                        >
+                            <Icon>clear</Icon>
+                        </Button>
+                    )}
+                </StyledTableCell>
+            </TableRow>
+        </>
+    )
+}

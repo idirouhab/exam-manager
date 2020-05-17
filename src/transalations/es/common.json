@@ -1,11 +1,32 @@
 {
+  "quiz_reminder_read": "> Recuerda leer todas las preguntas con atención",
+  "quiz_reminder_copy": "> Contesta lo mejor que puedas, es mejor que copiar",
+  "quiz_reminder_back": "> Una vez completes la pregunta, ya no podrás volver atrás",
+  "question": "Pregunta",
+  "quiz_player_name": "Introduce tu nombre",
+  "start": "Comenzar",
   "login": "Login",
+  "select_correct": "Selecciona la correcta",
+  "option_header": "Posibles respuestas",
   "sections": {
     "home": "Inicio",
     "login": "Login",
     "test": "Test",
-    "create_exam": "Crear exámen"
-
+    "create_exam": "Crear examen"
   },
-  "exam": "exámen"
+  "input": {
+    "error": {
+      "empty": "Campo obligatorio"
+    }
+  },
+  "create_exam": {
+    "label": {
+      "title": "Título del examen",
+      "question": "Pregunta",
+      "option": "Opción",
+      "empty": "Campo obligatorio",
+      "option_not_select": "Escoge la respuesta correcta"
+    }
+  },
+  "exam": "examen"
 }

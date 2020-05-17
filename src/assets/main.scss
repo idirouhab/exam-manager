@@ -1,12 +1,66 @@
-.wrapper {
-  display: flex;
+body{
+  margin: 0;
 }
 
-.main-background {
-  background-color: red;
+.wrapper {
+  display: flex;
 }
 
 .capitalize {
   text-transform: capitalize
 }
 
+.MuiFormControlLabel-root {
+  width: 100% !important;
+
+  > .MuiFormControlLabel-label {
+    width: 100% !important;
+  }
+}
+
+
+.navbar {
+  text-align: center !important;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+}
+
+.radioButtonError {
+  color: #f44336;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.66;
+}
+
+
+.content_quizz {
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: .1px;
+  line-height: 24px;
+  color: #202124;
+  font-weight: 400;
+  width: 100%;
+  word-break: break-word;
+  margin: 0;
+  background-color: #006be8 !important;
+  box-shadow: 0 0 150px -50px #051831 inset;
+}
+
+.content_options{
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: .2px;
+  line-height: 20px;
+}
+
+
+.public-full {
+  width: 100%;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.5);
+}

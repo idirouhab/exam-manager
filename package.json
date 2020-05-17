@@ -1,6 +1,7 @@
 {
   "name": "questionnaire-manager",
   "version": "0.1.0",
+  "homepage": "http://idirouhab.github.io/questionnaire-manager",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.14",
@@ -15,10 +16,12 @@
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^5.7.2",
     "react-i18next": "^11.4.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "typeface-roboto": "0.0.75"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,7 +31,9 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "compile-sass": "node-sass src/assets/scss/main.scss src/assets/css/main.css",
     "minify-sass": "node-sass src/assets/scss/main.scss src/assets/css/main.min.css --output-style compressed",
-    "map-sass": "node-sass src/assets/scss/main.scss src/assets/css/main.css --source-map true"
+    "map-sass": "node-sass src/assets/scss/main.scss src/assets/css/main.css --source-map true",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }
