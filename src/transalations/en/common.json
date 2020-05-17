@@ -1,4 +1,9 @@
 {
+  "seconds": "seconds",
+  "your_score": "Your score",
+  "time": "Time",
+  "submit": "Submit",
+  "next": "Next",
   "quiz_reminder_read": "> Read carefully every question before answering",
   "quiz_reminder_copy": "> Do your best it's better than cheating",
   "quiz_reminder_back": "> Once you answer the question, you cant't go back",

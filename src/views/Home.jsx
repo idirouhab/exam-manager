@@ -1,37 +1,18 @@
 import React, {useEffect} from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import {makeStyles} from "@material-ui/core/styles";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import green from "@material-ui/core/colors/green";
 import {withStyles} from "@material-ui/styles";
 import {useTranslation} from "react-i18next";
 import ExamProvider from "../providers/exam";
 import Exam from "../components/Home/Exam";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-    buttonSuccess: {
-        backgroundColor: green[500],
-        "&:hover": {
-            backgroundColor: green[700]
-        }
-    },
-}));
-
-const StyledTableCell = withStyles((theme) => ({
+const StyledTableCell = withStyles(() => ({
     head: {
         width: "5%",
     },

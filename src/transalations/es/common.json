@@ -1,4 +1,9 @@
 {
+  "seconds": "segundos",
+  "your_score": "Puntuación",
+  "time": "Tiempo",
+  "submit": "Enviar",
+  "next": "Siguiente",
   "quiz_reminder_read": "> Recuerda leer todas las preguntas con atención",
   "quiz_reminder_copy": "> Contesta lo mejor que puedas, es mejor que copiar",
   "quiz_reminder_back": "> Una vez completes la pregunta, ya no podrás volver atrás",

@@ -72,7 +72,7 @@ export default function QuestionCard(props) {
                     <div style={{width: '100%'}}>
                         <Button size="large" variant="contained"  className={classes.footerButton} color={"primary"}
                                 onClick={()=>props.nextQuestion(props.question._id)}
-                        >{props.currentQuestionIndex === props.numberQuestions - 1 ? "Submit" : "Next"}</Button>
+                        >{props.currentQuestionIndex === props.numberQuestions - 1 ? t('submit') : t('next') }</Button>
                     </div>
                 </CardActions>
             </Card>
