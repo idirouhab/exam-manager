@@ -9,6 +9,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Exam from "../components/CreateExam/Exam";
 import Question from "../components/CreateExam/Question";
 import ExamProvider from "../providers/exam";
+import Auth from "../providers/auth";
 
 
 const useStyles = makeStyles(() => ({

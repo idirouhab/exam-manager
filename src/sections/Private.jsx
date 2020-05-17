@@ -8,8 +8,6 @@ import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
-
-    // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
@@ -62,7 +60,6 @@ export default function Private(props) {
                             );
                         })}
                     </Switch>
-
                 </main>
             </div>
         </MuiThemeProvider>

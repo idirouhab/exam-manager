@@ -11,17 +11,14 @@ const ExamProvider = {
             });
     },
     saveExam: async function (exam) {
-        return await axios.post(`${backendUrl}/api/exam`, {
-                exam,
-                headers: AuthService.authHeader()
-            }
+        return await axios.post(`${backendUrl}/api/exam`, {exam}, {headers: AuthService.authHeader()}
         )
     },
     deleteExam: async function (examId) {
         return await axios.delete(`${backendUrl}/api/exam/${examId}`, {headers: AuthService.authHeader()})
     },
     fetchExam: async function (examId) {
-        return await axios.get(`${backendUrl}/api/exam/${examId}`, {headers: AuthService.authHeader()}).then((res) => {
+        return await axios.get(`${backendUrl}/api/exam/${examId}`, ).then((res) => {
                 return res.data;
             }
         )

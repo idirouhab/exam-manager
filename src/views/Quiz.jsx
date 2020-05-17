@@ -3,29 +3,10 @@ import ExamProvider from "../providers/exam";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {Box} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
 import QuestionCard from "../components/Quiz/QuestionCard";
 import AnswerProvider from "../providers/answer";
 import StartGame from "../components/Quiz/StartGame";
 import Submit from "../components/Quiz/Submit";
-
-
-const useStyles = makeStyles(() => ({
-    button: {
-        pointerEvents: "none",
-        boxShadow: "none",
-        color: "#006be8"
-    },
-    questionMeta: {
-        marginLeft: 10,
-        display: "inline"
-    },
-    footer: {
-        marginTop: "40px",
-        textAlign: "right"
-    }
-}));
-
 
 export default function Quiz(props) {
     const [exam, setExam] = useState({});
@@ -43,10 +24,9 @@ export default function Quiz(props) {
     }, []);
 
     useEffect(() => {
-        if (score) {
+        if (score !== false) {
             send();
         }
-
     }, [score]);
 
     useEffect(() => {
@@ -63,8 +43,6 @@ export default function Quiz(props) {
 
 
     const send = () => {
-        //const {playerName, time, questionnaireId, selectedOptions, score} = this.state;
-
         let answers = [];
         selectedOptions.forEach((value, key) => {
             answers.push({
@@ -80,16 +58,13 @@ export default function Quiz(props) {
             answers: answers,
             score: score
         };
-
         AnswerProvider.saveAnswer(answer).then(res => {
-            console.log(res.data)
 
-        }).finally(() => {
-            console.log('Failed')
         });
     };
 
     const getExam = () => {
+
         const {id} = props.match.params;
         ExamProvider.fetchExam(id).then(examResponse => {
             let exam = {
@@ -132,12 +107,12 @@ export default function Quiz(props) {
             });
             score = (option.correct) ? score + 1 : score;
         });
+        console.log(score)
 
         setScore(score);
     };
 
     const startGame = () => {
-        console.log(playerName)
         if (!playerName) {
             return false;
         }

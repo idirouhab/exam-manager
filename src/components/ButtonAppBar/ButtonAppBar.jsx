@@ -9,6 +9,7 @@ import {drawerWidth} from "../../variables/general";
 import routes from '../../routes';
 import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
+import Auth from "../../providers/auth";
 
 const useStyles = makeStyles((theme) => (
     {
@@ -48,6 +49,12 @@ export default function ButtonAppBar(props) {
         return t(`sections.${brandName}`);
     };
 
+    const logout = () => {
+        Auth.logout()
+        window.location.reload(false);
+
+    };
+
     return (
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
@@ -63,7 +70,7 @@ export default function ButtonAppBar(props) {
                 <Typography variant="h6" noWrap className={classes.title}>
                     {getBrand()}
                 </Typography>
-                <Button color="inherit">{t(`login`)}</Button>
+                <Button color="inherit" onClick={logout}>{t(`logout`)}</Button>
             </Toolbar>
         </AppBar>
     );

@@ -6,6 +6,7 @@
   "quiz_player_name": "Introduce tu nombre",
   "start": "Comenzar",
   "login": "Login",
+  "logout": "Logout",
   "select_correct": "Selecciona la correcta",
   "option_header": "Posibles respuestas",
   "sections": {

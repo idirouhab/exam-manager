@@ -9,7 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
-import Auth from '../providers/auth';
+import userProvider from "../providers/user";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -32,12 +32,12 @@ export default function Register(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [lastname, setLastname] = useState('');
+    const [lastName, setLastName] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
 
-    const updateLastname = (e) => {
-        setLastname(e.target.value);
+    const updateLastName = (e) => {
+        setLastName(e.target.value);
     };
 
     const updateName = (e) => {
@@ -56,8 +56,15 @@ export default function Register(props) {
         e.preventDefault();
         setSubmitted(true);
 
-        if (username && password) {
-            Auth.login(username, password).then(() => {
+        if (username && password && name && lastName) {
+            userProvider.saveUser(
+                {
+                    username,
+                    password,
+                    name,
+                    lastName,
+                }
+            ).then(() => {
                 props.history.push('/public/login')
             })
         }
@@ -91,10 +98,10 @@ export default function Register(props) {
                                                 <TextField
                                                     variant="outlined"
                                                     label={t('register_lastname')}
-                                                    onChange={updateLastname}
-                                                    value={lastname}
-                                                    error={lastname.length === 0 && submitted}
-                                                    helperText={lastname.length === 0 && submitted ? t('input.error.empty') : ""}
+                                                    onChange={updateLastName}
+                                                    value={lastName}
+                                                    error={lastName.length === 0 && submitted}
+                                                    helperText={lastName.length === 0 && submitted ? t('input.error.empty') : ""}
                                                 />
                                             </Box>
                                             <Box mt={3} style={{textAlign: "center"}}>

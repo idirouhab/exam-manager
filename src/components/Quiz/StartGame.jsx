@@ -9,7 +9,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(() => ({
     footerButton: {

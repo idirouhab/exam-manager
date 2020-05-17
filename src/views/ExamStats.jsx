@@ -24,15 +24,13 @@ const StyledTableCell = withStyles((theme) => ({
 
 export default function ExamStats(props) {
     const {t} = useTranslation("common");
-    const [exam, setExam] = useState({})
     const [answers, setAnswers] = useState([])
     const [questions, setQuestions] = useState([])
     const [transition, setTransition] = useState(false)
 
-
     useEffect(() => {
         getExam();
-    }, []);
+    },[]);
 
     const getExam = () => {
         const {id} = props.match.params;
@@ -41,10 +39,7 @@ export default function ExamStats(props) {
             if (dataAnswers) {
                 setAnswers(dataAnswers)
             }
-
             setQuestions(data.questions);
-
-            setExam(data);
         }).finally(() => {
             setTransition(true)
         })

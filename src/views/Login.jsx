@@ -34,7 +34,7 @@ export default function Login(props) {
     const [submitted, setSubmitted] = useState(false);
     const [redirectToReferrer, setRedirectToReferrer] = useState(false);
 
-    const {from} = props.location.state || {from: {pathname: '/'}}
+    const {from} = {from: {pathname: '/admin/home'}}
 
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export default function Login(props) {
             props.history.push(from)
         }
 
-    }, [redirectToReferrer, from])
+    }, [redirectToReferrer, from, props])
 
     const updateUsername = (e) => {
         setUsername(e.target.value);
@@ -53,7 +53,6 @@ export default function Login(props) {
     };
 
     const onSubmit = (e) => {
-        console.log(e);
         e.preventDefault();
         setSubmitted(true);
 

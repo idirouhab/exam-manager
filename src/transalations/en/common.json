@@ -6,6 +6,7 @@
   "quiz_player_name": "What's your name?",
   "start": "Start",
   "login": "Login",
+  "logout": "Logout",
   "select_correct": "Pick the right one",
   "option_header": "Possible options",
   "sections": {

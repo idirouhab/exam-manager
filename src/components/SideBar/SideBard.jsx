@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         },
 
     },
-    // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
@@ -29,10 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ListItemLink(props) {
-    const {icon, primary, to, selected} = props;
-
+    const {icon, primary, to, selected, style} = props;
     const renderLink = React.useMemo(
-        () => React.forwardRef((itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />),
+        () => React.forwardRef((itemProps, ref) => <RouterLink style={style} to={to} ref={ref} {...itemProps} />),
         [to],
     );
 
@@ -60,15 +58,17 @@ export default function SideBar(props) {
             <div className={classes.toolbar}/>
             <Divider/>
             <List>
-                {routes.map((prop, index) => (
-                    <ListItemLink
+                {routes.map((prop, index) => {
+                    let hidden = (prop.hide) ? {display: "none"} : {};
+                    return (<ListItemLink
                         to={prop.section + prop.path}
                         primary={t(`sections.${prop.name}`)}
                         icon={prop.icon}
                         selected={activeRoute(prop.path)}
                         key={index}
-                    />
-                ))}
+                        style={hidden}
+                    />)
+                })}
             </List>
         </div>
     );
@@ -77,6 +77,7 @@ export default function SideBar(props) {
         <nav className={classes.drawer} aria-label="mailbox folders">
             <Hidden smUp implementation="css">
                 <Drawer
+
                     container={props.container}
                     variant="temporary"
                     anchor={props.theme.direction === 'rtl' ? 'right' : 'left'}

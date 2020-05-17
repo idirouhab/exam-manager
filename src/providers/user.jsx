@@ -1,10 +1,9 @@
 import axios from "axios";
 import {backendUrl} from "../variables/general";
 
-
 const UserProvider = {
     saveUser: async function (user) {
-        return await axios.post(`${backendUrl}/api/login`, {user})
+        return await axios.post(`${backendUrl}/login`, {user})
     },
     fetchUser: async function (username, password
     ){
@@ -17,6 +16,5 @@ const UserProvider = {
     }
 
 };
-
 
 export default UserProvider

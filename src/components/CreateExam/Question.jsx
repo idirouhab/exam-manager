@@ -94,6 +94,8 @@ export default function Question(props) {
                                                 updateOptionCheckBox={props.updateOptionCheckBox}
                                                 optionErrors={("options" in props.questionErrors) ? props.questionErrors.options[optionIndex] : {}}
                                                 questionErrors={props.questionErrors}
+                                                deleteOption={props.deleteOption}
+
                                             />
                                         ))}
                                     </TableBody>

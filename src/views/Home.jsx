@@ -99,12 +99,6 @@ export default function Home() {
                         </Table>
                     </TableContainer>
                 </Grid>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>xs=12</Paper>
-                </Grid>
-                <Grid item xs={12}>
-                    <Paper className={classes.paper}>xs=12</Paper>
-                </Grid>
             </Grid>
         </>
     );

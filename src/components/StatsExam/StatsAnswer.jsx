@@ -12,28 +12,12 @@ import TableBody from "@material-ui/core/TableBody";
 import {useTranslation} from "react-i18next";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
-import {makeStyles} from "@material-ui/core/styles";
 import {Check, Clear, Visibility} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 
-const useStyles = makeStyles({
-    correct: {
-        backgroundColor: green[700],
-        color: "#fff",
-    },
-    false: {
-        backgroundColor: red[700],
-
-    },
-});
-
 export default function MaxWidthDialog(props) {
     const {t} = useTranslation("common");
-    const classes = useStyles()
     const [open, setOpen] = useState(false);
-    const [fullWidth, setFullWidth] = useState(true);
-    const [maxWidth, setMaxWidth] = useState('md');
-
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -48,7 +32,7 @@ export default function MaxWidthDialog(props) {
         return options.find((option) => {
             return option.correct;
         }).text
-    }
+    };
 
     const getSelectedOption = (answers, question) => {
         let actualQuestion = answers.find((answer) => {
@@ -76,8 +60,8 @@ export default function MaxWidthDialog(props) {
             </IconButton>
 
             <Dialog
-                fullWidth={fullWidth}
-                maxWidth={maxWidth}
+                fullWidth={true}
+                maxWidth={'md'}
                 open={open}
                 onClose={handleClose}
             >

@@ -15,6 +15,7 @@ const routes = [
         component: Home,
         section: '/admin',
         scope: 'private',
+        hide: false,
     },
     {
         path: "/create-exam",
@@ -23,6 +24,8 @@ const routes = [
         component: CreateExam,
         section: '/admin',
         scope: 'private',
+        hide: false,
+
     },
     {
         path: "/login",
@@ -31,6 +34,8 @@ const routes = [
         component: Login,
         section: '/public',
         scope: 'public',
+        hide: true,
+
     },
     {
         path: "/register",
@@ -39,6 +44,8 @@ const routes = [
         component: Register,
         section: '/public',
         scope: 'public',
+        hide: true,
+
     },
     {
         path: "/quiz/:id",
@@ -46,7 +53,9 @@ const routes = [
         icon: "ac_unit",
         component: Quiz,
         section: "/public",
-        scope: 'public'
+        scope: 'public',
+        hide: true,
+
     },
     {
         path: "/test",
@@ -55,6 +64,8 @@ const routes = [
         component: Test,
         section: '/admin',
         scope: 'private',
+        hide: true,
+
     },
     {
         path: "/stats/:id",
@@ -63,6 +74,7 @@ const routes = [
         component: ExamStats,
         section: '/admin',
         scope: 'private',
+        hide: true,
     },
 
 ];

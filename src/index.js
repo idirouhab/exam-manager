@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {createBrowserHistory} from "history";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {Router, Route, Switch} from "react-router-dom";
 import {Redirect} from "react-router";
 import PublicSection from "./sections/Public";
 import PrivateSection from "./sections/Private";
@@ -33,6 +33,9 @@ ReactDOM.render(
         <Switch>
             <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
             <Route path={"/public"} render={props => <PublicSection {...props} />}/>
+            <Route exact path="/">
+                {Auth.isAuthenticated() === true ? <Redirect to="/admin/home" /> : <Redirect to="/public/login" />}
+            </Route>
         </Switch>
     </Router>,
     document.getElementById('root')
