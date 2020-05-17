@@ -1,6 +1,6 @@
 const AuthService = {
     authHeader: function () {
-        const token = JSON.parse(localStorage.getItem('token'));
+        const token = localStorage.getItem('token');
         if (token) {
             return {'x-access-token': token};
         } else {
@@ -8,7 +8,7 @@ const AuthService = {
         }
     },
     isTokenStored: function () {
-        return JSON.parse(localStorage.getItem('token'));
+        return localStorage.getItem('token');
     }
 };
 

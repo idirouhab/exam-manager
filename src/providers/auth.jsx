@@ -14,7 +14,7 @@ class Auth {
                 this.userName = res.data.user.username;
                 this.userId = res.data.user.id;
                 this.authenticated = true;
-                localStorage.setItem("token", JSON.stringify(res.data.token));
+                localStorage.setItem("token", res.data.token);
             }
         });
 
