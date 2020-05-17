@@ -3,14 +3,9 @@ import {backendUrl} from "../variables/general";
 import AuthService from "../services/auth";
 
 const AnswerProvider = {
-
-    getUser: async function (data) {
-        return await axios.get(`${backendUrl}/api/user`,{headers: AuthService.authHeader() }).then((res) => {
-                return res.data;
-            }
-        )
+    saveAnswer: async function (answer) {
+        return await axios.post(`${backendUrl}/api/answer`, {answer})
     },
-
 };
 
 
