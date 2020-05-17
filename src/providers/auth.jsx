@@ -34,7 +34,9 @@ class Auth {
     }
 
     isAuthenticated() {
-
+        if (AuthService.isTokenStored()) {
+            this.authenticated = true;
+        }
         return this.authenticated;
     }
 }

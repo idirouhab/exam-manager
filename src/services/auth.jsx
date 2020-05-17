@@ -7,7 +7,7 @@ const AuthService = {
             return {};
         }
     },
-    isTokenStore: function () {
+    isTokenStored: function () {
         return JSON.parse(localStorage.getItem('token'));
     }
 };
