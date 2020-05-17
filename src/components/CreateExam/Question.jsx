@@ -67,7 +67,7 @@ export default function Question(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>
-                                                {t('option_header')}
+                                                {props.questionIndex+1}){t('option_header')}
                                                 {(props.checkedOptions.length === 0 && props.submittedQuestion) && (
                                                     <span
                                                         className="radioButtonError"><br/>{t('create_exam.label.option_not_select')}</span>
