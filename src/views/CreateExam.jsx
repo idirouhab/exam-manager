@@ -73,6 +73,7 @@ export default function CreateExam(props) {
         }
         setSubmittedForm(true);
         setLoading(true)
+        exam.questions = questions;
         ExamProvider.saveExam(exam).then(() => {
             setExam(new EmptyExam());
             setSuccess(true);
