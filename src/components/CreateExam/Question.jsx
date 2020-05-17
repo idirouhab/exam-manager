@@ -49,7 +49,7 @@ export default function Question(props) {
                         <Box my={4} pt={2}>
                             <TextField
                                 id={`question_${props.questionIndex}`}
-                                label={t('create_exam.label.question')}
+                                label={ `${props.questionIndex+1}) ${t('create_exam.label.question')}`}
                                 onChange={(e) => props.updateCurrentQuestionTitle(e, props.questionIndex)}
                                 fullWidth
                                 value={props.question.text}
@@ -67,7 +67,7 @@ export default function Question(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>
-                                                {props.questionIndex+1}) {t('option_header')}
+                                                {t('option_header')}
                                                 {(props.checkedOptions.length === 0 && props.submittedQuestion) && (
                                                     <span
                                                         className="radioButtonError"><br/>{t('create_exam.label.option_not_select')}</span>
