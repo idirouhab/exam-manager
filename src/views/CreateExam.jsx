@@ -134,6 +134,7 @@ export default function CreateExam(props) {
                 };
             });
         });
+        console.log(errorsMap);
         setQuestionErrors(errorsMap);
         return !error;
 

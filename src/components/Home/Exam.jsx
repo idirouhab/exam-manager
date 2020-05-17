@@ -37,6 +37,7 @@ export default function Exam(props) {
                 </TableCell>
                 <StyledTableCell size="small" align="center">
                     <Button
+                        id={`stats_${props.index}`}
                         variant="contained"
                         component={RouterLink}
                         to={`/admin/stats/${props.exam.id}`}
@@ -47,6 +48,7 @@ export default function Exam(props) {
                 </StyledTableCell>
                 <StyledTableCell size="small" align="center">
                     <Button
+                        id={`quiz_${props.index}`}
                         className={`${classes.buttonSuccess}`}
                         variant="contained"
                         color="primary"
@@ -59,6 +61,7 @@ export default function Exam(props) {
                 </StyledTableCell>
                 <StyledTableCell size="small" align="center">
                     <Button
+                        id={`edit_${props.index}`}
                         variant="contained"
                         color="primary"
                     >
@@ -67,6 +70,7 @@ export default function Exam(props) {
                 </StyledTableCell>
                 <StyledTableCell size="small" align="center">
                     <Button
+                        id={`delete_${props.index}`}
                         variant="contained"
                         color="secondary"
                         onClick={(e) => {

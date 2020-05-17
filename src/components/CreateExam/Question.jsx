@@ -55,6 +55,7 @@ export default function Question(props) {
                     <Container>
                         <Box my={4} pt={2}>
                             <TextField
+                                id={`question_${props.questionIndex}` }
                                 label={t('create_exam.label.question')}
                                 onChange={(e) => props.updateCurrentQuestionTitle(e, props.questionIndex)}
                                 fullWidth
@@ -112,6 +113,8 @@ export default function Question(props) {
                                                                 placeholder={t('create_exam.label.option')}
                                                                 onClick={(e) => props.addOption(props.questionIndex)}
                                                                 readOnly
+                                                                id={`question_input_add` }
+
                                                             />
                                                         }
                                                         control={<Fragment/>}
@@ -129,6 +132,7 @@ export default function Question(props) {
                         <Box my={4}>
                             <div className={classes.buttonBottomGroup}>
                                 <Button
+                                    id={`question_save_${props.questionIndex}` }
                                     onClick={() => props.saveQuestion(props.questionIndex)}
                                     variant="contained"
                                     color="primary"
@@ -138,6 +142,7 @@ export default function Question(props) {
                                     <Icon>add</Icon>
                                 </Button>
                                 {props.numberQuestion > 1 && (<Button
+                                    id={`question_delete_${props.questionIndex}` }
                                     onClick={() => props.deleteQuestion(props.questionIndex)}
                                     variant="contained"
                                     color="secondary"

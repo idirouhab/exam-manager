@@ -28,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ListItemLink(props) {
-    const {icon, primary, to, selected, style} = props;
+    const {icon, primary, to, selected, style, id} = props;
+    console.log(props)
     const renderLink = React.useMemo(
-        () => React.forwardRef((itemProps, ref) => <RouterLink style={style} to={to} ref={ref} {...itemProps} />),
+        () => React.forwardRef((itemProps, ref) => <RouterLink id={id} style={style} to={to} ref={ref} {...itemProps} />),
         [to],
     );
 
@@ -61,11 +62,13 @@ export default function SideBar(props) {
                 {routes.map((prop, index) => {
                     let hidden = (prop.hide) ? {display: "none"} : {};
                     return (<ListItemLink
+                        key={index}
                         to={prop.section + prop.path}
                         primary={t(`sections.${prop.name}`)}
                         icon={prop.icon}
                         selected={activeRoute(prop.path)}
-                        key={index}
+
+                        id={index}
                         style={hidden}
                     />)
                 })}

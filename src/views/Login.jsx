@@ -78,6 +78,7 @@ export default function Login(props) {
                                         <form className={classes.form} onSubmit={onSubmit}>
                                             <div style={{textAlign: "center"}}>
                                                 <TextField
+                                                    id={"login_name"}
                                                     variant="outlined"
                                                     label={t('login_user')}
                                                     onChange={updateUsername}
@@ -88,6 +89,7 @@ export default function Login(props) {
                                             </div>
                                             <Box mt={3} style={{textAlign: "center"}}>
                                                 <TextField
+                                                    id={"login_password"}
                                                     variant="outlined"
                                                     label={t('login_password')}
                                                     onChange={updatePassword}
@@ -98,7 +100,7 @@ export default function Login(props) {
                                                 />
                                             </Box>
                                             <Box mt={3} style={{textAlign: "center"}}>
-                                                <Button variant="contained" color="primary" type="submit">
+                                                <Button variant="contained" color="primary" type="submit" id={"login_submit"}>
                                                     {t('login_accept')}
                                                 </Button>
                                             </Box>

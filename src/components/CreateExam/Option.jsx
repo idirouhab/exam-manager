@@ -37,6 +37,8 @@ export default function Option(props) {
                             value={props.option.text}
                             label={
                                 <TextField
+                                    id={`option_${props.questionIndex}_${props.optionIndex}` }
+
                                     fullWidth
                                     label={t('create_exam.label.option')}
                                     value={props.option.text}
@@ -47,7 +49,7 @@ export default function Option(props) {
                                 />
                             }
                             control={<Radio
-
+                                id={`option_radio_${props.questionIndex}_${props.optionIndex}` }
                                 checked={props.optionIndex === props.checkedOptions[props.questionIndex]}
 
                                 onChange={(e) => props.updateOptionCheckBox(e, props.questionIndex, props.optionIndex)}
@@ -58,6 +60,7 @@ export default function Option(props) {
                 <StyledTableCell>
                     {props.numberOptions > 1 && (
                         <Button
+                            id={`question_clear_${props.questionIndex}_${props.optionIndex}` }
                             display="none"
                             variant="contained"
                             color="secondary"

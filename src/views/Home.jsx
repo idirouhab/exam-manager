@@ -41,9 +41,8 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 export default function Home() {
-    const classes = useStyles();
     const {t} = useTranslation("common");
-    const [exams, setExams] = React.useState([false]);
+    const [exams, setExams] = React.useState([]);
 
 
     const deleteExam = (id) => {
@@ -93,6 +92,7 @@ export default function Home() {
                                         key={key}
                                         exam={exam}
                                         deleteExam={deleteExam}
+                                        index={key}
                                     />
                                 ))}
                             </TableBody>
