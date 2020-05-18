@@ -41,6 +41,14 @@ export default function Quiz(props) {
         return () => clearInterval(interval);
     }, [started, seconds]);
 
+    useEffect(() => {
+        if (started) {
+            window.newrelic.setCustomAttribute('player', 'Testing')
+            window.newrelic.setCustomAttribute('currentQuestion', currentQuestionIndex)
+            window.newrelic.setCustomAttribute('currentOption', currentOptionSelected)
+            window.newrelic.setPageViewName('quiz')
+        }
+    }, [started, currentQuestionIndex, currentOptionSelected])
 
     const send = () => {
         let answers = [];
@@ -58,6 +66,8 @@ export default function Quiz(props) {
             answers: answers,
             score: score
         };
+        window.newrelic.interaction().setAttribute("player", answer)
+
         AnswerProvider.saveAnswer(answer).then(res => {
 
         });
@@ -148,6 +158,7 @@ export default function Quiz(props) {
         }
 
     };
+
 
     return (
         <>

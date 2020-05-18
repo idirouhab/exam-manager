@@ -41,7 +41,7 @@ export default function ButtonAppBar(props) {
     const getBrand = () => {
         let brandName = "Default Brand";
         routes.map((prop, key) => {
-            if (window.location.href.indexOf(prop.section + prop.path) !== -1) {
+            if (window.location.href.indexOf(prop.section + "/" +prop.name) !== -1) {
                 brandName = prop.name;
             }
             return null;

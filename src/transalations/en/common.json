@@ -1,4 +1,5 @@
 {
+
   "seconds": "seconds",
   "your_score": "Your score",
   "time": "Time",
@@ -29,7 +30,8 @@
     "home": "Home",
     "login": "Login",
     "test": "Test",
-    "create_exam": "Create Exam"
+    "create-exam": "Create Exam",
+    "stats": "Exam Stats"
   },
   "input": {
     "error": {
@@ -45,5 +47,8 @@
       "option_not_select": "Select the right answer"
     }
   },
-  "exam": "exam"
+  "exam": "exam",
+  "avg_per_question": "Average per question",
+  "score": "Score"
+
 }

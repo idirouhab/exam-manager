@@ -19,7 +19,7 @@ const routes = [
     },
     {
         path: "/create-exam",
-        name: "create_exam",
+        name: "create-exam",
         icon: "note_add",
         component: CreateExam,
         section: '/admin',

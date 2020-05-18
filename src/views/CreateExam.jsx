@@ -83,7 +83,8 @@ export default function CreateExam(props) {
             }, 1000)
 
         }).finally(() => {
-            setLoading(false)
+            setSubmittedForm(false);
+            setLoading(false);
         })
 
     };

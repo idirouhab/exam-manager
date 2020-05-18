@@ -12,6 +12,9 @@ import {useTranslation} from "react-i18next";
 import ExamProvider from "../providers/exam";
 import Zoom from "@material-ui/core/Zoom";
 import MaxWidthDialog from "../components/StatsExam/StatsAnswer";
+import IconButton from "@material-ui/core/IconButton";
+import {Delete} from "@material-ui/icons";
+import AnswerProvider from "../providers/answer";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -19,6 +22,15 @@ const StyledTableCell = withStyles((theme) => ({
     },
     body: {
         width: "10%",
+    },
+}))(TableCell);
+
+const SmallStyledTableCell = withStyles((theme) => ({
+    head: {
+        width: "2%",
+    },
+    body: {
+        width: "2%",
     },
 }))(TableCell);
 
@@ -30,7 +42,7 @@ export default function ExamStats(props) {
 
     useEffect(() => {
         getExam();
-    },[]);
+    }, []);
 
     const getExam = () => {
         const {id} = props.match.params;
@@ -45,6 +57,14 @@ export default function ExamStats(props) {
         })
     };
 
+    const deleteAnswer = (answerId) => {
+        console.log(answerId);
+        AnswerProvider.deleteAnswer(answerId).then(() => {
+                getExam()
+            }
+        );
+    };
+
     return (
         <>
             <Grid container spacing={3}>
@@ -57,8 +77,10 @@ export default function ExamStats(props) {
                                         <TableCell className="capitalize">{t('name')}</TableCell>
                                         <StyledTableCell size="small" align="center">{t('score')}</StyledTableCell>
                                         <StyledTableCell size="small" align="center">{t('time')}</StyledTableCell>
-                                        <StyledTableCell size="small" align="center">{t('avg_per_question')}</StyledTableCell>
-                                        <StyledTableCell size="small" align="center"/>
+                                        <StyledTableCell size="small"
+                                                         align="center">{t('avg_per_question')}</StyledTableCell>
+                                        <SmallStyledTableCell size="small" align="center"/>
+                                        <SmallStyledTableCell size="small" align="center"/>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -80,14 +102,31 @@ export default function ExamStats(props) {
                                             <StyledTableCell size="small" align="center">
                                                 {Math.round((answer.time / questions.length))} {t('seconds')}
                                             </StyledTableCell>
-                                            <StyledTableCell size="small" align="center">
-                                                <td className="">
-                                                    <MaxWidthDialog
-                                                        questions={questions}
-                                                        answers={answer.answers}
-                                                    />
-                                                </td>
-                                            </StyledTableCell>
+                                            <SmallStyledTableCell size="small" align="center">
+                                                <MaxWidthDialog
+                                                    questions={questions}
+                                                    answers={answer.answers}
+                                                />
+                                            </SmallStyledTableCell>
+
+                                            <SmallStyledTableCell size="small" align="center">
+                                                <IconButton variant="outlined" color="secondary"
+                                                            id={`delete_${key}`}
+                                                            onClick={(e) => deleteAnswer(answer._id)}>
+                                                    <Delete/>
+                                                </IconButton>
+                                                {/*<Button
+                                                    id={`delete_${props.index}`}
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    onClick={(e) => {
+                                                        props.deleteExam(props.exam.id)
+                                                    }}
+                                                >
+                                                    <Icon>delete</Icon>
+                                                </Button>*/}
+                                            </SmallStyledTableCell>
+
 
                                         </TableRow>
 

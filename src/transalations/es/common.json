@@ -28,7 +28,8 @@
     "home": "Inicio",
     "login": "Login",
     "test": "Test",
-    "create_exam": "Crear examen"
+    "create-exam": "Crear examen",
+    "stats": "Estadísticas de Examen"
   },
   "input": {
     "error": {
@@ -44,5 +45,7 @@
       "option_not_select": "Escoge la respuesta correcta"
     }
   },
-  "exam": "examen"
+  "exam": "examen",
+  "avg_per_question": "Promedio por pregunta",
+  "score": "Nota"
 }

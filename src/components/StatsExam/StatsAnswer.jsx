@@ -26,8 +26,6 @@ export default function MaxWidthDialog(props) {
     const handleClose = () => {
         setOpen(false);
     };
-
-
     const getCorrectOption = (options) => {
         return options.find((option) => {
             return option.correct;
@@ -55,10 +53,9 @@ export default function MaxWidthDialog(props) {
 
     return (
         <React.Fragment>
-            <IconButton variant="outlined" color="primary">
-                <Visibility  onClick={handleClickOpen} />
+            <IconButton variant="outlined" color="primary" onClick={handleClickOpen}>
+                <Visibility/>
             </IconButton>
-
             <Dialog
                 fullWidth={true}
                 maxWidth={'md'}
@@ -77,11 +74,9 @@ export default function MaxWidthDialog(props) {
                                     <TableCell className="capitalize">{t('selected_answer')}</TableCell>
                                 </TableRow>
                             </TableHead>
-
                             <TableBody>
                                 {props.questions.map((question, index) => {
                                     return (
-
                                         <TableRow key={index}>
                                             <TableCell className="capitalize">
                                                 {renderIcon(getSelectedOption(props.answers, question), getCorrectOption(question.options))}
@@ -93,7 +88,6 @@ export default function MaxWidthDialog(props) {
                                                 className="capitalize">{getCorrectOption(question.options)}</TableCell>
                                             <TableCell
                                                 className="capitalize">{getSelectedOption(props.answers, question)}</TableCell>
-
                                         </TableRow>
                                     );
                                 })}

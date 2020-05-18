@@ -61,8 +61,8 @@ export default function Home() {
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow>
+                                    <StyledTableCell size="small" />
                                     <TableCell className="capitalize">{t('exam')}</TableCell>
-                                    <StyledTableCell size="small" align="center"/>
                                     <StyledTableCell size="small" align="center"/>
                                     <StyledTableCell size="small" align="center"/>
                                     <StyledTableCell size="small" align="center"/>
