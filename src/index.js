@@ -15,7 +15,7 @@ import './i18n';
 
 const hist = createBrowserHistory();
 dotenv.config();
-console.log(dotenv)
+
 const PrivateRoute = ({render: Component, ...rest}) => {
     return <Route {...rest} render={(props) => (
         Auth.isAuthenticated() === true

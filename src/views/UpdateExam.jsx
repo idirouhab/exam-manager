@@ -65,7 +65,6 @@ export default function UpdateExam(props) {
 
 
     useEffect(() => {
-        console.log(bottomElement.current.getClientRects());
         bottomElement.current.scrollIntoView({behavior: "smooth"});
     }, [questions.length])
 

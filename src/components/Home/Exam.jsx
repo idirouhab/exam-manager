@@ -86,9 +86,22 @@ export default function Exam(props) {
                         variant="contained"
                         color="primary"
                         component={RouterLink}
-                        to={`/admin/edit-exam/${props.exam.id}`}
+                        to={`/admin/clone-exam/${props.exam.id}`}
+
                     >
                         <Icon>file_copy</Icon>
+                    </Button>
+                </StyledTableCell>
+
+                <StyledTableCell size="small" align="center">
+                    <Button
+                        id={`copy_${props.index}`}
+                        variant="contained"
+                        color="primary"
+                        component={RouterLink}
+                        to={`/admin/edit-exam/${props.exam.id}`}
+                    >
+                        <Icon>edit</Icon>
                     </Button>
                 </StyledTableCell>
 

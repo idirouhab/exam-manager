@@ -34,6 +34,7 @@ const useStyles = makeStyles(() => ({
 
 function EmptyExam() {
     this.text = '';
+    this.id = null;
 }
 
 function EmptyQuestion() {
@@ -58,23 +59,81 @@ export default function CreateExam(props) {
     const [submittedForm, setSubmittedForm] = useState(false);
     const [submittedQuestion, setSubmittedQuestion] = useState(false);
     const [checkedOptions, setCheckedOptions] = useState([]);
+    const [actionName, setActionName] = useState('create')
 
 
     const bottomElement = useRef(null);
+
 
     useEffect(() => {
         bottomElement.current.scrollIntoView({behavior: "smooth"});
     }, [questions.length])
 
+    useEffect(() => {
+        if (actionName === 'edit' || actionName === 'clone') {
+            getExam();
+        }
+    }, [actionName]);
+
+
+    useEffect(() => {
+        const {pathname} = props.location;
+
+        if (pathname.includes("edit")) {
+            setActionName('edit');
+        } else if (pathname.includes("clone")) {
+            setActionName('clone');
+        } else {
+            setActionName('create');
+        }
+    }, []);
+
+
+    useEffect(() => {
+        getExam();
+    }, []);
+
+    const getExam = () => {
+        const {id} = props.match.params;
+        ExamProvider.fetchExam(id).then(data => {
+            let emptyExam = new EmptyExam();
+            emptyExam.text = data.text;
+            if (actionName === 'edit') {
+                emptyExam.id = data.id;
+            }
+            setExam(emptyExam);
+            let selectedOptions = [];
+            data.questions.forEach((question, questionIndex) => {
+                question.options.forEach((option, optionIndex) => {
+                    selectedOptions[questionIndex] = optionIndex;
+                })
+            });
+            setQuestions(data.questions);
+            setCheckedOptions(selectedOptions);
+
+        }).finally(() => {
+            /* setTransition(true)*/
+        })
+    };
+
     const saveExam = (e) => {
         e.preventDefault();
+
         if (exam.text.length === 0) {
             return false
         }
         setSubmittedForm(true);
         setLoading(true)
         exam.questions = questions;
-        ExamProvider.saveExam(exam).then(() => {
+
+        let method;
+        if (actionName === 'edit') {
+            method = ExamProvider.updateExam(exam)
+        } else {
+            method = ExamProvider.saveExam(exam)
+        }
+
+        method.then(() => {
             setExam(new EmptyExam());
             setSuccess(true);
 
@@ -199,8 +258,6 @@ export default function CreateExam(props) {
                             deleteOptionFromQuestion={deleteOptionFromQuestion}
                             checkedOptions={checkedOptions}
                             updateOptionCheckBox={updateOptionCheckBox}
-
-
                         />
                     ))}
                     <Grid container className="navbar" spacing={0}>

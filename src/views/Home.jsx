@@ -73,6 +73,7 @@ export default function Home() {
                                             <StyledTableCell size="small" align="center"/>
                                             <StyledTableCell size="small" align="center"/>
                                             <StyledTableCell size="small" align="center"/>
+                                            <StyledTableCell size="small" align="center"/>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
