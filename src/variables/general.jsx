@@ -1,4 +1,5 @@
 const drawerWidth = 240;
-//const backendUrl = "http://localhost:8080";
-const backendUrl = "https://schoolmanager-backend.herokuapp.com";
+const backendUrl = process.env.REACT_APP_ENV_BACKEND_URL;
 export {drawerWidth, backendUrl};
+
+console.log(process.env)

@@ -34,6 +34,7 @@ const useStyles = makeStyles(() => ({
 
 function EmptyExam() {
     this.text = '';
+
 }
 
 function EmptyQuestion() {
@@ -47,7 +48,7 @@ function EmptyOption() {
 
 }
 
-export default function CreateExam(props) {
+export default function UpdateExam(props) {
     const classes = useStyles();
 
     const [success, setSuccess] = useState(false);
@@ -62,9 +63,40 @@ export default function CreateExam(props) {
 
     const bottomElement = useRef(null);
 
+
     useEffect(() => {
+        console.log(bottomElement.current.getClientRects());
         bottomElement.current.scrollIntoView({behavior: "smooth"});
     }, [questions.length])
+
+    useEffect(() => {
+        getExam();
+    }, []);
+
+    const getExam = () => {
+        const {id} = props.match.params;
+        ExamProvider.fetchExam(id).then(data => {
+            console.log(data);
+            let emptyExam = new EmptyExam();
+            emptyExam.text = data.text;
+            setExam(emptyExam);
+            let selectedOptions=[];
+            data.questions.forEach((question, questionIndex) => {
+                question.options.forEach((option, optionIndex)=>{
+                    selectedOptions[questionIndex]=optionIndex;
+                })
+            })
+            setQuestions(data.questions);
+            setCheckedOptions(selectedOptions);
+            /*  emptyExam.text = dataAnswers.text
+              if (dataAnswers) {
+                  setAnswers(dataAnswers)
+              }
+              setQuestions(data.questions);*/
+        }).finally(() => {
+            /* setTransition(true)*/
+        })
+    };
 
     const saveExam = (e) => {
         e.preventDefault();
@@ -119,7 +151,6 @@ export default function CreateExam(props) {
         if (emptyQuestion.length > 0 || atLeastOneEmptyOption !== undefined) {
             return
         }
-
 
         setSubmittedQuestion(false);
         const oldQuestions = [...questions];

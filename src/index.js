@@ -1,8 +1,9 @@
+import dotenv from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {createBrowserHistory} from "history";
-import {Router, Route, Switch} from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import {Redirect} from "react-router";
 import PublicSection from "./sections/Public";
 import PrivateSection from "./sections/Private";
@@ -13,7 +14,8 @@ import Auth from './providers/auth';
 import './i18n';
 
 const hist = createBrowserHistory();
-
+dotenv.config();
+console.log(dotenv)
 const PrivateRoute = ({render: Component, ...rest}) => {
     return <Route {...rest} render={(props) => (
         Auth.isAuthenticated() === true
@@ -29,12 +31,12 @@ const PrivateRoute = ({render: Component, ...rest}) => {
 
 
 ReactDOM.render(
-    <Router history={hist} >
+    <Router history={hist}>
         <Switch>
             <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
             <Route path={"/public"} render={props => <PublicSection {...props} />}/>
             <Route exact path="/">
-                {Auth.isAuthenticated() === true ? <Redirect to="/admin/home" /> : <Redirect to="/public/login" />}
+                {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/public/login"/>}
             </Route>
         </Switch>
     </Router>,

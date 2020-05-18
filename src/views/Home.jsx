@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -11,6 +11,9 @@ import {withStyles} from "@material-ui/styles";
 import {useTranslation} from "react-i18next";
 import ExamProvider from "../providers/exam";
 import Exam from "../components/Home/Exam";
+import Loader from "../components/Loader/Loader";
+import Fade from "@material-ui/core/Fade";
+import Slide from "@material-ui/core/Slide";
 
 const StyledTableCell = withStyles(() => ({
     head: {
@@ -24,7 +27,7 @@ const StyledTableCell = withStyles(() => ({
 export default function Home() {
     const {t} = useTranslation("common");
     const [exams, setExams] = React.useState([]);
-
+    const [loading, setLoading] = useState(true)
 
     const deleteExam = (id) => {
         ExamProvider.deleteExam(id).then(() => {
@@ -46,6 +49,8 @@ export default function Home() {
                 )
             });
             setExams(exams);
+        }).finally(() => {
+            setLoading(false);
         })
     };
 
@@ -55,33 +60,39 @@ export default function Home() {
 
     return (
         <>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell size="small" />
-                                    <TableCell className="capitalize">{t('exam')}</TableCell>
-                                    <StyledTableCell size="small" align="center"/>
-                                    <StyledTableCell size="small" align="center"/>
-                                    <StyledTableCell size="small" align="center"/>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {exams.map((exam, key) => (
-                                    <Exam
-                                        key={key}
-                                        exam={exam}
-                                        deleteExam={deleteExam}
-                                        index={key}
-                                    />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
-            </Grid>
+            <Fragment>
+                <Slide direction="up"   mountOnEnter unmountOnExit in={!loading}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <TableContainer component={Paper}>
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell size="small"/>
+                                            <TableCell className="capitalize">{t('exam')}</TableCell>
+                                            <StyledTableCell size="small" align="center"/>
+                                            <StyledTableCell size="small" align="center"/>
+                                            <StyledTableCell size="small" align="center"/>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {exams.map((exam, key) => (
+                                            <Exam
+                                                key={key}
+                                                exam={exam}
+                                                deleteExam={deleteExam}
+                                                index={key}
+                                            />
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Grid>
+
+                </Slide>
+                {loading && (<Loader/>)}
+            </Fragment>
         </>
     );
 

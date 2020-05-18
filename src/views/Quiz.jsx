@@ -7,6 +7,7 @@ import QuestionCard from "../components/Quiz/QuestionCard";
 import AnswerProvider from "../providers/answer";
 import StartGame from "../components/Quiz/StartGame";
 import Submit from "../components/Quiz/Submit";
+import newrelic from "../variables/newrelic";
 
 export default function Quiz(props) {
     const [exam, setExam] = useState({});
@@ -43,10 +44,9 @@ export default function Quiz(props) {
 
     useEffect(() => {
         if (started) {
-            window.newrelic.setCustomAttribute('player', 'Testing')
-            window.newrelic.setCustomAttribute('currentQuestion', currentQuestionIndex)
-            window.newrelic.setCustomAttribute('currentOption', currentOptionSelected)
-            window.newrelic.setPageViewName('quiz')
+            newrelic.setCustomAttribute('player', playerName)
+            newrelic.setCustomAttribute('currentQuestion', currentQuestionIndex)
+            newrelic.setCustomAttribute('currentOption', currentOptionSelected)
         }
     }, [started, currentQuestionIndex, currentOptionSelected])
 
@@ -66,7 +66,7 @@ export default function Quiz(props) {
             answers: answers,
             score: score
         };
-        window.newrelic.interaction().setAttribute("player", answer)
+        newrelic.interaction().setAttribute("player", answer)
 
         AnswerProvider.saveAnswer(answer).then(res => {
 

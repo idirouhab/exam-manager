@@ -5,6 +5,7 @@ import CreateExam from "./views/CreateExam";
 import Quiz from "./views/Quiz";
 import ExamStats from "./views/ExamStats";
 import Register from "./views/Register";
+import UpdateExam from "./views/UpdateExam";
 
 
 const routes = [
@@ -22,6 +23,16 @@ const routes = [
         name: "create-exam",
         icon: "note_add",
         component: CreateExam,
+        section: '/admin',
+        scope: 'private',
+        hide: false,
+
+    },
+    {
+        path: "/edit-exam/:id",
+        name: "edit-exam",
+        icon: "edit",
+        component: UpdateExam,
         section: '/admin',
         scope: 'private',
         hide: false,

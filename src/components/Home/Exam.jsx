@@ -7,6 +7,9 @@ import Icon from "@material-ui/core/Icon";
 import {withStyles} from "@material-ui/styles";
 import {makeStyles} from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
+import blue from "@material-ui/core/colors/blue";
+import yellow from "@material-ui/core/colors/yellow";
+import brown from "@material-ui/core/colors/brown";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -22,6 +25,18 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: green[500],
         "&:hover": {
             backgroundColor: green[700]
+        }
+    },
+    buttonPrimary: {
+        backgroundColor: blue[500],
+        "&:hover": {
+            backgroundColor: blue[700]
+        }
+    },
+    buttonBrown: {
+        backgroundColor: brown[500],
+        "&:hover": {
+            backgroundColor: brown[700]
         }
     },
 }));
@@ -42,7 +57,9 @@ export default function Exam(props) {
                     <Button
                         id={`stats_${props.index}`}
                         variant="contained"
+                        color="primary"
                         component={RouterLink}
+                        className={`${classes.buttonPrimary}`}
                         to={`/admin/stats/${props.exam.id}`}
                     >
                         <Icon>equalizer</Icon>
@@ -59,6 +76,19 @@ export default function Exam(props) {
                         target="_blank"
                     >
                         <Icon>share</Icon>
+                    </Button>
+                </StyledTableCell>
+
+                <StyledTableCell size="small" align="center">
+                    <Button
+                        id={`copy_${props.index}`}
+                        className={`${classes.buttonBrown}`}
+                        variant="contained"
+                        color="primary"
+                        component={RouterLink}
+                        to={`/admin/edit-exam/${props.exam.id}`}
+                    >
+                        <Icon>file_copy</Icon>
                     </Button>
                 </StyledTableCell>
 
