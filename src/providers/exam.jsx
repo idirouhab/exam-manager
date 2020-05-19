@@ -15,6 +15,9 @@ const ExamProvider = {
         )
     },
     updateExam: async function (exam) {
+        if (exam.folderId === -1) {
+            exam.folderId = null;
+        }
         return await axios.put(`${backendUrl}/api/exam/${exam.id}`, {exam}, {headers: AuthService.authHeader()}
         )
     },
