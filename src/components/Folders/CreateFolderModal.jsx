@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,12 +9,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {useTranslation} from "react-i18next";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {createFilterOptions} from "@material-ui/lab";
+import Folder from "../../models/folder";
+import Tag from "../../models/tag";
 
 
 export default function CreateFolderModal(props) {
-    const [open, setOpen] = React.useState(false);
     const {t} = useTranslation('common');
-    const [value, setValue] = React.useState([]);
+    const [folder, setFolder] = React.useState(new Folder());
+    const [tags, setTags] = useState([]);
 
     const filter = createFilterOptions();
 
@@ -33,6 +35,10 @@ export default function CreateFolderModal(props) {
                         label="Email Address"
                         type="email"
                         fullWidth
+                        onChange={(e) => {
+                            folder.name = e.target.value;
+                            setFolder(folder);
+                        }}
                     />
 
                     <Autocomplete
@@ -48,10 +54,11 @@ export default function CreateFolderModal(props) {
                             return option.title
                         }}
                         onChange={(event, newValues) => {
-                            let result = newValues.map(({inputValue}) => inputValue)
-                            setValue(result);
+                            folder.tags = newValues.map(({inputValue}) => {
+                                return new Tag(null, inputValue)
+                            });
 
-
+                            setFolder(folder);
                         }}
                         renderInput={(params) => (
                             <TextField
@@ -80,7 +87,7 @@ export default function CreateFolderModal(props) {
                     <Button onClick={props.handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={props.handleClose} color="primary">
+                    <Button onClick={e => props.createFolder(folder)} color="primary">
                         Subscribe
                     </Button>
                 </DialogActions>

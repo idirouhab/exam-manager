@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -6,6 +6,9 @@ import {LibraryAdd} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
 import CreateFolderModal from "../components/Folders/CreateFolderModal";
+import FolderProvider from "../providers/folder";
+import Folder from "../models/folder";
+import Tag from "../models/tag";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -13,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
+        cursor: "pointer"
     },
     paperHeader: {
         padding: theme.spacing(2),
@@ -23,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Folders() {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [folders, setFolders] = useState([]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,6 +36,30 @@ export default function Folders() {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    useEffect(() => {
+        getFolder();
+    }, [open]);
+
+    const getFolder = () => {
+        FolderProvider.fetchFolders().then(response => {
+            const responseFolders = response.data;
+            let finalFolder = responseFolders.map(folder =>{
+                let tags = folder.tags.map(tag=>{
+                    return new Tag(tag._id, tag.name);
+                });
+                return new Folder(folder.id, folder.name, tags)
+            });
+            setFolders(finalFolder);
+        });
+    };
+
+    const createFolder = (folder) => {
+
+        FolderProvider.saveFolder(folder).then(() => {
+            setOpen(false);
+        })
     };
 
     const classes = useStyles();
@@ -48,25 +77,16 @@ export default function Folders() {
                         >
                             {t('create_folder')}
                         </Button>
-                        <CreateFolderModal open={open} handleClose={handleClose}/>
+                        <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
                     </Paper>
                 </Grid>
             </Grid>
             <Grid container spacing={3}>
-
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-                <Grid item xs={4}>
-                    <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-
+                {folders.map(folder => {
+                    return <Grid item xs={4}>
+                        <Paper className={classes.paper}>{folder.name}</Paper>
+                    </Grid>
+                })}
             </Grid>
         </Fragment>
 
