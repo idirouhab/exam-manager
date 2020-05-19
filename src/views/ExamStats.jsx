@@ -67,6 +67,26 @@ export default function ExamStats(props) {
         );
     };
 
+    const getScore = (answer, questions) => {
+        let points = 0;
+        questions.forEach(question => {
+            let selectedOption = answer.answers.find(currentAnswer => {
+                return question._id === currentAnswer.question_id
+            });
+
+            let matchSelection = question.options.find((option) => {
+                return selectedOption.option_id === option._id && option.correct
+            });
+
+            if (matchSelection) {
+                points++;
+            }
+
+
+        });
+        return points
+    };
+
     return (
         <>
             <Fragment>
@@ -102,7 +122,7 @@ export default function ExamStats(props) {
                                                     {moment(answer.createdAt).fromNow()}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {answer.score}/{questions.length}
+                                                    {getScore(answer, questions)}/{questions.length}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
                                                     {answer.time} {t('seconds')}
