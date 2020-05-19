@@ -9,13 +9,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {useTranslation} from "react-i18next";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {createFilterOptions} from "@material-ui/lab";
-import Folder from "../../models/folder";
+import FolderModel from "../../models/folder";
 import Tag from "../../models/tag";
 
 
 export default function CreateFolderModal(props) {
     const {t} = useTranslation('common');
-    const [folder, setFolder] = React.useState(new Folder());
+    const [folder, setFolder] = React.useState(new FolderModel());
     const [tags, setTags] = useState([]);
 
     const filter = createFilterOptions();

@@ -9,6 +9,10 @@ import {makeStyles} from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
 import blue from "@material-ui/core/colors/blue";
 import brown from "@material-ui/core/colors/brown";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -50,7 +54,24 @@ export default function Exam(props) {
                     {props.exam.user}
                 </StyledTableCell>
                 <TableCell component="th" scope="row">
-                    {props.exam.text}
+                    {props.exam.text} ({props.exam.answers.length})
+                </TableCell>
+
+                <TableCell component="th" scope="row" style={{width: "20%"}}>
+                    <FormControl variant="outlined" className={classes.formControl} style={{width: "100%"}}>
+                        <Select
+                            onChange={(e) => props.updateExamFolder(e, props.exam.id)}
+                            value={props.exam.folderId}
+                        >
+                            <MenuItem value={-1}>
+                                <em>None</em>
+                            </MenuItem>
+                            {props.folders.map((folder, key) => {
+                                return <MenuItem key={`menu_${key}`} value={folder.id}>{folder.name}</MenuItem>
+                            })}
+
+                        </Select>
+                    </FormControl>
                 </TableCell>
                 <StyledTableCell size="small" align="center">
                     <Button

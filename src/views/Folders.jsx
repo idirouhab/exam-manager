@@ -7,8 +7,11 @@ import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
 import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import FolderProvider from "../providers/folder";
-import Folder from "../models/folder";
+import FolderModel from "../models/folder";
 import Tag from "../models/tag";
+import {Link as RouterLink} from "react-router-dom";
+import Icon from "@material-ui/core/Icon";
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -39,17 +42,17 @@ export default function Folders() {
     };
 
     useEffect(() => {
-        getFolder();
+        getFolders();
     }, [open]);
 
-    const getFolder = () => {
+    const getFolders = () => {
         FolderProvider.fetchFolders().then(response => {
             const responseFolders = response.data;
             let finalFolder = responseFolders.map(folder =>{
                 let tags = folder.tags.map(tag=>{
                     return new Tag(tag._id, tag.name);
                 });
-                return new Folder(folder.id, folder.name, tags)
+                return new FolderModel(folder.id, folder.name, tags)
             });
             setFolders(finalFolder);
         });
@@ -82,13 +85,17 @@ export default function Folders() {
                 </Grid>
             </Grid>
             <Grid container spacing={3}>
-                {folders.map(folder => {
-                    return <Grid item xs={4}>
-                        <Paper className={classes.paper}>{folder.name}</Paper>
+                {folders.map((folder, index) => {
+                    return <Grid item xs={4} key={index}>
+                        <Paper className={classes.paper}
+                               component={RouterLink}
+                               to={`/admin/folders/${folder.id}`}
+                        >
+                            asdas
+                        </Paper>
                     </Grid>
                 })}
             </Grid>
         </Fragment>
-
     );
 }

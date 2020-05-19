@@ -13,6 +13,9 @@ import ExamProvider from "../providers/exam";
 import Exam from "../components/Home/Exam";
 import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
+import FolderProvider from "../providers/folder";
+import Tag from "../models/tag";
+import FolderModel from "../models/folder";
 
 const StyledTableCell = withStyles(() => ({
     head: {
@@ -27,6 +30,7 @@ export default function Home() {
     const {t} = useTranslation("common");
     const [exams, setExams] = React.useState([]);
     const [loading, setLoading] = useState(true)
+    const [folders, setFolders] = useState([])
 
     const deleteExam = (id) => {
         ExamProvider.deleteExam(id).then(() => {
@@ -43,7 +47,9 @@ export default function Home() {
                         id: exam.id,
                         text: exam.text,
                         questions: exam.questions,
-                        user: (exam.userId ? exam.userId.name : "")
+                        folderId: exam.folderId ? exam.folderId : -1,
+                        user: (exam.userId ? exam.userId.name : ""),
+                        answers: exam.answers
                     }
                 )
             });
@@ -53,14 +59,45 @@ export default function Home() {
         })
     };
 
+    const getFolders = () => {
+        FolderProvider.fetchFolders().then(response => {
+            const responseFolders = response.data;
+            let finalFolder = responseFolders.map(folder => {
+                let tags = folder.tags.map(tag => {
+                    return new Tag(tag._id, tag.name);
+                });
+                return new FolderModel(folder.id, folder.name, tags)
+            });
+            setFolders(finalFolder);
+        });
+    };
+
     useEffect(() => {
         getExams();
+        getFolders();
     }, []);
 
+
+    const updateExamFolder = (e, examId) => {
+
+        let selectedExam = exams.find(exam => {
+            return exam.id === examId;
+        });
+
+        selectedExam.folderId = e.target.value
+
+        ExamProvider.updateExam(selectedExam).then((data) => {
+            let olderExams = [...exams]
+            let currentExam = olderExams.map((exam) => {
+                return (exam.id === examId) ? selectedExam : exam;
+            });
+            setExams(currentExam);
+        })
+    }
     return (
         <>
             <Fragment>
-                <Slide direction="up"   mountOnEnter unmountOnExit in={!loading}>
+                <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TableContainer component={Paper}>
@@ -69,6 +106,7 @@ export default function Home() {
                                         <TableRow>
                                             <StyledTableCell size="small"/>
                                             <TableCell className="capitalize">{t('exam')}</TableCell>
+                                            <TableCell>{t('folder')}</TableCell>
                                             <StyledTableCell size="small" align="center"/>
                                             <StyledTableCell size="small" align="center"/>
                                             <StyledTableCell size="small" align="center"/>
@@ -82,6 +120,8 @@ export default function Home() {
                                                 exam={exam}
                                                 deleteExam={deleteExam}
                                                 index={key}
+                                                folders={folders}
+                                                updateExamFolder={updateExamFolder}
                                             />
                                         ))}
                                     </TableBody>
