@@ -2,8 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import {LibraryAdd} from "@material-ui/icons";
-import Button from "@material-ui/core/Button";
+import {Add} from "@material-ui/icons";
 import {useTranslation} from "react-i18next";
 import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import FolderProvider from "../providers/folder";
@@ -19,6 +18,8 @@ import FolderIcon from '@material-ui/icons/Folder';
 
 import Chip from "@material-ui/core/Chip";
 import {Link as RouterLink} from "react-router-dom";
+import green from "@material-ui/core/colors/green";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
     },
     listItem: {
-        cursor: "pointer"
+        cursor: "pointer",
+        textAlign: 'center',
     },
     paperHeader: {
         padding: theme.spacing(2),
@@ -38,7 +40,14 @@ const useStyles = makeStyles((theme) => ({
     },
     chip: {
         margin: theme.spacing(0.5),
-    }
+    },
+    green: {
+        color: '#fff',
+        backgroundColor: green[500],
+        "&:hover": {
+            backgroundColor: green[700]
+        }
+    },
 }));
 
 export default function Folders() {
@@ -94,23 +103,6 @@ export default function Folders() {
     return (
         <Fragment>
             <Grid container spacing={3}>
-                <Grid item xs={6}>
-                    <Paper className={classes.paperHeader}>
-
-
-                        <Button
-                            variant="contained"
-                            className={classes.iconButton}
-                            startIcon={<LibraryAdd/>}
-                            onClick={handleClickOpen}
-                        >
-                            {t('create_folder')}
-                        </Button>
-
-                    </Paper>
-                </Grid>
-            </Grid>
-            <Grid container spacing={3}>
                 {folders.map((folder, index) => {
 
 
@@ -119,7 +111,7 @@ export default function Folders() {
                             <List dense={false} className={classes.listItem}
                                   component={RouterLink}
                                   to={`/admin/folders/${folder.id}`}
-                                  style={{textDecoration: "none", color: "inherit"}}
+                                  style={{textDecoration: "none", color: "inherit", textAlign: "center"}}
                             >
                                 <ListItem>
                                     <ListItemAvatar>
@@ -143,6 +135,27 @@ export default function Folders() {
                         </Paper>
                     </Grid>
                 })}
+
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <List dense={false} className={classes.listItem}
+                        >
+                            <ListItem>
+
+                                <ListItemText
+                                    style={{textAlign: "center"}}
+                                    primary={<IconButton aria-label="delete" className={classes.green}
+                                                         onClick={handleClickOpen}>
+                                        <Add fontSize="large"/>
+                                    </IconButton>}
+                                />
+
+                            </ListItem>
+                        </List>
+
+
+                    </Paper>
+                </Grid>
             </Grid>
             <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
         </Fragment>
