@@ -12,6 +12,14 @@ const FolderProvider = {
     fetchFolders: async function () {
         return await axios.get(`${backendUrl}/api/folder`, {headers: AuthService.authHeader()})
     },
+    deleteFolder: async function (folderId) {
+        return await axios.delete(`${backendUrl}/api/folder/${folderId}`, {headers: AuthService.authHeader()})
+    },
+    updateFolder: async function (folder) {
+
+        return await axios.put(`${backendUrl}/api/folder/${folder.id}`, {folder}, {headers: AuthService.authHeader()}
+        )
+    },
 };
 
 export default FolderProvider

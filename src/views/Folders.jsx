@@ -13,13 +13,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
-
 import FolderIcon from '@material-ui/icons/Folder';
-
 import Chip from "@material-ui/core/Chip";
-import {Link as RouterLink} from "react-router-dom";
 import green from "@material-ui/core/colors/green";
 import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -50,10 +50,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Folders() {
+export default function Folders(props) {
 
     const [open, setOpen] = useState(false);
     const [folders, setFolders] = useState([]);
+    const [selectedFolderId, setSelectedFolderId] = useState(false);
+    const [selectedFolder, setSelectedFolder] = React.useState(new FolderModel());
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -66,6 +68,48 @@ export default function Folders() {
     useEffect(() => {
         getFolders();
     }, [open]);
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openAnchor = Boolean(anchorEl);
+
+    const handleClick = (event, folderId) => {
+        setSelectedFolderId(folderId);
+        setAnchorEl(event.currentTarget);
+
+    };
+
+    const handleCloseAnchor = (e) => {
+        let attribute = e.target.getAttribute('value');
+
+        if (attribute === "Edit") {
+            let folderSelectd = folders.find(folder => folder.id === selectedFolderId)
+            setSelectedFolder(folderSelectd)
+            setOpen(true);
+
+
+        } else if (attribute === "Delete") {
+            FolderProvider.deleteFolder(selectedFolderId).then(() => {
+                    getFolders()
+                }
+            );
+        }
+        setSelectedFolderId(false);
+        setAnchorEl(null);
+    };
+
+
+    const onUpdateTags = (e, newValues) => {
+
+        let newTags = newValues.map(({inputValue}) => {
+            return new Tag(null, inputValue)
+        });
+
+
+        setSelectedFolder({
+            ...selectedFolder, tags: newTags,
+        })
+    }
 
     const getFolders = () => {
         FolderProvider.fetchFolders().then(response => {
@@ -83,21 +127,31 @@ export default function Folders() {
     };
 
     const createFolder = (folder) => {
+        console.log(folder.id)
+        if (!folder.id) {
+            FolderProvider.saveFolder(folder).then(() => {
+                setOpen(false);
+            })
+        } else {
+            FolderProvider.updateFolder(folder).then(() => {
+                setOpen(false);
+            })
+        }
 
-        FolderProvider.saveFolder(folder).then(() => {
-            setOpen(false);
-        })
     };
 
 
     const getTagString = (tags) => {
-        console.log(tags);
-        let arrayTags = tags.map(tag => {
-            return <Chip className={classes.chip} size="small" label={tag.name}/>;
+        let arrayTags = tags.map((tag, index) => {
+            return <Chip key={`chip_${index}`} className={classes.chip} size="small" label={tag.name}/>;
         })
         return arrayTags;
     };
 
+
+    const goToRoute = (folderId) => {
+        props.history.push(`/admin/folders/${folderId}`)
+    }
     const classes = useStyles();
     const {t} = useTranslation('common');
     return (
@@ -108,10 +162,16 @@ export default function Folders() {
 
                     return <Grid item xs={3} key={index}>
                         <Paper className={classes.paper}>
+
+                            <div style={{textAlign: "right"}}>
+                                <IconButton style={{margin: '0', padding: '0'}}
+                                            onClick={(e) => handleClick(e, folder.id)}>
+                                    <MoreVertIcon/>
+                                </IconButton>
+
+                            </div>
                             <List dense={false} className={classes.listItem}
-                                  component={RouterLink}
-                                  to={`/admin/folders/${folder.id}`}
-                                  style={{textDecoration: "none", color: "inherit", textAlign: "center"}}
+
                             >
                                 <ListItem>
                                     <ListItemAvatar>
@@ -120,16 +180,13 @@ export default function Folders() {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
+                                        onClick={e => goToRoute(folder.id)}
+                                        style={{textDecoration: "none", color: "inherit", textAlign: "center"}}
                                         primary={folder.name}
                                         secondary={getTagString(folder.tags)}
-
-
+                                        secondaryTypographyProps={{component: "span"}}
                                     />
-                                    {/*<ListItemSecondaryAction>
-                                        <IconButton edge="end" aria-label="delete">
-                                            <DeleteIcon/>
-                                        </IconButton>
-                                    </ListItemSecondaryAction>*/}
+
                                 </ListItem>
                             </List>
                         </Paper>
@@ -152,12 +209,37 @@ export default function Folders() {
 
                             </ListItem>
                         </List>
-
-
                     </Paper>
                 </Grid>
             </Grid>
-            <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
+            <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}
+                               folder={selectedFolder} onUpdateTags={onUpdateTags}/>
+
+            <Menu
+                id="long-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={openAnchor}
+                onClose={handleCloseAnchor}
+                PaperProps={{
+                    style: {
+
+                        width: '20ch',
+                    },
+                }}
+            >
+                {options.map((option) => (
+                    <MenuItem key={option} value={option}
+                              onClick={handleCloseAnchor}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </Menu>
         </Fragment>
     );
 }
+
+const options = [
+    'Delete',
+    //'Edit',
+];

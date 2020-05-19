@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {useTranslation} from "react-i18next";
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -16,9 +15,8 @@ import {Box} from "@material-ui/core";
 
 export default function CreateFolderModal(props) {
     const {t} = useTranslation('common');
-    const [folder, setFolder] = React.useState(new FolderModel());
-    const [tags, setTags] = useState([]);
-    const [maxWidth, setMaxWidth] = React.useState('xs');
+
+    const maxWidth = 'xs';
 
     const filter = createFilterOptions();
 
@@ -31,10 +29,10 @@ export default function CreateFolderModal(props) {
                         variant='outlined'
                         autoFocus
                         fullWidth
+                        defaultValue={props.folder.name}
                         label={t("folder_name")}
                         onChange={(e) => {
-                            folder.name = e.target.value;
-                            setFolder(folder);
+                            props.folder.name = e.target.value;
                         }}
                     />
                 </Box>
@@ -43,20 +41,16 @@ export default function CreateFolderModal(props) {
                     <Autocomplete
                         multiple
                         options={[]}
+                        value={props.folder.tags}
+                        defaultValue={props.folder.tags}
                         getOptionLabel={(option) => {
-                            if (option.inputValue) {
-                                return option.inputValue;
+                            if (option.id) {
+                                return option.id;
                             }
 
-                            return option.tagName
+                            return option.name
                         }}
-                        onChange={(event, newValues) => {
-                            folder.tags = newValues.map(({inputValue}) => {
-                                return new Tag(null, inputValue)
-                            });
-
-                            setFolder(folder);
-                        }}
+                        onChange={props.onUpdateTags}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -71,8 +65,8 @@ export default function CreateFolderModal(props) {
                             if (params.inputValue !== '') {
 
                                 filtered.push({
-                                    inputValue: params.inputValue,
-                                    tagName: `Add "${params.inputValue}"`,
+                                    id: params.inputValue,
+                                    name: `Add "${params.inputValue}"`,
                                 });
                             }
 
@@ -85,7 +79,7 @@ export default function CreateFolderModal(props) {
                 <Button onClick={props.handleClose} color="primary">
                     {t('cancel')}
                 </Button>
-                <Button onClick={e => props.createFolder(folder)} color="primary">
+                <Button onClick={e => props.createFolder(props.folder)} color="primary">
                     {t('save')}
                 </Button>
             </DialogActions>
