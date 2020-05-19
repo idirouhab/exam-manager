@@ -105,7 +105,9 @@ export default function CreateExam(props) {
             let selectedOptions = [];
             data.questions.forEach((question, questionIndex) => {
                 question.options.forEach((option, optionIndex) => {
-                    selectedOptions[questionIndex] = optionIndex;
+                    if (option.correct) {
+                        selectedOptions[questionIndex] = optionIndex;
+                    }
                 })
             });
             setQuestions(data.questions);
@@ -226,11 +228,6 @@ export default function CreateExam(props) {
         }
 
         setQuestions(oldQuestions)
-    };
-
-
-    const printJson = (object) => {
-        return JSON.stringify(object, null, 2);
     };
 
     return (

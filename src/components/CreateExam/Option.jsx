@@ -51,7 +51,6 @@ export default function Option(props) {
 
                                 onChange={(e) => props.updateOptionCheckBox(e, props.questionIndex, props.optionIndex)}
                             />}
-
                         />
                     </FormControl>
                 </TableCell>
