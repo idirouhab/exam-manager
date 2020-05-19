@@ -8,7 +8,6 @@ import {withStyles} from "@material-ui/styles";
 import {makeStyles} from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
 import blue from "@material-ui/core/colors/blue";
-import yellow from "@material-ui/core/colors/yellow";
 import brown from "@material-ui/core/colors/brown";
 
 const StyledTableCell = withStyles((theme) => ({

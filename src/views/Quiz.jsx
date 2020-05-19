@@ -66,7 +66,6 @@ export default function Test(props) {
 
     const [exam, setExam] = useState(new EmptyExam());
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [questionSubmitted, setQuestionSubmitted] = useState(false);
     const [startGame, setStartGame] = useState(false)
     const [playerName, setPlayerName] = useState('');
     const [submitted, setSubmitted] = useState(false);
@@ -115,7 +114,7 @@ export default function Test(props) {
 
             setExam(newExam);
         })
-    }, []);
+    }, [props]);
 
     const send = () => {
         let answers = [];
@@ -157,10 +156,8 @@ export default function Test(props) {
     }
 
     const nextQuestion = (questionIdIndex) => {
-        setQuestionSubmitted(true);
         const selectedOption = getOptionSelected(questionIdIndex);
         if (!selectedOption) return false;
-        setQuestionSubmitted(true);
         if (currentQuestionIndex < (exam.questions.length - 1)) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
