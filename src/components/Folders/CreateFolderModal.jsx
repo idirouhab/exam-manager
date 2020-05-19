@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,8 +15,9 @@ import {Box} from "@material-ui/core";
 
 export default function CreateFolderModal(props) {
     const {t} = useTranslation('common');
-
-    const maxWidth = 'xs';
+    const [folder, setFolder] = useState(new FolderModel());
+    const [tags, setTags] = useState([]);
+    const [maxWidth, setMaxWidth] = useState('xs');
 
     const filter = createFilterOptions();
 
@@ -29,10 +30,10 @@ export default function CreateFolderModal(props) {
                         variant='outlined'
                         autoFocus
                         fullWidth
-                        defaultValue={props.folder.name}
                         label={t("folder_name")}
                         onChange={(e) => {
-                            props.folder.name = e.target.value;
+                            folder.name = e.target.value;
+                            setFolder(folder);
                         }}
                     />
                 </Box>
@@ -41,16 +42,21 @@ export default function CreateFolderModal(props) {
                     <Autocomplete
                         multiple
                         options={[]}
-                        value={props.folder.tags}
-                        defaultValue={props.folder.tags}
+                        defaultValue={[]}
                         getOptionLabel={(option) => {
-                            if (option.id) {
-                                return option.id;
+                            if (option.inputValue) {
+                                return option.inputValue;
                             }
 
-                            return option.name
+                            return option.tagName
                         }}
-                        onChange={props.onUpdateTags}
+                        onChange={(event, newValues) => {
+                            folder.tags = newValues.map(({inputValue}) => {
+                                return new Tag(null, inputValue)
+                            });
+
+                            setFolder(folder);
+                        }}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -65,8 +71,8 @@ export default function CreateFolderModal(props) {
                             if (params.inputValue !== '') {
 
                                 filtered.push({
-                                    id: params.inputValue,
-                                    name: `Add "${params.inputValue}"`,
+                                    inputValue: params.inputValue,
+                                    tagName: `Add "${params.inputValue}"`,
                                 });
                             }
 
@@ -79,7 +85,7 @@ export default function CreateFolderModal(props) {
                 <Button onClick={props.handleClose} color="primary">
                     {t('cancel')}
                 </Button>
-                <Button onClick={e => props.createFolder(props.folder)} color="primary">
+                <Button onClick={e => props.createFolder(folder)} color="primary">
                     {t('save')}
                 </Button>
             </DialogActions>

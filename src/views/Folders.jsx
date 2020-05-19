@@ -98,19 +98,6 @@ export default function Folders(props) {
         setAnchorEl(null);
     };
 
-
-    const onUpdateTags = (e, newValues) => {
-
-        let newTags = newValues.map(({inputValue}) => {
-            return new Tag(null, inputValue)
-        });
-
-
-        setSelectedFolder({
-            ...selectedFolder, tags: newTags,
-        })
-    }
-
     const getFolders = () => {
         FolderProvider.fetchFolders().then(response => {
             const responseFolders = response.data;
@@ -127,17 +114,10 @@ export default function Folders(props) {
     };
 
     const createFolder = (folder) => {
-        console.log(folder.id)
-        if (!folder.id) {
-            FolderProvider.saveFolder(folder).then(() => {
-                setOpen(false);
-            })
-        } else {
-            FolderProvider.updateFolder(folder).then(() => {
-                setOpen(false);
-            })
-        }
 
+        FolderProvider.saveFolder(folder).then(() => {
+            setOpen(false);
+        })
     };
 
 
@@ -212,8 +192,7 @@ export default function Folders(props) {
                     </Paper>
                 </Grid>
             </Grid>
-            <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}
-                               folder={selectedFolder} onUpdateTags={onUpdateTags}/>
+            <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
 
             <Menu
                 id="long-menu"
