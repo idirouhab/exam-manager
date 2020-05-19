@@ -21,6 +21,7 @@ import StartGame from "../components/Quiz/StartGame";
 import Submit from "../components/Quiz/Submit";
 import newrelic from "../variables/newrelic";
 import AnswerProvider from "../providers/answer";
+import green from "@material-ui/core/colors/green";
 
 function EmptyExam() {
     this.text = '';
@@ -48,8 +49,14 @@ const useStyles = makeStyles(() => ({
         boxShadow: "none",
         color: "#006be8"
     },
-    footerButton: {
+    footerButtonPrevious: {
         backgroundColor: "#006be8",
+    },
+    footerButtonNext: {
+        backgroundColor: green[500],
+        "&:hover": {
+            backgroundColor: green[700]
+        }
     },
 }));
 
@@ -260,14 +267,18 @@ export default function Test(props) {
                                                 <div style={{width: '100%'}}>
                                                     {questionIndex > 0 && (
                                                         <Button size="large" className={classes.footerButton}
-                                                                variant="contained" color="primary"
+                                                                variant="contained"
+                                                                color="primary"
+                                                                style={{marginRight: "4%"}}
                                                                 onClick={() => previousQuestion(questionIndex)}
                                                         >{t('previous')}</Button>)}
 
-                                                    <Button size="large" className={classes.footerButton}
+                                                    <Button size="large" className={classes.footerButtonNext}
                                                             variant="contained" color="primary"
                                                             onClick={() => nextQuestion(questionIndex)}
+                                                            style={{marginLeft: "4%"}}
                                                     >{questionIndex === exam.questions.length - 1 ? t('submit') : t('next')}</Button>
+
                                                 </div>
                                             </CardActions>
                                         </Card>
