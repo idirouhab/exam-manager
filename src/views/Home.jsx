@@ -12,7 +12,6 @@ import {useTranslation} from "react-i18next";
 import ExamProvider from "../providers/exam";
 import Exam from "../components/Home/Exam";
 import Loader from "../components/Loader/Loader";
-import Fade from "@material-ui/core/Fade";
 import Slide from "@material-ui/core/Slide";
 
 const StyledTableCell = withStyles(() => ({

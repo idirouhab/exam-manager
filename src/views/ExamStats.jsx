@@ -70,7 +70,7 @@ export default function ExamStats(props) {
     return (
         <>
             <Fragment>
-                <Slide direction="up"  mountOnEnter unmountOnExitin in={!loading}>
+                <Slide direction="up" mountOnEnter in={!loading}>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
 
@@ -79,7 +79,8 @@ export default function ExamStats(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell className="capitalize">{t('name')}</TableCell>
-                                            <StyledTableCell size="small" align="center">{t('done_at')}</StyledTableCell>
+                                            <StyledTableCell size="small"
+                                                             align="center">{t('done_at')}</StyledTableCell>
                                             <StyledTableCell size="small" align="center">{t('score')}</StyledTableCell>
                                             <StyledTableCell size="small" align="center">{t('time')}</StyledTableCell>
                                             <StyledTableCell size="small"
@@ -122,22 +123,8 @@ export default function ExamStats(props) {
                                                                 onClick={(e) => deleteAnswer(answer._id)}>
                                                         <Delete/>
                                                     </IconButton>
-                                                    {/*<Button
-                                                    id={`delete_${props.index}`}
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    onClick={(e) => {
-                                                        props.deleteExam(props.exam.id)
-                                                    }}
-                                                >
-                                                    <Icon>delete</Icon>
-                                                </Button>*/}
                                                 </SmallStyledTableCell>
-
-
                                             </TableRow>
-
-
                                         ))}
                                     </TableBody>
                                 </Table>
