@@ -31,7 +31,8 @@
     "login": "Login",
     "test": "Test",
     "create-exam": "Create Exam",
-    "stats": "Exam Stats"
+    "stats": "Exam Stats",
+    "folders": "Folders"
   },
   "input": {
     "error": {

@@ -5,6 +5,8 @@ import CreateExam from "./views/CreateExam";
 import Quiz from "./views/Quiz";
 import ExamStats from "./views/ExamStats";
 import Register from "./views/Register";
+import {Folder} from "@material-ui/icons";
+import Folders from "./views/Folders";
 
 const routes = [
     {
@@ -25,6 +27,15 @@ const routes = [
         scope: 'private',
         hide: false,
 
+    },
+    {
+        path: "/folders",
+        name: "folders",
+        icon: "folder",
+        component: Folders,
+        section: '/admin',
+        scope: 'private',
+        hide: false,
     },
     {
         path: "/edit-exam/:id",

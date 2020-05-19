@@ -29,7 +29,8 @@
     "login": "Login",
     "test": "Test",
     "create-exam": "Crear examen",
-    "stats": "Estadísticas de Examen"
+    "stats": "Estadísticas de Examen",
+    "folders": "Carpetas"
   },
   "input": {
     "error": {
