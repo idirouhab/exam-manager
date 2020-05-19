@@ -11,7 +11,7 @@
   "question": "Question",
   "selected_answer": "Selected answer",
   "correct_answer": "Correct answer",
-  "quiz_player_name": "What's your name?",
+  "quiz_player_name": "What's your name and lastname?",
   "start": "Start",
   "login": "Login",
   "register": "Register",

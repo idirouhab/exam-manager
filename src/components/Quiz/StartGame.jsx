@@ -19,7 +19,6 @@ const useStyles = makeStyles(() => ({
 export default function StartGame(props) {
     const {t} = useTranslation("common");
     const classes = useStyles();
-
     return (
         <>
                 <Card>
@@ -53,7 +52,7 @@ export default function StartGame(props) {
                             />
                             <Box m={2}/>
                             <Button size="large" variant="contained"  className={classes.footerButton} color={"primary"}
-                                    onClick={props.startGame}
+                                    onClick={props.startingGame}
                             >{t('start')}</Button>
                         </FormControl>
                     </CardContent>
