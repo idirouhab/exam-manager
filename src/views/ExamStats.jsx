@@ -16,7 +16,9 @@ import {Delete} from "@material-ui/icons";
 import AnswerProvider from "../providers/answer";
 import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
+import humanizeDuration from "humanize-duration";
 import moment from "moment";
+import i18n from "../i18n"
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -125,10 +127,10 @@ export default function ExamStats(props) {
                                                     {getScore(answer, questions)}/{questions.length}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {answer.time} {t('seconds')}
+                                                    {humanizeDuration(answer.time * 1000, {language: i18n.language})}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {Math.round((answer.time / questions.length))} {t('seconds')}
+                                                    {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, {language: i18n.language})}
                                                 </StyledTableCell>
                                                 <SmallStyledTableCell size="small" align="center">
                                                     <MaxWidthDialog
