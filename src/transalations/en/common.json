@@ -1,6 +1,7 @@
 {
   "seconds": "seconds",
-  "cancel": "Cancelar",
+  "delete": "Delete",
+  "cancel": "Cancel",
   "save": "Save",
   "folder": "Folder",
   "folder_name": "Folder name",

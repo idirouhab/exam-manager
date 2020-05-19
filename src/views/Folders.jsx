@@ -134,6 +134,14 @@ export default function Folders(props) {
     }
     const classes = useStyles();
     const {t} = useTranslation('common');
+
+    const options = [
+        {
+            action: "Delete",
+            value: t('delete')
+        }
+    ];
+
     return (
         <Fragment>
             <Grid container spacing={3}>
@@ -208,9 +216,9 @@ export default function Folders(props) {
                 }}
             >
                 {options.map((option) => (
-                    <MenuItem key={option} value={option}
+                    <MenuItem key={option.action} value={option.action}
                               onClick={handleCloseAnchor}>
-                        {option}
+                        {option.value}
                     </MenuItem>
                 ))}
             </Menu>
@@ -218,7 +226,3 @@ export default function Folders(props) {
     );
 }
 
-const options = [
-    'Delete',
-    //'Edit',
-];
