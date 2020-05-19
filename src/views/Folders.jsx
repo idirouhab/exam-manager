@@ -19,10 +19,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'left',
         color: theme.palette.text.secondary,
     }
-
-
 }));
-
 
 export default function Folders() {
 

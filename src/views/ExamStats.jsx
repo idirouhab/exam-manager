@@ -16,6 +16,7 @@ import {Delete} from "@material-ui/icons";
 import AnswerProvider from "../providers/answer";
 import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
+import moment from "moment";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -78,6 +79,7 @@ export default function ExamStats(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell className="capitalize">{t('name')}</TableCell>
+                                            <StyledTableCell size="small" align="center">{t('done_at')}</StyledTableCell>
                                             <StyledTableCell size="small" align="center">{t('score')}</StyledTableCell>
                                             <StyledTableCell size="small" align="center">{t('time')}</StyledTableCell>
                                             <StyledTableCell size="small"
@@ -96,8 +98,10 @@ export default function ExamStats(props) {
                                                     {answer.playerName}
                                                 </TableCell>
                                                 <StyledTableCell size="small" align="center">
+                                                    {moment(answer.createdAt).fromNow()}
+                                                </StyledTableCell>
+                                                <StyledTableCell size="small" align="center">
                                                     {answer.score}/{questions.length}
-
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
                                                     {answer.time} {t('seconds')}

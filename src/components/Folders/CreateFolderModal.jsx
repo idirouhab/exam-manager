@@ -27,10 +27,6 @@ export default function CreateFolderModal(props) {
 
     const filter = createFilterOptions();
 
-
-    useEffect(()=>{
-        console.log(value)
-    },[value])
     return (
         <div>
 
@@ -58,17 +54,11 @@ export default function CreateFolderModal(props) {
                                 return option.inputValue;
                             }
 
-                            return option.title}}
-                        onChange={(event, newValue)=>{
-                            let values = []
-                            newValue.forEach(value =>{
-                                let t =  new newTag()
-                                t.name = value.inputValue;
-                                values.push(t)
-                            })
-
-
-                            setValue(values);
+                            return option.title
+                        }}
+                        onChange={(event, newValues) => {
+                            let result = newValues.map(({inputValue}) => inputValue)
+                            setValue(result);
 
 
                         }}
