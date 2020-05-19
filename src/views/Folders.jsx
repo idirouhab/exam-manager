@@ -9,9 +9,17 @@ import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import FolderProvider from "../providers/folder";
 import FolderModel from "../models/folder";
 import Tag from "../models/tag";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import FolderIcon from '@material-ui/icons/Folder';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Chip from "@material-ui/core/Chip";
 import {Link as RouterLink} from "react-router-dom";
-import Icon from "@material-ui/core/Icon";
-
 
 const useStyles = makeStyles((theme) => ({
 
@@ -19,12 +27,18 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
+
+    },
+    listItem: {
         cursor: "pointer"
     },
     paperHeader: {
         padding: theme.spacing(2),
         textAlign: 'left',
         color: theme.palette.text.secondary,
+    },
+    chip: {
+        margin: theme.spacing(0.5),
     }
 }));
 
@@ -48,10 +62,12 @@ export default function Folders() {
     const getFolders = () => {
         FolderProvider.fetchFolders().then(response => {
             const responseFolders = response.data;
-            let finalFolder = responseFolders.map(folder =>{
-                let tags = folder.tags.map(tag=>{
+            let finalFolder = responseFolders.map(folder => {
+                let tags = folder.tags.map(tag => {
+
                     return new Tag(tag._id, tag.name);
                 });
+
                 return new FolderModel(folder.id, folder.name, tags)
             });
             setFolders(finalFolder);
@@ -65,6 +81,15 @@ export default function Folders() {
         })
     };
 
+
+    const getTagString = (tags) => {
+        console.log(tags);
+        let arrayTags = tags.map(tag => {
+            return <Chip className={classes.chip} size="small" label={tag.name}/>;
+        })
+        return arrayTags;
+    };
+
     const classes = useStyles();
     const {t} = useTranslation('common');
     return (
@@ -72,6 +97,8 @@ export default function Folders() {
             <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <Paper className={classes.paperHeader}>
+
+
                         <Button
                             variant="contained"
                             className={classes.iconButton}
@@ -80,22 +107,45 @@ export default function Folders() {
                         >
                             {t('create_folder')}
                         </Button>
-                        <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
+
                     </Paper>
                 </Grid>
             </Grid>
             <Grid container spacing={3}>
                 {folders.map((folder, index) => {
-                    return <Grid item xs={4} key={index}>
-                        <Paper className={classes.paper}
-                               component={RouterLink}
-                               to={`/admin/folders/${folder.id}`}
-                        >
-                            asdas
+
+
+                    return <Grid item xs={3} key={index}>
+                        <Paper className={classes.paper}>
+                            <List dense={false} className={classes.listItem}
+                                  component={RouterLink}
+                                  to={`/admin/folders/${folder.id}`}
+                                  style={{textDecoration: "none", color: "inherit"}}
+                            >
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <FolderIcon/>
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={folder.name}
+                                        secondary={getTagString(folder.tags)}
+
+
+                                    />
+                                    {/*<ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="delete">
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </ListItemSecondaryAction>*/}
+                                </ListItem>
+                            </List>
                         </Paper>
                     </Grid>
                 })}
             </Grid>
+            <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
         </Fragment>
     );
 }

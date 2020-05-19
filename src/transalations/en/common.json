@@ -1,6 +1,11 @@
 {
   "seconds": "seconds",
+  "cancel": "Cancelar",
+  "save": "Save",
   "folder": "Folder",
+  "folder_name": "Folder name",
+  "create_folder": "Create a new folder",
+  "tags": "Tags",
   "done_at": "Answer time",
   "your_score": "Your score",
   "time": "Time",

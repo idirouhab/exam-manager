@@ -11,47 +11,44 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {createFilterOptions} from "@material-ui/lab";
 import FolderModel from "../../models/folder";
 import Tag from "../../models/tag";
+import {Box} from "@material-ui/core";
 
 
 export default function CreateFolderModal(props) {
     const {t} = useTranslation('common');
     const [folder, setFolder] = React.useState(new FolderModel());
     const [tags, setTags] = useState([]);
+    const [maxWidth, setMaxWidth] = React.useState('xs');
 
     const filter = createFilterOptions();
 
     return (
-        <div>
-
-            <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title"> {t('create_folder')}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        {t('create_folder.modal.header')}
-                    </DialogContentText>
+        <Dialog open={props.open} onClose={props.handleClose} maxWidth={maxWidth} fullWidth={true}>
+            <DialogTitle> {t('create_folder')}</DialogTitle>
+            <DialogContent>
+                <Box my={4}>
                     <TextField
+                        variant='outlined'
                         autoFocus
-                        margin="dense"
-                        label="Email Address"
-                        type="email"
                         fullWidth
+                        label={t("folder_name")}
                         onChange={(e) => {
                             folder.name = e.target.value;
                             setFolder(folder);
                         }}
                     />
+                </Box>
 
+                <Box my={2}>
                     <Autocomplete
                         multiple
-                        id="tags-outlined"
                         options={[]}
                         getOptionLabel={(option) => {
-
                             if (option.inputValue) {
                                 return option.inputValue;
                             }
 
-                            return option.title
+                            return option.tagName
                         }}
                         onChange={(event, newValues) => {
                             folder.tags = newValues.map(({inputValue}) => {
@@ -64,34 +61,34 @@ export default function CreateFolderModal(props) {
                             <TextField
                                 {...params}
                                 variant="outlined"
-                                label="filterSelectedOptions"
-                                placeholder="Favorites"
+                                label={t("tags")}
+
                             />
                         )}
                         filterOptions={(options, params) => {
                             const filtered = filter(options, params);
-
                             // Suggest the creation of a new value
                             if (params.inputValue !== '') {
+
                                 filtered.push({
                                     inputValue: params.inputValue,
-                                    title: `Add "${params.inputValue}"`,
+                                    tagName: `Add "${params.inputValue}"`,
                                 });
                             }
 
                             return filtered;
                         }}
                     />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={props.handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={e => props.createFolder(folder)} color="primary">
-                        Subscribe
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+                </Box>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={props.handleClose} color="primary">
+                    {t('cancel')}
+                </Button>
+                <Button onClick={e => props.createFolder(folder)} color="primary">
+                    {t('save')}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }
