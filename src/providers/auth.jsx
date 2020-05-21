@@ -1,6 +1,8 @@
 import userProvider from "../providers/user";
 import AuthService from "../services/auth";
 
+const ROOT_ROLE = 'ROOT';
+
 class Auth {
     constructor() {
         this.authenticated = false;
@@ -31,6 +33,10 @@ class Auth {
 
     getUserName() {
         return this.userName;
+    }
+
+    isRoot() {
+        return AuthService.getRole() === ROOT_ROLE;
     }
 
     isAuthenticated() {

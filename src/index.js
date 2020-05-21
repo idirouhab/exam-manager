@@ -19,6 +19,19 @@ dotenv.config();
 
 const PrivateRoute = ({render: Component, ...rest}) => {
     return <Route {...rest} render={(props) => (
+        Auth.isRoot() === true
+            ? <Component {...props} />
+            : <Redirect to={{
+                pathname: '/public/login',
+                state: {
+                    from: props.location
+                }
+            }}/>
+    )}/>
+};
+
+const RootRoute = ({render: Component, ...rest}) => {
+    return <Route {...rest} render={(props) => (
         Auth.isAuthenticated() === true
             ? <Component {...props} />
             : <Redirect to={{
@@ -30,11 +43,11 @@ const PrivateRoute = ({render: Component, ...rest}) => {
     )}/>
 };
 
-
 ReactDOM.render(
     <SnackbarProvider maxSnack={1} preventDuplicate={true} dense>
         <Router history={hist}>
             <Switch>
+                <RootRoute path={"/root"} render={props => <RootRoute {...props} />}/>
                 <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
                 <Route path={"/public"} render={props => <PublicSection {...props} />}/>
                 <Route exact path="/">

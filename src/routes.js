@@ -7,6 +7,7 @@ import ExamStats from "./views/ExamStats";
 import Register from "./views/Register";
 import Folders from "./views/Folders";
 import Folder from "./views/Folder";
+import Users from "./views/Users";
 
 const routes = [
     {
@@ -110,6 +111,15 @@ const routes = [
         name: "stats",
         icon: "stats",
         component: ExamStats,
+        section: '/admin',
+        scope: 'private',
+        hide: true,
+    },
+    {
+        path: "/users",
+        name: "users",
+        icon: "stats",
+        component: Users,
         section: '/admin',
         scope: 'private',
         hide: true,
