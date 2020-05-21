@@ -38,6 +38,10 @@ const SmallStyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
+const getLanguage = () => {
+    return i18n.language.split('-')[0]
+};
+
 export default function ExamStats(props) {
     const {t} = useTranslation("common");
     const [answers, setAnswers] = useState([]);
@@ -127,10 +131,10 @@ export default function ExamStats(props) {
                                                     {getScore(answer, questions)}/{questions.length}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {humanizeDuration(answer.time * 1000, {language: i18n.language})}
+                                                    {humanizeDuration(answer.time * 1000, {language: getLanguage()})}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, {language: i18n.language})}
+                                                    {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, {language: getLanguage()})}
                                                 </StyledTableCell>
                                                 <SmallStyledTableCell size="small" align="center">
                                                     <MaxWidthDialog
