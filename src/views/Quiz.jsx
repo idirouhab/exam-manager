@@ -134,7 +134,6 @@ export default function Test(props) {
             answers: answers,
             score: score
         };
-        newrelic.interaction().setAttribute("player", answer)
 
         AnswerProvider.saveAnswer(answer).then(res => {
         });
@@ -155,14 +154,22 @@ export default function Test(props) {
         return selectedOption;
     }
 
+    useEffect(() => {
+        newrelic.interaction().setAttribute('game', {
+            playerName,
+            currentQuestionIndex,
+            question: exam.questions[currentQuestionIndex]
+        }).save();
+    }, [currentQuestionIndex]);
+
     const nextQuestion = (questionIdIndex) => {
         const selectedOption = getOptionSelected(questionIdIndex);
         if (!selectedOption) return false;
         if (currentQuestionIndex < (exam.questions.length - 1)) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
-            setStartGame(false)
-            setSubmitted(true)
+            setStartGame(false);
+            setSubmitted(true);
             getScore();
         }
 
@@ -171,7 +178,8 @@ export default function Test(props) {
 
     const updatePlayerName = (e) => {
         setPlayerName(e.target.value)
-    }
+    };
+
     const optionChange = (e, questionId) => {
         let oldQuestions = [...exam.questions];
         for (let optionIndex in oldQuestions[questionId].options) {
@@ -184,6 +192,13 @@ export default function Test(props) {
         if (!playerName) {
             return false;
         }
+
+        newrelic.interaction().setAttribute('game', {
+            playerName,
+            currentQuestionIndex,
+            question: exam.questions[currentQuestionIndex]
+        }).save();
+
         setStartGame(true);
 
     };
