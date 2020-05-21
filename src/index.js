@@ -12,6 +12,7 @@ import 'typeface-roboto';
 import Auth from './providers/auth';
 
 import './i18n';
+import {SnackbarProvider} from "notistack";
 
 const hist = createBrowserHistory();
 dotenv.config();
@@ -31,15 +32,17 @@ const PrivateRoute = ({render: Component, ...rest}) => {
 
 
 ReactDOM.render(
-    <Router history={hist}>
-        <Switch>
-            <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
-            <Route path={"/public"} render={props => <PublicSection {...props} />}/>
-            <Route exact path="/">
-                {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/public/login"/>}
-            </Route>
-        </Switch>
-    </Router>,
+    <SnackbarProvider maxSnack={1} preventDuplicate={true} dense>
+        <Router history={hist}>
+            <Switch>
+                <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
+                <Route path={"/public"} render={props => <PublicSection {...props} />}/>
+                <Route exact path="/">
+                    {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/public/login"/>}
+                </Route>
+            </Switch>
+        </Router>
+    </SnackbarProvider>,
     document.getElementById('root')
 );
 

@@ -10,6 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
 import Auth from '../providers/auth';
+import {useSnackbar} from "notistack";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -28,6 +29,7 @@ export default function Login(props) {
 
     const classes = useStyles();
     const {t} = useTranslation('common');
+    const {enqueueSnackbar} = useSnackbar();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -59,7 +61,26 @@ export default function Login(props) {
         if (username && password) {
             Auth.login(username, password).then(() => {
                 setRedirectToReferrer(true);
-            })
+            }).catch((err) => {
+                const options = {
+                    variant: 'error',
+                    anchorOrigin: {
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }
+                };
+
+                if (err.response) {
+                    if (e.response.status === 404) {
+                        enqueueSnackbar(t('login_user_not_found'), options)
+                    } else {
+                        enqueueSnackbar(e.response.data.message, options)
+                    }
+                    // client never received a response, or request never left
+                } else {
+                    enqueueSnackbar('ask_admin', options)
+                }
+            });
         }
     };
 
@@ -100,7 +121,8 @@ export default function Login(props) {
                                                 />
                                             </Box>
                                             <Box mt={3} style={{textAlign: "center"}}>
-                                                <Button variant="contained" color="primary" type="submit" id={"login_submit"}>
+                                                <Button variant="contained" color="primary" type="submit"
+                                                        id={"login_submit"}>
                                                     {t('login_accept')}
                                                 </Button>
                                             </Box>
