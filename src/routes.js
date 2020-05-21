@@ -120,7 +120,7 @@ const routes = [
         name: "users",
         icon: "stats",
         component: Users,
-        section: '/admin',
+        section: '/root',
         scope: 'private',
         hide: true,
     },

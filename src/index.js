@@ -19,7 +19,7 @@ dotenv.config();
 
 const PrivateRoute = ({render: Component, ...rest}) => {
     return <Route {...rest} render={(props) => (
-        Auth.isRoot() === true
+        Auth.isAuthenticated()  === true
             ? <Component {...props} />
             : <Redirect to={{
                 pathname: '/public/login',
@@ -32,7 +32,7 @@ const PrivateRoute = ({render: Component, ...rest}) => {
 
 const RootRoute = ({render: Component, ...rest}) => {
     return <Route {...rest} render={(props) => (
-        Auth.isAuthenticated() === true
+        Auth.isRoot() === true
             ? <Component {...props} />
             : <Redirect to={{
                 pathname: '/public/login',
