@@ -70,6 +70,7 @@ export default function CreateExam(props) {
     }, [questions.length])
 
     useEffect(() => {
+
         if (actionName === 'edit' || actionName === 'clone') {
             getExam();
         }
@@ -86,11 +87,6 @@ export default function CreateExam(props) {
         } else {
             setActionName('create');
         }
-    }, []);
-
-
-    useEffect(() => {
-        getExam();
     }, []);
 
     const getExam = () => {
