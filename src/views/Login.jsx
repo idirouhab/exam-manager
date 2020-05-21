@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
 import Auth from '../providers/auth';
 import {useSnackbar} from "notistack";
+import newrelic from "../variables/newrelic";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -38,7 +39,6 @@ export default function Login(props) {
 
     const {from} = {from: {pathname: '/admin/home'}}
 
-
     useEffect(() => {
         if (redirectToReferrer) {
             props.history.push(from)
@@ -62,6 +62,7 @@ export default function Login(props) {
             Auth.login(username, password).then(() => {
                 setRedirectToReferrer(true);
             }).catch((err) => {
+                newrelic.noticeError(err, {username: username})
                 const options = {
                     variant: 'error',
                     anchorOrigin: {
@@ -71,10 +72,10 @@ export default function Login(props) {
                 };
 
                 if (err.response) {
-                    if (e.response.status === 404) {
+                    if (err.response.status === 404) {
                         enqueueSnackbar(t('login_user_not_found'), options)
                     } else {
-                        enqueueSnackbar(e.response.data.message, options)
+                        enqueueSnackbar(err.response.data.message, options)
                     }
                     // client never received a response, or request never left
                 } else {
