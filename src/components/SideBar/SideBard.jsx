@@ -31,7 +31,7 @@ function ListItemLink(props) {
     const {icon, primary, to, selected, style, id} = props;
     const renderLink = React.useMemo(
         () => React.forwardRef((itemProps, ref) => <RouterLink id={id} style={style} to={to} ref={ref} {...itemProps} />),
-        [to],
+        [to, style, id],
     );
 
     return (

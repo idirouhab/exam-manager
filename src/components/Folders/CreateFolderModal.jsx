@@ -16,8 +16,7 @@ import {Box} from "@material-ui/core";
 export default function CreateFolderModal(props) {
     const {t} = useTranslation('common');
     const [folder, setFolder] = useState(new FolderModel());
-    const [tags, setTags] = useState([]);
-    const [maxWidth, setMaxWidth] = useState('xs');
+    const maxWidth = 'xs';
 
     const filter = createFilterOptions();
 

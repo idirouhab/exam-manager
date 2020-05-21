@@ -55,7 +55,6 @@ export default function Folders(props) {
     const [open, setOpen] = useState(false);
     const [folders, setFolders] = useState([]);
     const [selectedFolderId, setSelectedFolderId] = useState(false);
-    const [selectedFolder, setSelectedFolder] = React.useState(new FolderModel());
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -83,11 +82,8 @@ export default function Folders(props) {
         let attribute = e.target.getAttribute('value');
 
         if (attribute === "Edit") {
-            let folderSelectd = folders.find(folder => folder.id === selectedFolderId)
-            setSelectedFolder(folderSelectd)
-            setOpen(true);
-
-
+            //let folderSelectd = folders.find(folder => folder.id === selectedFolderId)
+            //setOpen(true);
         } else if (attribute === "Delete") {
             FolderProvider.deleteFolder(selectedFolderId).then(() => {
                     getFolders()

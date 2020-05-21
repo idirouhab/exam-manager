@@ -48,9 +48,6 @@ export default function ExamStats(props) {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        getExam();
-    }, []);
 
     const getExam = () => {
         const {id} = props.match.params;
@@ -64,6 +61,8 @@ export default function ExamStats(props) {
             setLoading(false)
         })
     };
+
+    useEffect(getExam, []);
 
     const deleteAnswer = (answerId) => {
         console.log(answerId);
