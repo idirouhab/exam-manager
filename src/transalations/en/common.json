@@ -1,6 +1,7 @@
 {
   "seconds": "seconds",
   "delete": "Delete",
+  "drag_and_drop": "Drag and drop a file here or click",
   "cancel": "Cancel",
   "save": "Save",
   "folder": "Folder",

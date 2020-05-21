@@ -21,6 +21,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Input from "@material-ui/core/Input";
 import Option from "./Option";
+import {DropzoneArea} from "material-ui-dropzone";
 
 const useStyles = makeStyles((theme) => ({
     buttonSuccess: {
@@ -49,12 +50,21 @@ export default function Question(props) {
                         <Box my={4} pt={2}>
                             <TextField
                                 id={`question_${props.questionIndex}`}
-                                label={ `${props.questionIndex+1}) ${t('create_exam.label.question')}`}
+                                label={`${props.questionIndex + 1}) ${t('create_exam.label.question')}`}
                                 onChange={(e) => props.updateCurrentQuestionTitle(e, props.questionIndex)}
                                 fullWidth
                                 value={props.question.text}
                                 error={props.submittedQuestion && !props.question.text}
                                 helperText={props.submittedQuestion && !props.question.text ? t('create_exam.label.empty') : ''}
+                            />
+                        </Box>
+                        <Box my={4} pt={2}>
+                            <DropzoneArea
+                                acceptedFiles={['image/*']}
+                                dropzoneText={t('drag_and_drop')}
+                                filesLimit={1}
+                                onDrop={(e) => props.addCurrentImage(e, props.questionIndex)}
+                                onDelete={(e) => props.deleteCurrentImage(e, props.questionIndex)}
                             />
                         </Box>
                     </Container>

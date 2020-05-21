@@ -9,7 +9,7 @@ import green from "@material-ui/core/colors/green";
 import Exam from "../components/CreateExam/Exam";
 import Question from "../components/CreateExam/Question";
 import ExamProvider from "../providers/exam";
-
+import ImageProvider from "../providers/image";
 
 const useStyles = makeStyles(() => ({
     buttonSuccess: {
@@ -39,7 +39,8 @@ function EmptyExam() {
 
 function EmptyQuestion() {
     this.text = '';
-    this.options = [new EmptyOption()]
+    this.options = [new EmptyOption()];
+    this.image = null;
 }
 
 function EmptyOption() {
@@ -54,20 +55,18 @@ export default function CreateExam(props) {
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [exam, setExam] = useState(new EmptyExam());
-    const [questions, setQuestions] = useState([new EmptyQuestion()])
+    const [questions, setQuestions] = useState([new EmptyQuestion()]);
 
     const [submittedForm, setSubmittedForm] = useState(false);
     const [submittedQuestion, setSubmittedQuestion] = useState(false);
     const [checkedOptions, setCheckedOptions] = useState([]);
-    const [actionName, setActionName] = useState('create')
-
+    const [actionName, setActionName] = useState('create');
 
     const bottomElement = useRef(null);
 
-
     useEffect(() => {
         bottomElement.current.scrollIntoView({behavior: "smooth"});
-    }, [questions.length])
+    }, [questions.length]);
 
     useEffect(() => {
 
@@ -75,7 +74,6 @@ export default function CreateExam(props) {
             getExam();
         }
     }, [actionName]);
-
 
     useEffect(() => {
         const {pathname} = props.location;
@@ -130,7 +128,6 @@ export default function CreateExam(props) {
         } else {
             method = ExamProvider.saveExam(exam)
         }
-
         method.then(() => {
             setExam(new EmptyExam());
             setSuccess(true);
@@ -150,7 +147,6 @@ export default function CreateExam(props) {
         setExam({...exam, text: e.target.value});
     };
 
-
     const updateOptionText = (e, questionIndex, optionIndex) => {
         let oldQuestions = [...questions];
         oldQuestions[questionIndex].options[optionIndex].text = e.target.value;
@@ -163,6 +159,26 @@ export default function CreateExam(props) {
         oldQuestion[questionIndex].text = e.target.value;
         setQuestions(oldQuestion)
     };
+
+    const addCurrentImage = (images, questionIndex) => {
+        let oldQuestion = [...questions];
+        if (images.length === 0) {
+            oldQuestion[questionIndex].image = null;
+        } else {
+
+            ImageProvider.saveImage(images[0]).then((res) => {
+                oldQuestion[questionIndex].image = res.data.uuid;
+            });
+        }
+        setQuestions(oldQuestion)
+    };
+
+    const deleteCurrentImage = (images, questionIndex) => {
+        let oldQuestion = [...questions]
+        oldQuestion[questionIndex].image = null;
+        setQuestions(oldQuestion)
+
+    }
 
     const saveQuestion = () => {
         setSubmittedQuestion(true);
@@ -192,6 +208,7 @@ export default function CreateExam(props) {
 
         return !(emptyOption === undefined)
     };
+
     const addOptionToQuestion = (questionIndex) => {
         const oldQuestions = [...questions];
         oldQuestions[questionIndex].options.push(new EmptyOption());
@@ -203,7 +220,6 @@ export default function CreateExam(props) {
         oldQuestions[questionIndex].options.splice(optionIndex, 1);
         setQuestions(oldQuestions);
     };
-
 
     const deleteQuestion = (questionIndex) => {
         const oldQuestions = [...questions];
@@ -241,6 +257,8 @@ export default function CreateExam(props) {
                             questionIndex={questionIndex}
                             question={question}
                             updateCurrentQuestionTitle={updateCurrentQuestionTitle}
+                            addCurrentImage={addCurrentImage}
+                            deleteCurrentImage={deleteCurrentImage}
                             saveQuestion={saveQuestion}
                             numberQuestion={questions.length}
                             submittedQuestion={submittedQuestion}

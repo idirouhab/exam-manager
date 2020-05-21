@@ -22,6 +22,7 @@ import Submit from "../components/Quiz/Submit";
 import newrelic from "../variables/newrelic";
 import AnswerProvider from "../providers/answer";
 import green from "@material-ui/core/colors/green";
+import {imageUrl} from "../variables/general";
 
 function EmptyExam() {
     this.text = '';
@@ -32,6 +33,7 @@ function EmptyExam() {
 function EmptyQuestion() {
     this.text = '';
     this.id = null;
+    this.image = null;
     this.options = []
 }
 
@@ -57,7 +59,7 @@ const useStyles = makeStyles(() => ({
         "&:hover": {
             backgroundColor: green[700]
         }
-    },
+    }
 }));
 
 
@@ -102,6 +104,7 @@ export default function Test(props) {
                 let emptyQuestion = new EmptyQuestion();
                 emptyQuestion.id = question._id;
                 emptyQuestion.text = question.text;
+                emptyQuestion.image = question.image;
                 question.options.forEach(option => {
                     let emptyOption = new EmptyOption();
                     emptyOption.id = option._id;
@@ -262,6 +265,12 @@ export default function Test(props) {
                                                         {question.text}
                                                     </Typography>
                                                 </Box>
+                                                {question.image && <div style={{textAlign: "center"}}>
+                                                    <img
+                                                        style={{maxWidth: "30%", maxHeight: "auto"}}
+                                                        src={imageUrl + question.image}
+                                                    />
+                                                </div>}
                                                 <Divider/>
                                                 <div style={{marginBottom: "30px"}}/>
                                                 <RadioGroup onChange={e => optionChange(e, questionIndex)}
@@ -298,10 +307,8 @@ export default function Test(props) {
 
                                 }))}
                             </Paper>
-
                         </Box>
                     </Grid>
-
                 </Grid>
             </div>
         </>
