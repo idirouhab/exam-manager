@@ -49,10 +49,16 @@
   "create_exam": {
     "label": {
       "title": "Título del examen",
+      "subtitle": "Subtitulo del examen",
       "question": "Pregunta",
       "option": "Opción",
       "empty": "Campo obligatorio",
-      "option_not_select": "Escoge la respuesta correcta"
+      "option_not_select": "Escoge la respuesta correcta",
+      "free_text": "Respuesta escrita",
+      "multiple_choice": "Selección múltiple",
+      "question_type": "Tipo de pregunta",
+      "answer": "Respuesta",
+      "add_image": "Añadir imagen"
     }
   },
   "exam": "examen",
