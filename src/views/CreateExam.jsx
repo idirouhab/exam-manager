@@ -19,7 +19,6 @@ import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
-import { DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES } from "../variables/general";
 import FolderProvider from "../providers/folder";
 import FolderModel from "../models/folder";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -28,6 +27,7 @@ import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
+import {DEFAULT_QUESTION_TYPE, QUESTION_TYPES} from "../variables/general";
 
 class Exam {
   constructor () {
@@ -226,11 +226,11 @@ export default function CreateExam (props) {
     });
   };
 
-  const deleteCurrentImage = (questionIndex) => {
-    let oldQuestion = [...questions];
-    ImageProvider.deleteImage(oldQuestion[questionIndex].image).then((res) => {
-      oldQuestion[questionIndex].image = null;
-      setQuestions(oldQuestion);
+  const deleteCurrentImage = ( questionIndex) => {
+        let oldQuestion = [...questions];
+        ImageProvider.deleteImage(oldQuestion[questionIndex].image).then((res) => {
+            oldQuestion[questionIndex].image = null;
+            setQuestions(oldQuestion);
     });
   };
 

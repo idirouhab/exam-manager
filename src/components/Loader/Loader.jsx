@@ -5,12 +5,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 export default function Loader (props) {
   const useStyles = makeStyles((theme) => ({
     loaderContainer: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: props.backgroundColor || "transparent"
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",backgroundColor: props.backgroundColor || "transparent"
     },
     loader: {
       left: "50%",
