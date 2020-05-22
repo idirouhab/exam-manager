@@ -1,316 +1,205 @@
-import React, {useEffect, useState} from "react";
-import ExamProvider from "../providers/exam";
-import Paper from "@material-ui/core/Paper";
+import React, {Fragment, useEffect, useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-import {Box} from "@material-ui/core";
-import CardHeader from "@material-ui/core/CardHeader";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
+import ListItem from "@material-ui/core/ListItem";
+import List from "@material-ui/core/List";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import {RadioButtonUnchecked, SkipNext, SkipPrevious} from "@material-ui/icons";
+import blue from "@material-ui/core/colors/blue";
 import {useTranslation} from "react-i18next";
-import Button from "@material-ui/core/Button";
-import CardActions from "@material-ui/core/CardActions";
-import {LiveHelp} from "@material-ui/icons";
-import Divider from "@material-ui/core/Divider";
-import {makeStyles} from "@material-ui/core/styles";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import CardContent from "@material-ui/core/CardContent";
-import Slide from "@material-ui/core/Slide";
-import StartGame from "../components/Quiz/StartGame";
-import Submit from "../components/Quiz/Submit";
-import newrelic from "../variables/newrelic";
-import AnswerProvider from "../providers/answer";
-import green from "@material-ui/core/colors/green";
-import {imageUrl} from "../variables/general";
+import ExamProvider from "../providers/exam";
+import {imageUrl, QUESTION_TYPES} from "../variables/general";
+import Loader from "../components/Loader/Loader";
+import TextField from "@material-ui/core/TextField";
+import useWindowDimensions from "../hooks/resize";
+import Box from "@material-ui/core/Box";
 
-function EmptyExam() {
-    this.text = '';
-    this.id = null;
-    this.questions = []
-}
-
-function EmptyQuestion() {
-    this.text = '';
-    this.id = null;
-    this.image = null;
-    this.options = []
-}
-
-function EmptyOption() {
-    this.text = '';
-    this.id = null;
-    this.correct = false;
-    this.selected = false;
-
-}
-
-const useStyles = makeStyles(() => ({
-    button: {
-        pointerEvents: "none",
-        boxShadow: "none",
-        color: "#006be8"
+const useStyles = makeStyles((theme) => ({
+    root: {
+        maxWidth: 600,
     },
-    footerButtonPrevious: {
-        backgroundColor: "#006be8",
+    media: {
+        height: 0,
+        paddingTop: '56.25%',
     },
-    footerButtonNext: {
-        backgroundColor: green[500],
-        "&:hover": {
-            backgroundColor: green[700]
-        }
+    gridContainer: {
+        backgroundColor: blue[500],
+        height: "100%",
+
+    },
+    card: {
+        marginTop: theme.spacing(5),
     }
 }));
 
+class Option {
+    constructor(id = null, text = '', correct = false) {
+        this.id = id;
+        this.text = text;
+        this.correct = correct;
+    }
+}
 
-export default function Test(props) {
+class Question {
+    constructor(id = null, text = '', type = '', image = null, options = [new Option()]) {
+        this.id = id;
+        this.text = text;
+        this.type = type;
+        this.image = image;
+        this.options = options;
+    }
+}
+
+
+class Exam {
+    constructor(id = null, text = '', subtitle = '', questions = []) {
+        this.id = id;
+        this.text = text;
+        this.subtitle = subtitle;
+        this.questions = questions;
+    }
+}
+
+class Answer {
+    constructor(questionId = null, option = null) {
+        this.questionId = questionId;
+        this.option = option;
+    }
+}
+
+export default function Quiz(props) {
     const classes = useStyles();
-
-    const [exam, setExam] = useState(new EmptyExam());
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [startGame, setStartGame] = useState(false)
-    const [playerName, setPlayerName] = useState('');
-    const [submitted, setSubmitted] = useState(false);
-    const [score, setScore] = useState(false);
-    const [seconds, setSeconds] = useState(0);
-
-    useEffect(() => {
-        if (score !== false) {
-            send();
-        }
-    }, [score]);
-
-    useEffect(() => {
-        let interval = null;
-        if (startGame) {
-            interval = setInterval(() => {
-                setSeconds(seconds => seconds + 1);
-            }, 1000);
-        } else if (submitted) {
-            clearInterval(interval);
-        }
-        return () => clearInterval(interval);
-    }, [startGame, submitted]);
-
     const {t} = useTranslation('common');
+    const [exam, setExam] = useState(new Exam());
+    const [currentIndexQuestion, setCurrentIndexQuestion] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [answers, setAnswers] = useState([]);
+    const {width} = useWindowDimensions();
+
     useEffect(() => {
         const {id} = props.match.params;
         ExamProvider.fetchExam(id).then((data) => {
-            const newExam = new EmptyExam();
+            const newExam = new Exam();
             newExam.id = data.id;
             newExam.text = data.text;
-
+            newExam.subtitle = data.subtitle;
+            let answers = [];
             data.questions.forEach(question => {
-                let emptyQuestion = new EmptyQuestion();
+                let emptyQuestion = new Question();
                 emptyQuestion.id = question._id;
                 emptyQuestion.text = question.text;
                 emptyQuestion.image = question.image;
+                emptyQuestion.type = question.type;
                 question.options.forEach(option => {
-                    let emptyOption = new EmptyOption();
+                    let emptyOption = new Option();
                     emptyOption.id = option._id;
                     emptyOption.text = option.text;
                     emptyOption.correct = option.correct;
                     emptyQuestion.options.push(emptyOption)
                 });
                 newExam.questions.push(emptyQuestion);
+                answers.push(new Answer(emptyQuestion.id))
             });
-
+            setAnswers(answers);
             setExam(newExam);
+
+        }).finally(() => {
+            setLoading(false);
         })
     }, [props]);
 
-    const send = () => {
-        let answers = [];
-        const {questions} = exam;
-        questions.forEach((question, questionIndex) => {
-            let selectedOption = getOptionSelected(questionIndex);
-            answers.push({
-                option_id: selectedOption.id,
-                question_id: question.id
-            })
-        });
-
-        let answer = {
-            playerName: playerName,
-            time: seconds,
-            examId: exam.id,
-            answers: answers,
-            score: score
-        };
-
-        AnswerProvider.saveAnswer(answer).then(res => {
-        });
-    };
-
-    const previousQuestion = (questionIdIndex) => {
-        if (questionIdIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
-        }
-
-    };
-
-    function getOptionSelected(questionIdIndex) {
-        const selectedOption = exam.questions[questionIdIndex].options.find(option => {
-            return option.selected;
-        });
-
-        return selectedOption;
-    }
-
-    useEffect(() => {
-        newrelic.interaction().setAttribute('game', {
-            playerName,
-            currentQuestionIndex,
-            question: exam.questions[currentQuestionIndex]
-        }).save();
-    }, [currentQuestionIndex]);
-
-    const nextQuestion = (questionIdIndex) => {
-        const selectedOption = getOptionSelected(questionIdIndex);
-        if (!selectedOption) return false;
-        if (currentQuestionIndex < (exam.questions.length - 1)) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
-            setStartGame(false);
-            setSubmitted(true);
-            getScore();
-        }
+    /*
+        useEffect(() => {
+            let interval = null;
+            if (startGame) {
+                interval = setInterval(() => {
+                    setSeconds(seconds => seconds + 1);
+                }, 1000);
+            } else if (submitted) {
+                clearInterval(interval);
+            }
+            return () => clearInterval(interval);
+        }, [startGame, submitted]);
+    */
 
 
-    };
-
-    const updatePlayerName = (e) => {
-        setPlayerName(e.target.value)
-    };
-
-    const optionChange = (e, questionId) => {
-        let oldQuestions = [...exam.questions];
-        for (let optionIndex in oldQuestions[questionId].options) {
-            oldQuestions[questionId].options[optionIndex].selected = oldQuestions[questionId].options[optionIndex].id === e.target.value;
-        }
-        setExam({...exam, questions: oldQuestions});
-    };
-
-    const startingGame = () => {
-        if (!playerName) {
-            return false;
-        }
-
-        newrelic.interaction().setAttribute('game', {
-            playerName,
-            currentQuestionIndex,
-            question: exam.questions[currentQuestionIndex]
-        }).save();
-
-        setStartGame(true);
-
-    };
-
-    const getScore = () => {
-        const {questions} = exam;
-        let totalPoints = 0;
-        questions.forEach(question => {
-            totalPoints = question.options.find(option => option.correct && option.selected) ? totalPoints + 1 : totalPoints;
-        });
-        setScore(totalPoints);
-    }
     return (
-        <>
-            <div className="content_quizz" style={{backgroundColor: "#F4F3F0", height: "100%"}}>
-                <Grid container spacing={0}>
-                    <Grid item xs={3}/>
-                    <Grid item xs={6}>
-                        <Box mt={8}>
-                            <Paper elevation={24}>
-                                {!startGame && !submitted && (<StartGame
-                                    playerName={playerName}
-                                    updatePlayerName={updatePlayerName}
-                                    startingGame={startingGame}
-                                    examText={exam.text}
-                                />)}
-                                {submitted && (<Submit
-                                    score={score}
-                                    totalQuestion={exam.questions.length}
-                                    seconds={seconds}
-                                />)}
 
-                                {startGame && (exam.questions.map((question, questionIndex) => {
-                                    let hidden = (currentQuestionIndex === questionIndex) ? {} : {display: "none"};
-                                    return <Slide in={(currentQuestionIndex === questionIndex)}
-                                                  mountOnEnter unmountOnExit
-                                                  direction="right"
-                                                  key={`question_${questionIndex}`}
-                                    >
-                                        <Card style={hidden}>
-                                            <CardHeader
-                                                subheaderTypographyProps={{
-                                                    style: {
-                                                        textAlign: 'center',
-                                                    },
-                                                }}
-                                                subheader={
-                                                    <span>{t('question')} # {currentQuestionIndex + 1}/{exam.questions.length}</span>}
-                                                title={
-                                                    <Typography variant="h5" align={"center"} gutterBottom>
-                                                        <Button color="primary" className={classes.button}>
-                                                            <LiveHelp fontSize="large"/>
-                                                        </Button>
-                                                        <span>{exam.text}</span>
-                                                    </Typography>
-                                                }/>
-                                            <Divider/>
-                                            <CardContent>
-                                                <Box my={3}>
-                                                    <Typography component="span">
-                                                        {question.text}
-                                                    </Typography>
-                                                </Box>
-                                                {question.image && <div style={{textAlign: "center"}}>
-                                                    <img
-                                                        style={{maxWidth: "30%", maxHeight: "auto"}}
-                                                        src={imageUrl + question.image}
-                                                    />
-                                                </div>}
-                                                <Divider/>
-                                                <div style={{marginBottom: "30px"}}/>
-                                                <RadioGroup onChange={e => optionChange(e, questionIndex)}
-                                                >
+        <Fragment>
+            {!loading && (<Grid container justify={"center"} className={classes.gridContainer}>
+                <Grid item className={classes.card}>
+                    <Card style={{maxWidth: 600, width: (width * 0.90)}}>
+                        <CardHeader
+                            title={exam.text}
+                            subheader={exam.subtitle}
+                        />
+                        {exam.questions.map((question, currentIndex) => {
+                            let display = currentIndex === currentIndexQuestion ? "" : "none";
+                            return (<div style={{display: display}}>
+                                {question.image &&
+                                <CardMedia
+                                    className={classes.media}
+                                    image={imageUrl + question.image}
+                                />}
+                                <CardContent>
+                                    <Box mb={5}>
+                                        <Typography variant="body2" color="textSecondary"
+                                                    component="p">{question.text}</Typography>
+                                    </Box>
+                                    {question.type === QUESTION_TYPES.FREE_TEXT ? (
+                                        <TextField
+                                            multiline
+                                            rows={6}
+                                            fullWidth
+                                            label={t('write_answer')}
+                                            value={question.options[0].text}
+                                            variant="outlined"
+                                        />) : (
+                                        <List component="nav"
+                                              aria-labelledby="nested-list-subheader"
+                                              className={classes.root}>
+                                            {question.options.map((option, optionIndex) => {
 
-                                                    {question.options.map((opt, index) => (
-                                                        <FormControlLabel key={`option_${index}`} value={opt.id}
-                                                                          control={<Radio checked={opt.selected}/>}
-                                                                          label={<span
-                                                                              className={"content_options"}>{opt.text}  </span>}/>
-                                                    ))}
-                                                </RadioGroup>
-                                            </CardContent>
-                                            <CardActions style={{width: '100%', textAlign: 'center'}}>
-                                                <div style={{width: '100%'}}>
-                                                    {questionIndex > 0 && (
-                                                        <Button size="large" className={classes.footerButton}
-                                                                variant="contained"
-                                                                color="primary"
-                                                                style={{marginRight: "4%"}}
-                                                                onClick={() => previousQuestion(questionIndex)}
-                                                        >{t('previous')}</Button>)}
+                                                return (<ListItem button>
+                                                    <ListItemIcon>
+                                                        <RadioButtonUnchecked
+                                                            edge="start"
+                                                            tabIndex={-1}
+                                                        />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={option.text}/>
+                                                </ListItem>)
+                                            })}
+                                        </List>
+                                    )}
+                                </CardContent>
+                            </div>)
+                        })}
 
-                                                    <Button size="large" className={classes.footerButtonNext}
-                                                            variant="contained" color="primary"
-                                                            onClick={() => nextQuestion(questionIndex)}
-                                                            style={{marginLeft: "4%"}}
-                                                    >{questionIndex === exam.questions.length - 1 ? t('submit') : t('next')}</Button>
-
-                                                </div>
-                                            </CardActions>
-                                        </Card>
-                                    </Slide>
-
-                                }))}
-                            </Paper>
-                        </Box>
-                    </Grid>
+                        <CardActions style={{textAlign: "center"}}>
+                            <div style={{width: "100%"}}>
+                                <IconButton>
+                                    <SkipPrevious/>
+                                </IconButton>
+                                <IconButton>
+                                    <SkipNext/>
+                                </IconButton>
+                            </div>
+                        </CardActions>
+                    </Card>
                 </Grid>
-            </div>
-        </>
+
+            </Grid>)}
+            {loading && (<Loader backgroundColor={"#F4F3F0"}/>)}
+        </Fragment>
+
     );
 }

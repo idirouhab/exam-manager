@@ -101,8 +101,8 @@ const routes = [
         name: "test",
         icon: "announcement",
         component: Test,
-        section: '/admin',
-        scope: 'private',
+        section: '/public',
+        scope: 'public',
         hide: true,
 
     },
