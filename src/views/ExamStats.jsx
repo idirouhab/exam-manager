@@ -18,7 +18,7 @@ import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
 import humanizeDuration from "humanize-duration";
 import moment from "moment";
-import i18n from "../i18n"
+import {LANGUAGE} from "../variables/general";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -37,10 +37,6 @@ const SmallStyledTableCell = withStyles((theme) => ({
         width: "2%",
     },
 }))(TableCell);
-
-const getLanguage = () => {
-    return i18n.language.split('-')[0]
-};
 
 export default function ExamStats(props) {
     const {t} = useTranslation("common");
@@ -65,7 +61,6 @@ export default function ExamStats(props) {
     useEffect(getExam, []);
 
     const deleteAnswer = (answerId) => {
-        console.log(answerId);
         AnswerProvider.deleteAnswer(answerId).then(() => {
                 getExam()
             }
@@ -130,10 +125,10 @@ export default function ExamStats(props) {
                                                     {getScore(answer, questions)}/{questions.length}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {humanizeDuration(answer.time * 1000, {language: getLanguage()})}
+                                                    {humanizeDuration(answer.time * 1000, {language: LANGUAGE})}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, {language: getLanguage()})}
+                                                    {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, {language: LANGUAGE})}
                                                 </StyledTableCell>
                                                 <SmallStyledTableCell size="small" align="center">
                                                     <MaxWidthDialog

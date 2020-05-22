@@ -9,7 +9,6 @@ const ImageProvider = {
         return await axios.post(`${backendUrl}/api/image`, formData, {headers: AuthService.authHeader()})
     },
     deleteImage: async function (imageId) {
-        console.log(imageId);
         return await axios.delete(`${backendUrl}/api/image/${imageId}`, {headers: AuthService.authHeader()})
     },
 };
