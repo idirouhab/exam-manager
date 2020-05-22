@@ -50,10 +50,17 @@
   "create_exam": {
     "label": {
       "title": "Exam title",
+      "subtitle": "Subtitle",
       "question": "Question",
       "option": "Option",
       "empty": "Required field",
-      "option_not_select": "Select the right answer"
+      "option_not_select": "Select the right answer",
+      "free_text": "Free text",
+      "multiple_choice": "Multiple choice",
+      "question_type": "Question type",
+      "answer": "Answer",
+      "add_image": "Add image"
+
     }
   },
   "exam": "exam",

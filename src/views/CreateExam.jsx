@@ -1,68 +1,74 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import Fab from "@material-ui/core/Fab";
-import CheckIcon from "@material-ui/icons/Check";
-import SaveIcon from "@material-ui/icons/Save";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import {makeStyles} from "@material-ui/core/styles";
-import green from "@material-ui/core/colors/green";
-import Exam from "../components/CreateExam/Exam";
-import Question from "../components/CreateExam/Question";
-import ExamProvider from "../providers/exam";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
+import {useTranslation} from "react-i18next";
+import Box from "@material-ui/core/Box";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import useStyles from "../components/CreateExam/style";
+import ShortAnswer from "../components/CreateExam/ShortAnswer";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import MultipleChoice from "../components/CreateExam/MultipleChoice";
+import Button from "@material-ui/core/Button";
+import {Add, Remove} from "@material-ui/icons";
+import {DropzoneArea} from "material-ui-dropzone";
 import ImageProvider from "../providers/image";
+import Fab from "@material-ui/core/Fab";
+import SaveIcon from "@material-ui/icons/Save";
+import CheckIcon from "@material-ui/icons/Check";
+import ExamProvider from "../providers/exam";
 
-const useStyles = makeStyles(() => ({
-    buttonSuccess: {
-        backgroundColor: green[500],
-        "&:hover": {
-            backgroundColor: green[700]
-        }
-    },
-    wrapper: {
-        margin: 0,
-        position: "relative"
-    },
-    fabProgress: {
-        color: green[500],
-        position: "absolute",
-        top: -6,
-        left: -6,
-        zIndex: 1,
-        outline: "none",
-    },
-}));
+const DEFAULT_QUESTION_TYPE = 'MULTIPLE_CHOICE';
+const QUESTION_TYPES = {
+    FREE_TEXT: 'free_text',
+    MULTIPLE_CHOICE: "multiple_choice"
+};
 
-function EmptyExam() {
-    this.text = '';
-    this.id = null;
+class Exam {
+    constructor() {
+        this.text = '';
+        this.subtitle = '';
+    }
 }
 
-function EmptyQuestion() {
-    this.text = '';
-    this.options = [new EmptyOption()];
-    this.image = null;
+class Question {
+    constructor() {
+        this.image = null;
+        this.addImage = false;
+        this.options = [new Option()];
+        this.text = '';
+        this.type = QUESTION_TYPES[DEFAULT_QUESTION_TYPE]
+    }
 }
 
-function EmptyOption() {
-    this.text = '';
-    this.correct = false;
-
+class Answer {
+    constructor() {
+        this.id = null;
+    }
 }
+
+class Option extends Answer {
+    constructor() {
+        super();
+        this.text = '';
+        this.correct = false;
+    }
+}
+
 
 export default function CreateExam(props) {
     const classes = useStyles();
-
+    const {t} = useTranslation('common');
+    const [exam, setExam] = useState(new Exam());
     const [success, setSuccess] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [exam, setExam] = useState(new EmptyExam());
-    const [questions, setQuestions] = useState([new EmptyQuestion()]);
-
-    const [submittedForm, setSubmittedForm] = useState(false);
-    const [submittedQuestion, setSubmittedQuestion] = useState(false);
-    const [checkedOptions, setCheckedOptions] = useState([]);
+    const [questions, setQuestions] = useState([new Question()]);
+    const bottomElement = useRef(null);
     const [actionName, setActionName] = useState('create');
 
-    const bottomElement = useRef(null);
 
     useEffect(() => {
         bottomElement.current.scrollIntoView({behavior: "smooth"});
@@ -71,13 +77,12 @@ export default function CreateExam(props) {
     useEffect(() => {
 
         if (actionName === 'edit' || actionName === 'clone') {
-            getExam();
+            //getExam();
         }
     }, [actionName]);
 
     useEffect(() => {
         const {pathname} = props.location;
-
         if (pathname.includes("edit")) {
             setActionName('edit');
         } else if (pathname.includes("clone")) {
@@ -87,41 +92,125 @@ export default function CreateExam(props) {
         }
     }, []);
 
-    const getExam = () => {
-        const {id} = props.match.params;
-        ExamProvider.fetchExam(id).then(data => {
-            let emptyExam = new EmptyExam();
-            emptyExam.text = data.text;
-            if (actionName === 'edit') {
-                emptyExam.id = data.id;
-            }
-            setExam(emptyExam);
-            let selectedOptions = [];
-            data.questions.forEach((question, questionIndex) => {
-                question.options.forEach((option, optionIndex) => {
-                    if (option.correct) {
-                        selectedOptions[questionIndex] = optionIndex;
-                    }
-                })
-            });
-            setQuestions(data.questions);
-            setCheckedOptions(selectedOptions);
+    const changeQuestionType = (e, indexQuestion) => {
+        let oldQuestion = [...questions];
+        oldQuestion[indexQuestion].type = e.target.value
+        oldQuestion[indexQuestion].options = [new Option()];
 
-        }).finally(() => {
-            /* setTransition(true)*/
-        })
+        setQuestions(oldQuestion);
     };
 
-    const saveExam = (e) => {
-        e.preventDefault();
-
-        if (exam.text.length === 0) {
-            return false
+    const addImageSwitch = (e, indexQuestion) => {
+        let oldQuestion = [...questions];
+        oldQuestion[indexQuestion].addImage = e.target.checked
+        if (!e.target.checked) {
+            oldQuestion[indexQuestion].image = false;
         }
-        setSubmittedForm(true);
-        setLoading(true)
-        exam.questions = questions;
+        setQuestions(oldQuestion);
+    };
 
+    const updateQuestion = (e, indexQuestion) => {
+        let oldQuestion = [...questions];
+        oldQuestion[indexQuestion].text = e.target.value;
+        setQuestions(oldQuestion);
+    };
+
+    const updateOptionCheckBox = (e, questionIndex, optionIndex) => {
+        let oldQuestion = [...questions];
+
+        oldQuestion[questionIndex].options.forEach((option, index) => {
+            oldQuestion[questionIndex].options[index].correct = optionIndex === index;
+        });
+
+        setQuestions(oldQuestion)
+    };
+
+    const renderQuestionBlock = (questionType, indexQuestion) => {
+        let component = <ShortAnswer
+            indexQuestion={indexQuestion}
+            updateAnswerText={updateAnswerText}
+        />;
+        if (questionType === QUESTION_TYPES.MULTIPLE_CHOICE) {
+            component = <MultipleChoice
+                indexQuestion={indexQuestion}
+                updateAnswerText={updateAnswerText}
+                addOptionToQuestion={addOptionToQuestion}
+                options={questions[indexQuestion].options}
+                updateOptionCheckBox={updateOptionCheckBox}
+                deleteOption={deleteOption}
+            />
+        }
+        return component
+    };
+    const updateAnswerText = (e, indexQuestion, indexOption) => {
+        let oldQuestion = [...questions];
+
+        oldQuestion[indexQuestion].options[indexOption].text = e.target.value;
+        if (oldQuestion[indexQuestion].type === QUESTION_TYPES.FREE_TEXT) {
+            oldQuestion[indexQuestion].options[indexOption].correct = true;
+        }
+
+        setQuestions(oldQuestion);
+    };
+
+    const deleteOption = (indexQuestion, indexOption) => {
+        const oldQuestions = [...questions];
+        oldQuestions[indexQuestion].options.splice(indexOption, 1)
+        setQuestions(oldQuestions)
+    };
+
+    const addOptionToQuestion = (indexQuestion) => {
+        let oldQuestion = [...questions];
+        if (oldQuestion[indexQuestion].type === QUESTION_TYPES.MULTIPLE_CHOICE) {
+            oldQuestion[indexQuestion].options.push(new Option());
+        }
+
+        setQuestions(oldQuestion);
+    };
+
+    const addNewQuestion = () => {
+        let oldQuestion = [...questions];
+        oldQuestion.push(new Question());
+        setQuestions(oldQuestion);
+    };
+
+    const deleteQuestion = (indexQuestion) => {
+        const oldQuestions = [...questions];
+        oldQuestions.splice(indexQuestion, 1);
+        setQuestions(oldQuestions)
+    };
+
+    const updateTitle = (e) => {
+        let oldExam = {...exam};
+        oldExam.text = e.target.value;
+        setExam(oldExam);
+    };
+
+    const updateSubtitle = (e) => {
+        let oldExam = {...exam};
+        oldExam.subtitle = e.target.value;
+        setExam(oldExam);
+    };
+
+    const addCurrentImage = (images, questionIndex) => {
+        let oldQuestion = [...questions];
+        ImageProvider.saveImage(images[0]).then((res) => {
+            oldQuestion[questionIndex].image = res.data.uuid;
+            setQuestions(oldQuestion)
+        });
+    };
+
+    const deleteCurrentImage = (images, questionIndex) => {
+        let oldQuestion = [...questions];
+
+        ImageProvider.deleteImage(oldQuestion[questionIndex].image).then((res) => {
+            oldQuestion[questionIndex].image = null;
+            setQuestions(oldQuestion)
+        });
+    };
+
+    const saveExam = () => {
+        exam.questions = questions;
         let method;
         if (actionName === 'edit') {
             method = ExamProvider.updateExam(exam)
@@ -129,171 +218,154 @@ export default function CreateExam(props) {
             method = ExamProvider.saveExam(exam)
         }
         method.then(() => {
-            setExam(new EmptyExam());
+            setExam(new Exam());
+            setQuestions([new Question()]);
             setSuccess(true);
 
             setTimeout(() => {
                 props.history.push("/admin/home")
             }, 1000)
 
-        }).finally(() => {
-            setSubmittedForm(false);
-            setLoading(false);
-        })
-
-    };
-
-    const updateExamTitle = (e) => {
-        setExam({...exam, text: e.target.value});
-    };
-
-    const updateOptionText = (e, questionIndex, optionIndex) => {
-        let oldQuestions = [...questions];
-        oldQuestions[questionIndex].options[optionIndex].text = e.target.value;
-
-        setQuestions(oldQuestions)
-    };
-
-    const updateCurrentQuestionTitle = (e, questionIndex) => {
-        let oldQuestion = [...questions]
-        oldQuestion[questionIndex].text = e.target.value;
-        setQuestions(oldQuestion)
-    };
-
-    const addCurrentImage = (images, questionIndex) => {
-        let oldQuestion = [...questions];
-        if (images.length === 0) {
-            oldQuestion[questionIndex].image = null;
-        } else {
-
-            ImageProvider.saveImage(images[0]).then((res) => {
-                oldQuestion[questionIndex].image = res.data.uuid;
-            });
-        }
-        setQuestions(oldQuestion)
-    };
-
-    const deleteCurrentImage = (images, questionIndex) => {
-        let oldQuestion = [...questions]
-        oldQuestion[questionIndex].image = null;
-        setQuestions(oldQuestion)
-
-    }
-
-    const saveQuestion = () => {
-        setSubmittedQuestion(true);
-        let emptyQuestion = questions.filter(question => {
-            return question.text.length === 0;
         });
-
-        let atLeastOneEmptyOption = questions.find(question => {
-            return hasEmptyText(question.options);
-        });
-        if (emptyQuestion.length > 0 || atLeastOneEmptyOption !== undefined) {
-            return
-        }
-
-
-        setSubmittedQuestion(false);
-        const oldQuestions = [...questions];
-        oldQuestions.push(new EmptyQuestion());
-        setQuestions(oldQuestions)
-    };
-
-    const hasEmptyText = (options) => {
-
-        let emptyOption = options.find(option => {
-            return option.text.length === 0;
-        });
-
-        return !(emptyOption === undefined)
-    };
-
-    const addOptionToQuestion = (questionIndex) => {
-        const oldQuestions = [...questions];
-        oldQuestions[questionIndex].options.push(new EmptyOption());
-        setQuestions(oldQuestions);
-    };
-
-    const deleteOptionFromQuestion = (questionIndex, optionIndex) => {
-        const oldQuestions = [...questions];
-        oldQuestions[questionIndex].options.splice(optionIndex, 1);
-        setQuestions(oldQuestions);
-    };
-
-    const deleteQuestion = (questionIndex) => {
-        const oldQuestions = [...questions];
-        oldQuestions.splice(questionIndex, 1);
-        setQuestions(oldQuestions)
-
-    };
-
-    const updateOptionCheckBox = (e, questionIndex, optionIndex) => {
-        const oldCheckedOptions = [...checkedOptions];
-        oldCheckedOptions[questionIndex] = optionIndex;
-        setCheckedOptions(oldCheckedOptions);
-
-        const oldQuestions = [...questions];
-
-        for (let i in oldQuestions[questionIndex].options) {
-            oldQuestions[questionIndex].options[i].correct = parseInt(i) === optionIndex;
-        }
-
-        setQuestions(oldQuestions)
     };
 
     return (
-        <>
-            <form onSubmit={saveExam}>
-                <Grid container spacing={3}>
-                    <Exam
-                        updateExamTitle={updateExamTitle}
-                        text={exam.text}
-                        submittedForm={submittedForm}
-                    />
-                    {questions.map((question, questionIndex) => (
-                        <Question
-                            key={questionIndex}
-                            questionIndex={questionIndex}
-                            question={question}
-                            updateCurrentQuestionTitle={updateCurrentQuestionTitle}
-                            addCurrentImage={addCurrentImage}
-                            deleteCurrentImage={deleteCurrentImage}
-                            saveQuestion={saveQuestion}
-                            numberQuestion={questions.length}
-                            submittedQuestion={submittedQuestion}
-                            deleteQuestion={deleteQuestion}
-                            options={questions[questionIndex].options}
-                            updateOptionText={updateOptionText}
-                            addOptionToQuestion={addOptionToQuestion}
-                            deleteOptionFromQuestion={deleteOptionFromQuestion}
-                            checkedOptions={checkedOptions}
-                            updateOptionCheckBox={updateOptionCheckBox}
-                        />
-                    ))}
-                    <Grid container className="navbar" spacing={0}>
-                        <Grid item xs={12}>
-                            <div className={classes.wrapper}>
-                                <Fab
-                                    type="submit"
-                                    aria-label="save"
-                                    color="primary"
-                                    className={`${success ? classes.buttonSuccess : ""}`}
-                                >
-                                    {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
-                                </Fab>
-                                {loading && (
-                                    <CircularProgress size={68}
-                                                      className={classes.fabProgress}/>
-                                )}
-                            </div>
-                        </Grid>
+        <Fragment>
+            <Grid container spacing={1} direction="column">
+                <Grid container item spacing={0} justify="center">
+                    <Grid item xs={8}>
+                        <Paper className={classes.paper} square>
+                            <TextField
+                                required
+                                fullWidth
+                                onChange={updateTitle}
+                                id="exame-title"
+                                label={t('create_exam.label.title')}
+                                value={exam.text}
+                                inputProps={{
+                                    style: {
+                                        fontWeight: "bold",
+                                        fontSize: "20px"
+                                    }
+                                }}/>
+                            <Box mt={2}>
+                                <TextField
+                                    fullWidth
+                                    onChange={updateSubtitle}
+                                    id="exame-subtitle"
+                                    label={t('create_exam.label.subtitle')}
+                                    value={exam.subtitle}
+                                />
+                            </Box>
+                        </Paper>
+                    </Grid>
+                </Grid>
+                {questions.map((question, indexQuestion) => {
+                    return (
+                        <Grid container key={`question_${indexQuestion}`} item spacing={0} justify="center"
+                              direction="row">
+                            <Grid item xs={8}>
+                                <Paper className={classes.paper} square>
+                                    <Grid item xs={12}>
+                                        <div className={classes.inlineInput}>
+                                            <TextField
+                                                multiline
+                                                label={t('create_exam.label.question')}
+                                                style={{width: "55%"}}
+                                                onChange={e => updateQuestion(e, indexQuestion)}
+                                                value={question.text}
+                                            />
+                                            <FormControl className={classes.formControl} style={{width: "40%"}}>
+                                                <InputLabel>{t('create_exam.label.question_type')}</InputLabel>
+                                                <Select
+                                                    onChange={e => changeQuestionType(e, indexQuestion)}
+                                                    value={question.type}
+                                                    defaultValue={DEFAULT_QUESTION_TYPE}
+                                                >
+                                                    {Object.keys(QUESTION_TYPES).map(typeKey => {
+                                                            return <MenuItem
+                                                                key={typeKey}
+                                                                value={QUESTION_TYPES[typeKey]}>{t(`create_exam.label.${QUESTION_TYPES[typeKey]}`)}</MenuItem>
+                                                        }
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                        </div>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={8}>
+                                <Paper className={classes.paper} square>
+                                    <Grid item xs={12}>
+                                        <div className={classes.inlineInput}>
+                                            <FormControlLabel
+                                                onChange={e => addImageSwitch(e, indexQuestion)}
+                                                value={question.addImage}
+                                                control={<Switch checked={question.addImage} color="primary"/>}
+                                                label={t('create_exam.label.add_image')}
+                                            />
+                                            {question.addImage && <DropzoneArea
+                                                acceptedFiles={['image/*']}
+                                                filesLimit={1}
+                                                dropzoneText={t('drag_and_drop')}
+                                                initialFiles={question.image ? [question.image] : []}
+                                                onDrop={(e) => addCurrentImage(e, indexQuestion)}
+                                                onDelete={(e) => deleteCurrentImage(e, indexQuestion)}
+                                            />}
+                                        </div>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                            {renderQuestionBlock(question.type, indexQuestion)}
+                            <Grid item xs={8}>
+                                <Paper className={classes.paper} square>
+                                    <Grid item xs={12}>
+                                        <div className={classes.inlineInput} style={{textAlign: "center"}}>
+                                            {questions.length > 1 && <Button
+                                                variant="contained"
+                                                color="secondary"
+                                                size="large"
+                                                className={classes.buttonDeleteQuestion}
+                                                onClick={() => deleteQuestion(indexQuestion)}
+
+                                            >
+                                                <Remove/>
+                                            </Button>}
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                size="large"
+                                                className={classes.buttonAddQuestion}
+                                                onClick={addNewQuestion}
+
+                                            >
+                                                <Add/>
+                                            </Button>
+
+                                        </div>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                        </Grid>)
+                })}
+                <Grid container item spacing={0} justify="center" style={{position: "static",}}>
+                    <Grid item xs={8}>
+                        <Paper className={classes.paperBottom} square>
+
+                            <Fab
+                                onClick={saveExam}
+                                className={`${success ? classes.buttonSuccess : classes.buttonSaveExam}`}
+                            >
+                                {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
+                            </Fab>
+                        </Paper>
                     </Grid>
                 </Grid>
                 <div style={{float: "left", clear: "both"}}
                      ref={bottomElement}>
                 </div>
-            </form>
-        </>
+            </Grid>
+
+        </Fragment>
     );
 }
