@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -15,7 +15,6 @@ export default function MultipleChoice(props) {
     const classes = useStyles();
     const {t} = useTranslation('common');
 
-    const [text, setText] = useState('');
     return (<>
         <Grid container justify="center">
             {props.options.map((option, indexOption) => {

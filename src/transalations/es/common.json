@@ -63,5 +63,6 @@
   },
   "exam": "examen",
   "avg_per_question": "Promedio por pregunta",
-  "score": "Nota"
+  "score": "Nota",
+  "write_answer": "Escribe tu respuesta"
 }

@@ -23,6 +23,7 @@
     "notistack": "^0.9.16",
     "pizzicato": "^0.6.4",
     "react": "^16.13.1",
+    "react-confetti": "^5.0.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",
     "react-i18next": "^11.4.0",

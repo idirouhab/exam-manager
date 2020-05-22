@@ -2,13 +2,8 @@ import React from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";
-import {Link as RouterLink} from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
 import {withStyles} from "@material-ui/styles";
-import {makeStyles} from "@material-ui/core/styles";
-import green from "@material-ui/core/colors/green";
-import blue from "@material-ui/core/colors/blue";
-import brown from "@material-ui/core/colors/brown";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -19,29 +14,7 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-const useStyles = makeStyles((theme) => ({
-    buttonSuccess: {
-        backgroundColor: green[500],
-        "&:hover": {
-            backgroundColor: green[700]
-        }
-    },
-    buttonPrimary: {
-        backgroundColor: blue[500],
-        "&:hover": {
-            backgroundColor: blue[700]
-        }
-    },
-    buttonBrown: {
-        backgroundColor: brown[500],
-        "&:hover": {
-            backgroundColor: brown[700]
-        }
-    },
-}));
-
 export default function User(props) {
-
     return (
         <>
             <TableRow>

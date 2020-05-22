@@ -21,12 +21,8 @@ import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
+import {DEFAULT_QUESTION_TYPE, QUESTION_TYPES} from "../variables/general";
 
-const DEFAULT_QUESTION_TYPE = 'MULTIPLE_CHOICE';
-const QUESTION_TYPES = {
-    FREE_TEXT: 'free_text',
-    MULTIPLE_CHOICE: "multiple_choice"
-};
 
 class Exam {
     constructor() {
@@ -90,7 +86,7 @@ export default function CreateExam(props) {
         } else {
             setActionName('create');
         }
-    }, []);
+    }, [props.location]);
 
     const changeQuestionType = (e, indexQuestion) => {
         let oldQuestion = [...questions];
@@ -202,7 +198,6 @@ export default function CreateExam(props) {
 
     const deleteCurrentImage = (images, questionIndex) => {
         let oldQuestion = [...questions];
-
         ImageProvider.deleteImage(oldQuestion[questionIndex].image).then((res) => {
             oldQuestion[questionIndex].image = null;
             setQuestions(oldQuestion)
