@@ -18,7 +18,7 @@ import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
 import humanizeDuration from "humanize-duration";
 import moment from "moment";
-import { LANGUAGE } from "../variables/general";
+import {LANGUAGE} from "../variables/general";
 
 const StyledTableCell = withStyles(() => ({
   head: {
@@ -61,7 +61,7 @@ export default function ExamStats (props) {
 
   const deleteAnswer = (answerId) => {
     AnswerProvider.deleteAnswer(answerId).then(() => {
-        getExam();
+                getExam();
       }
     );
   };

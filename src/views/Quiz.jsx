@@ -11,7 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
+import { RadioButtonChecked, RadioButtonUnchecked} from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
 import ExamProvider from "../providers/exam";
 import { imageUrl, LANGUAGE, QUESTION_TYPES } from "../variables/general";
@@ -33,11 +33,11 @@ import _ from "lodash";
 
 class Option {
   constructor (id = null, text = "", correct = false) {
-    this.id = id;
-    this.text = text;
-    this.correct = correct;
-    this.selected = false;
-  }
+        this.id = id;
+        this.text = text;
+        this.correct = correct;
+        this.selected = false;
+    }
 }
 
 class Question {

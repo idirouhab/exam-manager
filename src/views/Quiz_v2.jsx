@@ -279,8 +279,9 @@ export default function QuizV2(props) {
                                                     {question.options.map((opt, index) => (
                                                         <FormControlLabel key={`option_${index}`} value={opt.id}
                                                                           control={<Radio checked={opt.selected}/>}
-                                                                          label={<span
-                                                                              className={"content_options"}>{opt.text}  </span>}/>
+                                                                          label={
+                                                                              <span
+                                                                                  className={"content_options"}>{opt.text}  </span>}/>
                                                     ))}
                                                 </RadioGroup>
                                             </CardContent>
@@ -290,14 +291,12 @@ export default function QuizV2(props) {
                                                         <Button size="large" className={classes.footerButton}
                                                                 variant="contained"
                                                                 color="primary"
-                                                                style={{marginRight: "4%"}}
                                                                 onClick={() => previousQuestion(questionIndex)}
                                                         >{t('previous')}</Button>)}
 
                                                     <Button size="large" className={classes.footerButtonNext}
                                                             variant="contained" color="primary"
                                                             onClick={() => nextQuestion(questionIndex)}
-                                                            style={{marginLeft: "4%"}}
                                                     >{questionIndex === exam.questions.length - 1 ? t('submit') : t('next')}</Button>
 
                                                 </div>
