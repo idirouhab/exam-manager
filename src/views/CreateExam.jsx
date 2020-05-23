@@ -21,7 +21,7 @@ import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
-import {DEFAULT_QUESTION_TYPE, QUESTION_TYPES} from "../variables/general";
+import {DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES} from "../variables/general";
 
 
 class Exam {
@@ -118,10 +118,6 @@ export default function CreateExam(props) {
             });
 
             setQuestions(questions);
-            //setCheckedOptions(selectedOptions);
-
-        }).finally(() => {
-            /* setTransition(true)*/
         })
     };
 
@@ -303,13 +299,14 @@ export default function CreateExam(props) {
                                         <div className={classes.inlineInput}>
                                             <TextField
                                                 multiline
-                                                label={t('create_exam.label.question')}
+                                                label={(indexQuestion+1) +") "+t('create_exam.label.question')}
                                                 style={{width: "55%"}}
                                                 onChange={e => updateQuestion(e, indexQuestion)}
                                                 value={question.text}
                                             />
 
-                                            <FormControl className={classes.formControl} style={{width: "40%"}} value={question.type}>
+                                            <FormControl className={classes.formControl} style={{width: "40%"}}
+                                                         value={question.type}>
                                                 <InputLabel>{t('create_exam.label.question_type')}</InputLabel>
                                                 <Select
                                                     onChange={e => changeQuestionType(e, indexQuestion)}
@@ -342,7 +339,7 @@ export default function CreateExam(props) {
                                                 acceptedFiles={['image/*']}
                                                 filesLimit={1}
                                                 dropzoneText={t('drag_and_drop')}
-                                                initialFiles={question.image ? [question.image] : []}
+                                                initialFiles={question.image ? [imageUrl  + question.image] : []}
                                                 onDrop={(e) => addCurrentImage(e, indexQuestion)}
                                                 onDelete={(e) => deleteCurrentImage(e, indexQuestion)}
                                             />}
