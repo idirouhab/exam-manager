@@ -206,7 +206,6 @@ export default function Quiz(props) {
         const {questions} = exam;
         let totalPoints = 0;
         questions.forEach(question => {
-            console.log(question.options);
             totalPoints = question.options.find(option => option.correct && option.selected) ? totalPoints + 1 : totalPoints;
         });
         setScore(totalPoints);

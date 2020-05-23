@@ -102,7 +102,6 @@ export default function CreateExam(props) {
             let questions = [];
             data.questions.forEach((question, questionIndex) => {
                 let currentQuestion = new Question();
-                console.log(question)
                 currentQuestion.type = question.type;
                 currentQuestion.text = question.text;
                 currentQuestion.image = question.image;
