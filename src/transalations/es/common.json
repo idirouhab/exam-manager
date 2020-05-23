@@ -38,6 +38,7 @@
     "login": "Login",
     "test": "Test",
     "create-exam": "Crear examen",
+    "edit-exam": "Editar examen",
     "stats": "Estadísticas de Examen",
     "folders": "Carpetas"
   },

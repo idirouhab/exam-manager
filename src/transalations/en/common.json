@@ -39,6 +39,7 @@
     "login": "Login",
     "test": "Test",
     "create-exam": "Create Exam",
+    "edit-exam": "Edit Exam",
     "stats": "Exam Stats",
     "folders": "Folders"
   },
