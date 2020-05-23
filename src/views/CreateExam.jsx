@@ -55,7 +55,6 @@ class Option extends Answer {
     }
 }
 
-
 export default function CreateExam(props) {
     const classes = useStyles();
     const {t} = useTranslation('common');
@@ -73,7 +72,7 @@ export default function CreateExam(props) {
     useEffect(() => {
 
         if (actionName === 'edit' || actionName === 'clone') {
-            //getExam();
+            getExam();
         }
     }, [actionName]);
 
@@ -87,6 +86,45 @@ export default function CreateExam(props) {
             setActionName('create');
         }
     }, [props.location]);
+
+
+    const getExam = () => {
+        const {id} = props.match.params;
+        ExamProvider.fetchExam(id).then(data => {
+            let emptyExam = new Exam();
+            emptyExam.text = data.text;
+            emptyExam.subtitle = data.subtitle;
+            if (actionName === 'edit') {
+                emptyExam.id = data.id;
+            }
+            setExam(emptyExam);
+
+            let questions = [];
+            data.questions.forEach((question, questionIndex) => {
+                let currentQuestion = new Question();
+                console.log(question)
+                currentQuestion.type = question.type;
+                currentQuestion.text = question.text;
+                currentQuestion.image = question.image;
+                currentQuestion.addImage = !!question.image;
+                currentQuestion.options = [];
+                question.options.forEach((option, optionIndex) => {
+                    let currentOption = new Option();
+                    currentOption.correct = option.correct;
+                    currentOption.text = option.text;
+                    currentQuestion.options.push(currentOption);
+                });
+                questions.push(currentQuestion);
+            });
+
+            setQuestions(questions);
+            //setCheckedOptions(selectedOptions);
+
+        }).finally(() => {
+            /* setTransition(true)*/
+        })
+    };
+
 
     const changeQuestionType = (e, indexQuestion) => {
         let oldQuestion = [...questions];
@@ -270,7 +308,8 @@ export default function CreateExam(props) {
                                                 onChange={e => updateQuestion(e, indexQuestion)}
                                                 value={question.text}
                                             />
-                                            <FormControl className={classes.formControl} style={{width: "40%"}}>
+
+                                            <FormControl className={classes.formControl} style={{width: "40%"}} value={question.type}>
                                                 <InputLabel>{t('create_exam.label.question_type')}</InputLabel>
                                                 <Select
                                                     onChange={e => changeQuestionType(e, indexQuestion)}
