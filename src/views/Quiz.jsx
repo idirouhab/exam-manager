@@ -12,7 +12,6 @@ import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import {RadioButtonChecked, RadioButtonUnchecked} from "@material-ui/icons";
-import blue from "@material-ui/core/colors/blue";
 import {useTranslation} from "react-i18next";
 import ExamProvider from "../providers/exam";
 import {imageUrl, LANGUAGE, QUESTION_TYPES} from "../variables/general";
@@ -25,37 +24,9 @@ import green from "@material-ui/core/colors/green";
 import AnswerProvider from "../providers/answer";
 import Confetti from 'react-confetti'
 import humanizeDuration from "humanize-duration";
+import imageBackground from "../assets/images/quiz_background.jpg"
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        maxWidth: 600,
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%',
-    },
-    gridContainer: {
-        backgroundColor: blue[500],
-        height: "100%",
 
-    },
-    card: {
-        marginTop: theme.spacing(5),
-    },
-    footerButtonPrevious: {
-        backgroundColor: "#006be8",
-        padding: 12,
-        margin: theme.spacing(1)
-    },
-    footerButtonNext: {
-        backgroundColor: green[500],
-        "&:hover": {
-            backgroundColor: green[700]
-        },
-        padding: 12,
-        margin: theme.spacing(1)
-    }
-}));
 
 class Option {
     constructor(id = null, text = '', correct = false) {
@@ -86,6 +57,42 @@ class Exam {
 }
 
 export default function Quiz(props) {
+    const {width, height} = useWindowDimensions();
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            maxWidth: 600,
+        },
+        media: {
+            height: 0,
+            paddingTop: '56.25%',
+        },
+        gridContainer: {
+            backgroundImage: `url(${imageBackground})`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
+            backgroundSize: "cover",
+            height
+        },
+        card: {
+            marginTop: theme.spacing(5),
+        },
+        footerButtonPrevious: {
+            backgroundColor: "#006be8",
+            padding: 12,
+            margin: theme.spacing(1)
+        },
+        footerButtonNext: {
+            backgroundColor: green[500],
+            "&:hover": {
+                backgroundColor: green[700]
+            },
+            padding: 12,
+            margin: theme.spacing(1)
+        }
+    }));
+
     const classes = useStyles();
     const {t} = useTranslation('common');
     const [exam, setExam] = useState(new Exam());
@@ -94,7 +101,6 @@ export default function Quiz(props) {
     const [playerName, setPlayerName] = useState('');
     const [startGame, setStartGame] = useState(false)
     const [submitExam, setSubmitExam] = useState(false);
-    const {width, height} = useWindowDimensions();
     const [score, setScore] = useState(false);
     const [seconds, setSeconds] = useState(0);
 

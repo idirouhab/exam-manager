@@ -16,7 +16,6 @@ const routes = [
         icon: "home",
         component: Home,
         section: '/admin',
-        scope: 'private',
         hide: false,
     },
     {
@@ -25,7 +24,6 @@ const routes = [
         icon: "note_add",
         component: CreateExam,
         section: '/admin',
-        scope: 'private',
         hide: false,
 
     },
@@ -35,7 +33,6 @@ const routes = [
         icon: "folder",
         component: Folder,
         section: '/admin',
-        scope: 'private',
         hide: true,
     },
     {
@@ -44,7 +41,6 @@ const routes = [
         icon: "folder",
         component: Folders,
         section: '/admin',
-        scope: 'private',
         hide: false,
     },
 
@@ -54,7 +50,6 @@ const routes = [
         icon: "edit",
         component: CreateExam,
         section: '/admin',
-        scope: 'private',
         hide: true,
     },
     {
@@ -63,7 +58,6 @@ const routes = [
         icon: "edit",
         component: CreateExam,
         section: '/admin',
-        scope: 'private',
         hide: true,
     },
     {
@@ -71,8 +65,7 @@ const routes = [
         name: "login",
         icon: "lock_open",
         component: Login,
-        section: '/public',
-        scope: 'public',
+        section: '',
         hide: true,
 
     },
@@ -81,8 +74,16 @@ const routes = [
         name: "register",
         icon: "lock_open",
         component: Register,
-        section: '/public',
-        scope: 'public',
+        section: '',
+        hide: true,
+
+    },
+    {
+        path: "/quiz/:id",
+        name: "quiz",
+        icon: "ac_unit",
+        component: Quiz,
+        section: "",
         hide: true,
 
     },
@@ -92,7 +93,6 @@ const routes = [
         icon: "ac_unit",
         component: Quiz,
         section: "/public",
-        scope: 'public',
         hide: true,
 
     },

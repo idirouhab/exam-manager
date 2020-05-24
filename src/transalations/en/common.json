@@ -23,7 +23,8 @@
   "start": "Start",
   "login": "Login",
   "register": "Register",
-
+  "login_user_not_found": "User not found",
+  "ask_admin": "We are facing technical issues, please try  again it later",
   "logout": "Logout",
   "login_user": "Email",
   "login_password": "Password",
@@ -34,6 +35,7 @@
   "register_password": "Password",
   "select_correct": "Pick the right one",
   "option_header": "Possible options",
+  "create_an_account": "Create account",
   "sections": {
     "home": "Home",
     "login": "Login",

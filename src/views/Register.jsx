@@ -65,7 +65,7 @@ export default function Register(props) {
                     lastName,
                 }
             ).then(() => {
-                props.history.push('/public/login')
+                props.history.push('/login')
             })
         }
     };

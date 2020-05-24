@@ -91,7 +91,7 @@ export default function Exam(props) {
                         variant="contained"
                         color="primary"
                         component={RouterLink}
-                        to={`/public/quiz/${props.exam.id}`}
+                        to={`/quiz/${props.exam.id}`}
                         target="_blank"
                     >
                         <Icon>share</Icon>

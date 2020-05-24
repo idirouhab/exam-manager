@@ -47,12 +47,12 @@ ReactDOM.render(
     <SnackbarProvider maxSnack={1} preventDuplicate={true} dense>
         <Router history={hist}>
             <Switch>
-                <RootRoute path={"/root"} render={props => <RootRoute {...props} />}/>
-                <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
-                <Route path={"/public"} render={props => <PublicSection {...props} />}/>
                 <Route exact path="/">
-                    {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/public/login"/>}
+                    {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/login"/>}
                 </Route>
+                <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
+                <RootRoute path={"/root"} render={props => <RootRoute {...props} />}/>
+                <Route path={"/"} render={props => <PublicSection {...props} />}/>
             </Switch>
         </Router>
     </SnackbarProvider>,
