@@ -33,13 +33,16 @@ export default function Folder(props) {
     const [folders, setFolders] = useState([])
 
     const deleteExam = (id) => {
+
         ExamProvider.deleteExam(id).then(() => {
             getExams();
         })
     };
 
+
     const getExams = () => {
         const {id} = props.match.params;
+
         ExamProvider.fetchExams().then(data => {
             let exams = [];
             data.forEach(exam => {
@@ -79,7 +82,7 @@ export default function Folder(props) {
     useEffect(() => {
         getExams();
         getFolders();
-    }, []);
+    }, [props.match.params]);
 
 
     const updateExamFolder = (e, examId) => {

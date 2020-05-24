@@ -17,6 +17,7 @@ const routes = [
         component: Home,
         section: '/admin',
         hide: false,
+        nestedList: false
     },
     {
         path: "/create-exam",
@@ -25,7 +26,7 @@ const routes = [
         component: CreateExam,
         section: '/admin',
         hide: false,
-
+        nestedList: false
     },
     {
         path: "/folders/:id",
@@ -34,6 +35,7 @@ const routes = [
         component: Folder,
         section: '/admin',
         hide: true,
+        nestedList: false
     },
     {
         path: "/folders",
@@ -42,6 +44,7 @@ const routes = [
         component: Folders,
         section: '/admin',
         hide: false,
+        nestedList: true
     },
 
     {
@@ -51,6 +54,7 @@ const routes = [
         component: CreateExam,
         section: '/admin',
         hide: true,
+        nestedList: false
     },
     {
         path: "/clone-exam/:id",
@@ -59,6 +63,7 @@ const routes = [
         component: CreateExam,
         section: '/admin',
         hide: true,
+        nestedList: false
     },
     {
         path: "/login",
@@ -67,6 +72,7 @@ const routes = [
         component: Login,
         section: '',
         hide: true,
+        nestedList: false
 
     },
     {
@@ -76,6 +82,7 @@ const routes = [
         component: Register,
         section: '',
         hide: true,
+        nestedList: false
 
     },
     {
@@ -85,6 +92,7 @@ const routes = [
         component: Quiz,
         section: "",
         hide: true,
+        nestedList: false
 
     },
     {
@@ -94,6 +102,7 @@ const routes = [
         component: Quiz,
         section: "/public",
         hide: true,
+        nestedList: false
 
     },
     {
@@ -104,6 +113,7 @@ const routes = [
         section: '/public',
         scope: 'public',
         hide: true,
+        nestedList: false
 
     },
     {
@@ -114,6 +124,7 @@ const routes = [
         section: '/admin',
         scope: 'private',
         hide: true,
+        nestedList: false
     },
     {
         path: "/users",
@@ -123,6 +134,7 @@ const routes = [
         section: '/root',
         scope: 'private',
         hide: true,
+        nestedList: false
     },
 
 ];
