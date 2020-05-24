@@ -22,7 +22,7 @@ const PrivateRoute = ({render: Component, ...rest}) => {
         Auth.isAuthenticated()  === true
             ? <Component {...props} />
             : <Redirect to={{
-                pathname: '/public/login',
+                pathname: '/login',
                 state: {
                     from: props.location
                 }
@@ -35,7 +35,7 @@ const RootRoute = ({render: Component, ...rest}) => {
         Auth.isRoot() === true
             ? <Component {...props} />
             : <Redirect to={{
-                pathname: '/public/login',
+                pathname: '/login',
                 state: {
                     from: props.location
                 }
