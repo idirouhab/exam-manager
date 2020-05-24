@@ -104,7 +104,6 @@ export default function Test(props) {
     return (
         <>
             <Grid container spacing={0} justify={"center"} className={classes.gridContainer}>
-
                 <Box mb={3}>
                     <Card square className={classes.card}  style={{maxWidth: 600, width: (width * 0.80)}} elevation={0}>
                         <CardHeader

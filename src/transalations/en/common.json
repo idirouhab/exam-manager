@@ -22,7 +22,7 @@
   "quiz_player_name": "Name and Lasname",
   "start": "Start",
   "login": "Login",
-  "register": "Register",
+  "register_submit": "Register",
   "login_user_not_found": "User not found",
   "ask_admin": "We are facing technical issues, please try  again it later",
   "logout": "Logout",
@@ -36,6 +36,7 @@
   "select_correct": "Pick the right one",
   "option_header": "Possible options",
   "create_an_account": "Create account",
+  "sign_in_instead": "Sign in instead",
   "sections": {
     "home": "Home",
     "login": "Login",
