@@ -27,7 +27,6 @@ import humanizeDuration from "humanize-duration";
 import imageBackground from "../assets/images/quiz_background.jpg"
 
 
-
 class Option {
     constructor(id = null, text = '', correct = false) {
         this.id = id;
@@ -370,7 +369,8 @@ export default function Quiz(props) {
                                     image={"https://picsum.photos/405/720"}
                                 />
                                 <CardContent style={{textAlign: "center"}}>
-                                    <Typography variant="subtitle1"><strong>{t('your_score')}: </strong>{score}/{exam.questions.length}
+                                    <Typography
+                                        variant="subtitle1"><strong>{t('your_score')}: </strong>{score}/{exam.questions.length}
                                     </Typography>
                                     <Typography
                                         variant="subtitle1"><strong>{t('time')}: </strong> {humanizeDuration(seconds * 1000, {language: LANGUAGE})}
