@@ -73,7 +73,8 @@ export default function Quiz(props) {
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
-            height
+            height,
+            backgroundColor: "#E9E7EA"
         },
         card: {
             marginTop: theme.spacing(5),
