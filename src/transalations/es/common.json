@@ -65,7 +65,8 @@
       "question_type": "Tipo de pregunta",
       "answer": "Respuesta",
       "add_image": "Añadir imagen"
-    }
+    },
+    "create_folder": "Debes tener una carpea creada antes de crear un examen, si no tienes ninguna, dirígete al menú de Carpetas situdo a la izquierda y crea una."
   },
   "exam": "examen",
   "avg_per_question": "Promedio por pregunta",
@@ -75,5 +76,8 @@
   "link_exam": "Compartir examen",
   "clone_exam": "Clonar examen",
   "edit_exam": "Editar exaden",
-  "delete_exam": "Eliminar examen"
+  "delete_exam": "Eliminar examen",
+  "select_your_folder": "¿En qué capeta quieres guardar el exámen?",
+  "reminder": "Recordatorio",
+  "close": "Cerrar"
 }

@@ -14,7 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import MultipleChoice from "../components/CreateExam/MultipleChoice";
 import Button from "@material-ui/core/Button";
-import {Add, Remove} from "@material-ui/icons";
+import {Add, Remove, Sync} from "@material-ui/icons";
 import {DropzoneArea} from "material-ui-dropzone";
 import ImageProvider from "../providers/image";
 import Fab from "@material-ui/core/Fab";
@@ -22,12 +22,20 @@ import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
 import {DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES} from "../variables/general";
+import FolderProvider from "../providers/folder";
+import FolderModel from "../models/folder";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
 
 class Exam {
     constructor() {
         this.text = '';
         this.subtitle = '';
+        this.folderId = null;
     }
 }
 
@@ -63,6 +71,8 @@ export default function CreateExam(props) {
     const [questions, setQuestions] = useState([new Question()]);
     const bottomElement = useRef(null);
     const [actionName, setActionName] = useState('create');
+    const [folders, setFolders] = useState([]);
+    const [open, setOpen] = useState(true);
 
 
     useEffect(() => {
@@ -94,6 +104,7 @@ export default function CreateExam(props) {
             let emptyExam = new Exam();
             emptyExam.text = data.text;
             emptyExam.subtitle = data.subtitle;
+            emptyExam.folderId = data.folderId;
             if (actionName === 'edit') {
                 emptyExam.id = data.id;
             }
@@ -257,9 +268,69 @@ export default function CreateExam(props) {
         });
     };
 
+    const updateExamFolder = (e) => {
+        let oldExam = {...exam};
+        oldExam.folderId = e.target.value
+        setExam(oldExam);
+    };
+
+    useEffect(() => {
+        getFolders();
+    }, []);
+
+    const getFolders = () => {
+        FolderProvider.fetchFolders().then(response => {
+            const responseFolders = response.data;
+            let finalFolder = responseFolders.map(folder => {
+                return new FolderModel(folder.id, folder.name)
+            });
+            setFolders(finalFolder);
+        });
+    };
+
     return (
         <Fragment>
+            <Dialog
+                open={open}
+                onClose={() => {
+                    setOpen(false)
+                }}
+
+            >
+                <DialogTitle >{t('reminder')}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText >
+                        {t('create_exam.create_folder')}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+
+                    <Button onClick={() => {
+                        setOpen(false)
+                    }} color="primary" autoFocus>
+                        {t('close')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Grid container spacing={1} direction="column">
+                {folders.length > 0 && <Grid container item spacing={0} justify="center">
+                    <Grid item xs={8}>
+                        <Paper className={classes.paper} square>
+                            <FormControl className={classes.formControl} style={{width: "50%"}}>
+                                <InputLabel>{t('select_your_folder')}</InputLabel>
+                                <Select
+                                    onChange={(e) => updateExamFolder(e)}
+                                    value={exam.folderId}
+                                >
+                                    {folders.map((folder, key) => {
+                                        return <MenuItem key={`menu_${key}`} value={folder.id}>{folder.name}</MenuItem>
+                                    })}
+                                </Select>
+                            </FormControl>
+                        </Paper>
+                    </Grid>
+                </Grid>}
+
                 <Grid container item spacing={0} justify="center">
                     <Grid item xs={8}>
                         <Paper className={classes.paper} square>
@@ -279,10 +350,11 @@ export default function CreateExam(props) {
                             <Box mt={2}>
                                 <TextField
                                     fullWidth
-                                    onChange={updateSubtitle}
+
                                     id="exame-subtitle"
                                     label={t('create_exam.label.subtitle')}
                                     value={exam.subtitle}
+                                    onChange={updateSubtitle}
                                 />
                             </Box>
                         </Paper>
@@ -298,7 +370,7 @@ export default function CreateExam(props) {
                                         <div className={classes.inlineInput}>
                                             <TextField
                                                 multiline
-                                                label={(indexQuestion+1) +") "+t('create_exam.label.question')}
+                                                label={(indexQuestion + 1) + ") " + t('create_exam.label.question')}
                                                 style={{width: "55%"}}
                                                 onChange={e => updateQuestion(e, indexQuestion)}
                                                 value={question.text}
@@ -338,7 +410,7 @@ export default function CreateExam(props) {
                                                 acceptedFiles={['image/*']}
                                                 filesLimit={1}
                                                 dropzoneText={t('drag_and_drop')}
-                                                initialFiles={question.image ? [imageUrl  + question.image] : []}
+                                                initialFiles={question.image ? [imageUrl + question.image] : []}
                                                 onDrop={(e) => addCurrentImage(e, indexQuestion)}
                                                 onDelete={(e) => deleteCurrentImage(e, indexQuestion)}
                                             />}
@@ -378,7 +450,8 @@ export default function CreateExam(props) {
                             </Grid>
                         </Grid>)
                 })}
-                <Grid container item spacing={0} justify="center" style={{position: "static",}}>
+
+                <Grid container item spacing={0} justify="center" style={{position: "static"}}>
                     <Grid item xs={8}>
                         <Paper className={classes.paperBottom} square>
 
@@ -395,7 +468,6 @@ export default function CreateExam(props) {
                      ref={bottomElement}>
                 </div>
             </Grid>
-
         </Fragment>
     );
 }

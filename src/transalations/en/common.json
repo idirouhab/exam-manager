@@ -64,8 +64,8 @@
       "question_type": "Question type",
       "answer": "Answer",
       "add_image": "Add image"
-
-    }
+    },
+    "create_folder": "You must have a folder created before creating an exam, if you don't have one, go to the Folders menu on the left side and create one."
   },
   "exam": "exam",
   "avg_per_question": "Average per question",
@@ -75,5 +75,8 @@
   "link_exam": "Link to exam",
   "clone_exam": "Clone exam",
   "edit_exam": "Edit exam",
-  "delete_exam": "Delete exam"
+  "delete_exam": "Delete exam",
+  "select_your_folder": "Where do you wanna store your the exam?",
+  "reminder": "Reminder",
+  "close": "Close"
 }
