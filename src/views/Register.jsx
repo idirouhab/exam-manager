@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import {Box} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
@@ -8,9 +8,6 @@ import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {useTranslation} from "react-i18next";
-import Auth from '../providers/auth';
-import {useSnackbar} from "notistack";
-import newrelic from "../variables/newrelic";
 import imageBackground from "../assets/images/login_background.jpg"
 import useWindowDimensions from "../hooks/resize";
 import blue from "@material-ui/core/colors/blue";

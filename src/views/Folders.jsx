@@ -64,10 +64,6 @@ export default function Folders(props) {
         setOpen(false);
     };
 
-    useEffect(() => {
-        getFolders();
-    }, [open]);
-
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openAnchor = Boolean(anchorEl);
@@ -81,10 +77,7 @@ export default function Folders(props) {
     const handleCloseAnchor = (e) => {
         let attribute = e.target.getAttribute('value');
 
-        if (attribute === "Edit") {
-            //let folderSelectd = folders.find(folder => folder.id === selectedFolderId)
-            //setOpen(true);
-        } else if (attribute === "Delete") {
+        if (attribute === "Delete") {
             FolderProvider.deleteFolder(selectedFolderId).then(() => {
                     getFolders()
                 }
@@ -109,8 +102,11 @@ export default function Folders(props) {
         });
     };
 
-    const createFolder = (folder) => {
+    useEffect(() => {
+        getFolders();
+    }, [open]);
 
+    const createFolder = (folder) => {
         FolderProvider.saveFolder(folder).then(() => {
             setOpen(false);
         })
@@ -190,14 +186,12 @@ export default function Folders(props) {
                                         <Add fontSize="large"/>
                                     </IconButton>}
                                 />
-
                             </ListItem>
                         </List>
                     </Paper>
                 </Grid>
             </Grid>
             <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
-
             <Menu
                 id="long-menu"
                 anchorEl={anchorEl}

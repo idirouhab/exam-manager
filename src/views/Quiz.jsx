@@ -136,11 +136,7 @@ export default function Quiz(props) {
             setLoading(false);
         })
     }, [props]);
-    useEffect(() => {
-        if (score !== false) {
-            send();
-        }
-    }, [score]);
+
     useEffect(() => {
         let interval = null;
         if (startGame) {
@@ -209,7 +205,11 @@ export default function Quiz(props) {
         AnswerProvider.saveAnswer(answer).then(res => {
         });
     };
-
+    useEffect(() => {
+        if (score !== false) {
+            send();
+        }
+    }, [score]);
     const getScore = () => {
         const {questions} = exam;
         let totalPoints = 0;

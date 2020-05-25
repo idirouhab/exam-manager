@@ -45,10 +45,6 @@ export default function SideBar(props) {
         return props.location.pathname.indexOf(routeName) > -1;
     };
 
-    const activeFolder = (folderId) => {
-        return props.location.pathname.indexOf(folderId) > -1;
-    };
-
     const handleClick = () => {
         setOpen(!open)
     };

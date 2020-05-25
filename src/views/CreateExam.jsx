@@ -14,7 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import MultipleChoice from "../components/CreateExam/MultipleChoice";
 import Button from "@material-ui/core/Button";
-import {Add, Remove, Sync} from "@material-ui/icons";
+import {Add, Remove} from "@material-ui/icons";
 import {DropzoneArea} from "material-ui-dropzone";
 import ImageProvider from "../providers/image";
 import Fab from "@material-ui/core/Fab";
@@ -24,11 +24,9 @@ import ExamProvider from "../providers/exam";
 import {DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES} from "../variables/general";
 import FolderProvider from "../providers/folder";
 import FolderModel from "../models/folder";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContentText from "@material-ui/core/DialogContentText";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import CreateFolderModal from "../components/Folders/CreateFolderModal";
 
 
 class Exam {
@@ -72,19 +70,12 @@ export default function CreateExam(props) {
     const bottomElement = useRef(null);
     const [actionName, setActionName] = useState('create');
     const [folders, setFolders] = useState([]);
-    const [open, setOpen] = useState(true);
-
+    const [createFolderModal, setCreateFolderModal] = useState(false);
 
     useEffect(() => {
         bottomElement.current.scrollIntoView({behavior: "smooth"});
     }, [questions.length]);
 
-    useEffect(() => {
-
-        if (actionName === 'edit' || actionName === 'clone') {
-            getExam();
-        }
-    }, [actionName]);
 
     useEffect(() => {
         const {pathname} = props.location;
@@ -130,6 +121,13 @@ export default function CreateExam(props) {
             setQuestions(questions);
         })
     };
+
+    useEffect(() => {
+
+        if (actionName === 'edit' || actionName === 'clone') {
+            getExam();
+        }
+    }, [actionName]);
 
 
     const changeQuestionType = (e, indexQuestion) => {
@@ -276,7 +274,7 @@ export default function CreateExam(props) {
 
     useEffect(() => {
         getFolders();
-    }, []);
+    }, [createFolderModal]);
 
     const getFolders = () => {
         FolderProvider.fetchFolders().then(response => {
@@ -288,30 +286,17 @@ export default function CreateExam(props) {
         });
     };
 
+
+    const createFolder = (folder) => {
+        FolderProvider.saveFolder(folder).then(() => {
+            setCreateFolderModal(false);
+        })
+    };
+
+
     return (
         <Fragment>
-            <Dialog
-                open={open}
-                onClose={() => {
-                    setOpen(false)
-                }}
-
-            >
-                <DialogTitle >{t('reminder')}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText >
-                        {t('create_exam.create_folder')}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-
-                    <Button onClick={() => {
-                        setOpen(false)
-                    }} color="primary" autoFocus>
-                        {t('close')}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <CreateFolderModal createFolder={createFolder} open={createFolderModal} handleClose={()=>{setCreateFolderModal(false)}}/>
             <Grid container spacing={1} direction="column">
                 {folders.length > 0 && <Grid container item spacing={0} justify="center">
                     <Grid item xs={8}>
@@ -319,6 +304,15 @@ export default function CreateExam(props) {
                             <FormControl className={classes.formControl} style={{width: "50%"}}>
                                 <InputLabel>{t('select_your_folder')}</InputLabel>
                                 <Select
+                                    startAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={()=>{setCreateFolderModal(true)}}
+                                            >
+                                                <Add/>
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
                                     onChange={(e) => updateExamFolder(e)}
                                     value={exam.folderId}
                                 >
