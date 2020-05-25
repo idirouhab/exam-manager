@@ -101,7 +101,7 @@ export default function Home() {
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TableContainer component={Paper}>
-                                <Table aria-label="simple table">
+                                <Table size={"small"}>
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell size="small"/>
