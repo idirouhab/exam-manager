@@ -106,9 +106,9 @@ export default function Register(props) {
                                         label={t('register_name')}
                                         variant="outlined"
                                         onChange={updateName}
-                                        value={username}
-                                        error={username.length === 0 && submitted}
-                                        helperText={username.length === 0 && submitted ? t('input.error.empty') : ""}
+                                        value={name}
+                                        error={name.length === 0 && submitted}
+                                        helperText={name.length === 0 && submitted ? t('input.error.empty') : ""}
                                     />
                                 </Box>
                                 <Box mt={2} >
