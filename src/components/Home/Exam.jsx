@@ -12,6 +12,8 @@ import brown from "@material-ui/core/colors/brown";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tooltip from "@material-ui/core/Tooltip";
+import {useTranslation} from "react-i18next";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -45,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Exam(props) {
     const classes = useStyles();
+    const {t} = useTranslation('common');
 
     return (
         <>
@@ -73,68 +76,77 @@ export default function Exam(props) {
                     </FormControl>
                 </TableCell>
                 <StyledTableCell size="small" align="center">
-                    <Button
-                        id={`stats_${props.index}`}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        className={`${classes.buttonPrimary}`}
-                        to={`/admin/stats/${props.exam.id}`}
-                    >
-                        <Icon>equalizer</Icon>
-                    </Button>
+                    <Tooltip title={t('stats_exam')}>
+                        <Button
+                            id={`stats_${props.index}`}
+                            variant="contained"
+                            color="primary"
+                            component={RouterLink}
+                            className={`${classes.buttonPrimary}`}
+                            to={`/admin/stats/${props.exam.id}`}
+                        >
+                            <Icon>equalizer</Icon>
+                        </Button>
+                    </Tooltip>
                 </StyledTableCell>
                 <StyledTableCell size="small" align="center">
-                    <Button
-                        id={`quiz_${props.index}`}
-                        className={`${classes.buttonSuccess}`}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to={`/quiz/${props.exam.id}`}
-                        target="_blank"
-                    >
-                        <Icon>share</Icon>
-                    </Button>
-                </StyledTableCell>
-
-                <StyledTableCell size="small" align="center">
-                    <Button
-                        id={`copy_${props.index}`}
-                        className={`${classes.buttonBrown}`}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to={`/admin/clone-exam/${props.exam.id}`}
-
-                    >
-                        <Icon>file_copy</Icon>
-                    </Button>
+                    <Tooltip title={t('link_exam')}>
+                        <Button
+                            id={`quiz_${props.index}`}
+                            className={`${classes.buttonSuccess}`}
+                            variant="contained"
+                            color="primary"
+                            component={RouterLink}
+                            to={`/quiz/${props.exam.id}`}
+                            target="_blank"
+                        >
+                            <Icon>share</Icon>
+                        </Button>
+                    </Tooltip>
                 </StyledTableCell>
 
                 <StyledTableCell size="small" align="center">
-                    <Button
-                        id={`copy_${props.index}`}
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to={`/admin/edit-exam/${props.exam.id}`}
-                    >
-                        <Icon>edit</Icon>
-                    </Button>
+                    <Tooltip title={t('clone_exam')}>
+                        <Button
+                            id={`copy_${props.index}`}
+                            className={`${classes.buttonBrown}`}
+                            variant="contained"
+                            color="primary"
+                            component={RouterLink}
+                            to={`/admin/clone-exam/${props.exam.id}`}
+                        >
+                            <Icon>file_copy</Icon>
+                        </Button>
+                    </Tooltip>
                 </StyledTableCell>
 
                 <StyledTableCell size="small" align="center">
-                    <Button
-                        id={`delete_${props.index}`}
-                        variant="contained"
-                        color="secondary"
-                        onClick={(e) => {
-                            props.deleteExam(props.exam.id)
-                        }}
-                    >
-                        <Icon>delete</Icon>
-                    </Button>
+                    <Tooltip title={t('edit_exam')}>
+                        <Button
+                            id={`copy_${props.index}`}
+                            variant="contained"
+                            color="primary"
+                            component={RouterLink}
+                            to={`/admin/edit-exam/${props.exam.id}`}
+                        >
+                            <Icon>edit</Icon>
+                        </Button>
+                    </Tooltip>
+                </StyledTableCell>
+
+                <StyledTableCell size="small" align="center">
+                    <Tooltip title={t('delete_exam')}>
+                        <Button
+                            id={`delete_${props.index}`}
+                            variant="contained"
+                            color="secondary"
+                            onClick={(e) => {
+                                props.deleteExam(props.exam.id)
+                            }}
+                        >
+                            <Icon>delete</Icon>
+                        </Button>
+                    </Tooltip>
                 </StyledTableCell>
 
             </TableRow>

@@ -69,5 +69,10 @@
   "exam": "examen",
   "avg_per_question": "Promedio por pregunta",
   "score": "Nota",
-  "write_answer": "Escribe tu respuesta"
+  "write_answer": "Escribe tu respuesta",
+  "stats_exam": "Ver estadísticas del examen",
+  "link_exam": "Compartir examen",
+  "clone_exam": "Clonar examen",
+  "edit_exam": "Editar exadem",
+  "delete_exam": "Eliminar examen"
 }

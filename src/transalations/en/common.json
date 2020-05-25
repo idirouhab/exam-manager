@@ -70,5 +70,10 @@
   "exam": "exam",
   "avg_per_question": "Average per question",
   "score": "Score",
-  "write_answer": "Write your answer"
+  "write_answer": "Write your answer",
+  "stats_exam": "View exam stats",
+  "link_exam": "Link to exam",
+  "clone_exam": "Clone exam",
+  "edit_exam": "Edit exam",
+  "delete_exam": "Delete exam"
 }
