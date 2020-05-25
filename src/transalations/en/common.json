@@ -78,5 +78,6 @@
   "delete_exam": "Delete exam",
   "select_your_folder": "Where do you wanna store your the exam?",
   "reminder": "Reminder",
-  "close": "Close"
+  "close": "Close",
+  "previous": "Previous"
 }

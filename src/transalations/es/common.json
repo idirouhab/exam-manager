@@ -79,5 +79,6 @@
   "delete_exam": "Eliminar examen",
   "select_your_folder": "¿En qué capeta quieres guardar el exámen?",
   "reminder": "Recordatorio",
-  "close": "Cerrar"
+  "close": "Cerrar",
+  "previous": "Anterior"
 }
