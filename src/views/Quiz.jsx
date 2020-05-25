@@ -25,6 +25,8 @@ import AnswerProvider from "../providers/answer";
 import Confetti from 'react-confetti'
 import humanizeDuration from "humanize-duration";
 import imageBackground from "../assets/images/quiz_background.jpg"
+import wellDoneGif from "../assets/images/well_done.gif"
+import nextTimeGif from "../assets/images/nex_time.gif"
 
 
 class Option {
@@ -366,7 +368,7 @@ export default function Quiz(props) {
                             <Card style={{maxWidth: 600, width: (width * 0.90)}}>
                                 <CardMedia
                                     className={classes.media}
-                                    image={"https://picsum.photos/405/720"}
+                                    image={score > (exam.questions.length / 2) ? wellDoneGif : nextTimeGif}
                                 />
                                 <CardContent style={{textAlign: "center"}}>
                                     <Typography
