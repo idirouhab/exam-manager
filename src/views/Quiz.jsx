@@ -101,6 +101,7 @@ export default function Quiz(props) {
     const [currentIndexQuestion, setCurrentIndexQuestion] = useState(0);
     const [loading, setLoading] = useState(true);
     const [playerName, setPlayerName] = useState('');
+    const [playerLastName, setPlayerLastName] = useState('');
     const [startGame, setStartGame] = useState(false)
     const [submitExam, setSubmitExam] = useState(false);
     const [score, setScore] = useState(false);
@@ -178,7 +179,8 @@ export default function Quiz(props) {
     };
 
     const onStartGame = () => {
-        if (playerName) {
+        if (playerName && playerLastName) {
+            setPlayerName(playerName + " " + playerLastName)
             setStartGame(true);
         }
     };
@@ -242,12 +244,21 @@ export default function Quiz(props) {
                             />
                             <CardContent style={{textAlign: "center"}}>
                                 <TextField
-                                    error={!playerName}
                                     helperText={!playerName ? t('input.error.empty') : ''}
                                     onChange={(e) => setPlayerName(e.target.value)}
                                     label={t('quiz_player_name')}
                                     fullWidth
+                                    value={playerName}
                                     variant="outlined"/>
+                                <Box mt={2}>
+                                    <TextField
+                                        helperText={!playerLastName ? t('input.error.empty') : ''}
+                                        onChange={(e) => setPlayerLastName(e.target.value)}
+                                        label={t('quiz_player_lastName')}
+                                        fullWidth
+                                        value={playerLastName}
+                                        variant="outlined"/>
+                                </Box>
                             </CardContent>
 
                             <CardActions style={{textAlign: "center"}}>

@@ -6,7 +6,7 @@ const imageBackendUrl = process.env.REACT_APP_ENV_IMAGE_BACKEND_URL;
 const imageUrl = imageBackendUrl + '/api/image/';
 const DEFAULT_QUESTION_TYPE = 'MULTIPLE_CHOICE';
 const QUESTION_TYPES = {
-    FREE_TEXT: 'free_text',
+    //FREE_TEXT: 'free_text',
     MULTIPLE_CHOICE: "multiple_choice"
 };
 const LANGUAGE = i18n.language.split('-')[0];

@@ -14,7 +14,6 @@ import {withStyles} from "@material-ui/styles";
 import {useTranslation} from "react-i18next";
 import Image from "../components/Images/Image";
 import ExamProvider from "../providers/exam";
-import {humanFileSize} from "../variables/general";
 
 const StyledTableCell = withStyles(() => ({
     head: {
@@ -25,7 +24,7 @@ const StyledTableCell = withStyles(() => ({
     },
 }))(TableCell);
 
-export default function Images() {
+export default function Pupils() {
     const {t} = useTranslation("common");
     const [loading, setLoading] = useState(true);
     const [images, setImages] = useState([]);
@@ -74,15 +73,6 @@ export default function Images() {
         ImageProvider.deleteImage(id).then(getImages);
     };
 
-    const getTotalSize = () => {
-        let totalSize = 0;
-        images.forEach((image) => {
-            totalSize += parseInt(image.contentLength);
-        });
-
-        return totalSize
-    };
-
     return (
         <>
             <Fragment>
@@ -100,20 +90,14 @@ export default function Images() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {
-                                            images.map((image, key) => (
-                                                <Image
-                                                    key={key}
-                                                    image={image}
-                                                    index={key}
-                                                    deleteImage={deleteImage}
-                                                />
-
-                                            ))}
-                                        <TableRow>
-                                            <TableCell colSpan={2}/>
-                                            <TableCell colSpan={1}>{humanFileSize(getTotalSize())}</TableCell>
-                                        </TableRow>
+                                        {images.map((image, key) => (
+                                            <Image
+                                                key={key}
+                                                image={image}
+                                                index={key}
+                                                deleteImage={deleteImage}
+                                            />
+                                        ))}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
