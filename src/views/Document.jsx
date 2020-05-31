@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {JSONEditor} from 'react-json-editor-viewer';
 import DocumentProvider from "../providers/document";
+import {Send} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -24,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Document() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
-    const [collectionName, setCollectionName] = useState(null)
-    const [collectionId, setCollectionId] = useState(null)
+    const [collectionName, setCollectionName] = useState("")
+    const [collectionId, setCollectionId] = useState("")
     const [collection, setCollection] = useState({})
 
     const onDocumentUpdate = (key, value, parent, data) => {
@@ -34,9 +35,15 @@ export default function Document() {
 
     const getDocument = () => {
         setLoading(true);
-        DocumentProvider.fetchDocument(collectionName)
-            .then(data => setCollection(data))
-            .finally(() => setLoading(false));
+        if (!collectionId) {
+            DocumentProvider.fetchDocuments(collectionName)
+                .then(data => setCollection(data))
+                .finally(() => setLoading(false));
+        } else {
+            DocumentProvider.fetchDocument(collectionName,collectionId)
+                .then(data => setCollection(data))
+                .finally(() => setLoading(false));
+        }
     };
 
     return (
@@ -54,9 +61,12 @@ export default function Document() {
                                 <IconButton onClick={getDocument} className={classes.iconButton} aria-label="search">
                                     <SearchIcon/>
                                 </IconButton>
+                                <IconButton onClick={getDocument} className={classes.iconButton} aria-label="search">
+                                    <Send/>
+                                </IconButton>
                             </Paper>
                         </Grid>
-                        <Grid item xs={12} alignContent={"left"}>
+                        <Grid item xs={12}>
                             <Paper className={classes.paper}>
 
                                 <JSONEditor
