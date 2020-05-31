@@ -9,6 +9,7 @@ import Folders from "./views/Folders";
 import Folder from "./views/Folder";
 import Users from "./views/Users";
 import Document from "./views/Document";
+import Images from "./views/Images";
 
 const routes = [
     {
@@ -146,7 +147,16 @@ const routes = [
         hide: false,
         nestedList: false
     },
-
+    {
+        path: "/image",
+        name: "image",
+        icon: "image",
+        component: Images,
+        section: '/admin',
+        scope: 'root',
+        hide: false,
+        nestedList: false
+    },
 ];
 
 export default routes;

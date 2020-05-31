@@ -47,7 +47,8 @@
     "stats": "Estadísticas de Examen",
     "folders": "Carpetas",
     "users": "Usuarios",
-    "document": "Documentos"
+    "document": "Documentos",
+    "image": "Imágenes"
   },
   "input": {
     "error": {

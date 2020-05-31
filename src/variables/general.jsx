@@ -11,4 +11,18 @@ const QUESTION_TYPES = {
 };
 const LANGUAGE = i18n.language.split('-')[0];
 
-export {drawerWidth, backendUrl, imageUrl, DEFAULT_QUESTION_TYPE, QUESTION_TYPES, LANGUAGE, imageBackendUrl};
+const humanFileSize = (size) => {
+    const i = Math.floor(Math.log(size) / Math.log(1024));
+    return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+};
+
+export {
+    drawerWidth,
+    backendUrl,
+    imageUrl,
+    DEFAULT_QUESTION_TYPE,
+    QUESTION_TYPES,
+    LANGUAGE,
+    imageBackendUrl,
+    humanFileSize
+};

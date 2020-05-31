@@ -46,7 +46,8 @@
     "stats": "Exam Stats",
     "folders": "Folders",
     "users": "Users",
-    "document": "Documento"
+    "document": "Documents",
+    "image": "Images"
   },
   "input": {
     "error": {

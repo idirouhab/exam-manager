@@ -401,7 +401,7 @@ export default function CreateExam(props) {
                                                 label={t('create_exam.label.add_image')}
                                             />
                                             {question.addImage && <DropzoneArea
-                                                acceptedFiles={['image/*']}
+                                                acceptedFiles={['image/jpeg, image/png']}
                                                 filesLimit={1}
                                                 dropzoneText={t('drag_and_drop')}
                                                 initialFiles={question.image ? [imageUrl + question.image] : []}

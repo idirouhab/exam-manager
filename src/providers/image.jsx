@@ -1,5 +1,5 @@
 import axios from "axios";
-import {imageBackendUrl} from "../variables/general";
+import {backendUrl, imageBackendUrl} from "../variables/general";
 import AuthService from "../services/auth";
 
 const ImageProvider = {
@@ -10,6 +10,12 @@ const ImageProvider = {
     },
     deleteImage: async function (imageId) {
         return await axios.delete(`${imageBackendUrl}/api/image/${imageId}`, {headers: AuthService.authHeader()})
+    },
+    fetchImages: async function () {
+        return await axios.get(`${backendUrl}/api/image`, {headers: AuthService.authHeader()})
+            .then(res => {
+                return res.data;
+            });
     },
 };
 
