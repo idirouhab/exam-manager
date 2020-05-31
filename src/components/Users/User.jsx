@@ -20,7 +20,7 @@ export default function User(props) {
             <TableRow>
 
                 <TableCell component="th" scope="row">
-                    {props.user.name} {props.user.lastName}
+                    {props.user.role}
                 </TableCell>
                 <TableCell component="th" scope="row">
                     {props.user.username}
@@ -28,6 +28,7 @@ export default function User(props) {
 
                 <StyledTableCell size="small" align="center">
                     <Button
+                        size={"small"}
                         id={`delete_${props.index}`}
                         variant="contained"
                         color="secondary"

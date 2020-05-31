@@ -41,8 +41,7 @@ export default function Users() {
                 users.push(
                     {
                         id: user.id,
-                        name: user.name,
-                        lastName: user.lastName,
+                        role: user.role,
                         username: user.username,
                     }
                 )
@@ -62,11 +61,11 @@ export default function Users() {
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TableContainer component={Paper}>
-                                <Table aria-label="simple table">
+                                <Table size="small">
                                     <TableHead>
                                         <TableRow>
 
-                                            <TableCell className="capitalize">{t('name')}</TableCell>
+                                            <TableCell className="capitalize">{t('role')}</TableCell>
                                             <TableCell className="capitalize">{t('username')}</TableCell>
 
 

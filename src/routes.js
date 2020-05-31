@@ -8,6 +8,7 @@ import Register from "./views/Register";
 import Folders from "./views/Folders";
 import Folder from "./views/Folder";
 import Users from "./views/Users";
+import Document from "./views/Document";
 
 const routes = [
     {
@@ -46,7 +47,6 @@ const routes = [
         hide: false,
         nestedList: true
     },
-
     {
         path: "/edit-exam/:id",
         name: "edit-exam",
@@ -129,11 +129,21 @@ const routes = [
     {
         path: "/users",
         name: "users",
-        icon: "stats",
+        icon: "people",
         component: Users,
-        section: '/root',
-        scope: 'private',
-        hide: true,
+        section: '/admin',
+        scope: 'root',
+        hide: false,
+        nestedList: false
+    },
+    {
+        path: "/document",
+        name: "document",
+        icon: "insert_drive_file",
+        component: Document,
+        section: '/admin',
+        scope: 'root',
+        hide: false,
         nestedList: false
     },
 

@@ -14,6 +14,7 @@ import Collapse from "@material-ui/core/Collapse";
 import {ExpandLess, ExpandMore, Folder} from "@material-ui/icons";
 import FolderProvider from "../../providers/folder";
 import FolderModel from "../../models/folder";
+import Auth from "../../providers/auth";
 
 const useStyles = makeStyles((theme) => ({
     drawer: {
@@ -68,7 +69,7 @@ export default function SideBar(props) {
             <Divider/>
             <List>
                 {routes.map((prop, index) => {
-                    let hidden = (prop.hide) ? {display: "none"} : {};
+                    let hidden = (prop.hide || (!Auth.isRoot() && prop.scope === 'root')) ? {display: "none"} : {};
                     return (
                         <Fragment key={`list_item_${index}`}>
                             <ListItem

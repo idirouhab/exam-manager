@@ -44,7 +44,9 @@
     "create-exam": "Create Exam",
     "edit-exam": "Edit Exam",
     "stats": "Exam Stats",
-    "folders": "Folders"
+    "folders": "Folders",
+    "users": "Users",
+    "document": "Documento"
   },
   "input": {
     "error": {

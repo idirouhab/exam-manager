@@ -1,0 +1,76 @@
+import React, {Fragment, useState} from "react";
+import Grid from "@material-ui/core/Grid";
+import Loader from "../components/Loader/Loader";
+import Slide from "@material-ui/core/Slide";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import SearchIcon from '@material-ui/icons/Search';
+import TextField from "@material-ui/core/TextField";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import {JSONEditor} from 'react-json-editor-viewer';
+import DocumentProvider from "../providers/document";
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        padding: theme.spacing(2),
+        color: theme.palette.text.secondary,
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+}));
+
+export default function Document() {
+    const classes = useStyles();
+    const [loading, setLoading] = useState(false);
+    const [collectionName, setCollectionName] = useState(null)
+    const [collectionId, setCollectionId] = useState(null)
+    const [collection, setCollection] = useState({})
+
+    const onDocumentUpdate = (key, value, parent, data) => {
+        console.log(key, value, parent, data);
+    };
+
+    const getDocument = () => {
+        setLoading(true);
+        DocumentProvider.fetchDocument(collectionName)
+            .then(data => setCollection(data))
+            .finally(() => setLoading(false));
+    };
+
+    return (
+        <>
+            <Fragment>
+                <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+                    <Grid container spacing={3} justify={"center"}>
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <TextField value={collectionName}
+                                           onChange={event => setCollectionName(event.target.value)}
+                                           className={classes.input} label="Collection name"/>
+                                <TextField value={collectionId} onChange={event => setCollectionId(event.target.value)}
+                                           className={classes.input} label="Collection ID"/>
+                                <IconButton onClick={getDocument} className={classes.iconButton} aria-label="search">
+                                    <SearchIcon/>
+                                </IconButton>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} alignContent={"left"}>
+                            <Paper className={classes.paper}>
+
+                                <JSONEditor
+                                    data={collection}
+                                    onChange={onDocumentUpdate}
+                                    collapsible
+                                />
+
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                </Slide>
+                {loading && (<Loader/>)}
+            </Fragment>
+        </>
+    );
+}
