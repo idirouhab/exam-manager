@@ -27,6 +27,8 @@ import humanizeDuration from "humanize-duration";
 import imageBackground from "../assets/images/quiz_background.jpg"
 import wellDoneGif from "../assets/images/well_done.gif"
 import nextTimeGif from "../assets/images/nex_time.gif"
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 
 
 class Option {
@@ -288,12 +290,19 @@ export default function Quiz(props) {
                                     <div
                                         key={`question_${indexQuestion}`}
                                         style={{display: display}}>
-                                        {question.image &&
-                                        <CardMedia
-                                            className={classes.media}
-                                            image={imageUrl + question.image}
-                                        />}
                                         <CardContent>
+                                            {question.image &&
+                                            <div style={{display: "flex", justifyContent: "center"}}>
+                                                <Box mb={2}>
+                                                    <GridList
+                                                        cols={1} cellHeight={"auto"} spacing={1}>
+                                                        <GridListTile >
+                                                            <img style={{maxWidth: "100%", height:"auto"}} src={imageUrl + question.image}/>
+                                                        </GridListTile>
+                                                    </GridList>
+                                                </Box>
+                                            </div>}
+
                                             <Box mb={5}>
                                                 <Typography variant="body2" color="textSecondary"
                                                             component="p">{question.text}</Typography>

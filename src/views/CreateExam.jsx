@@ -399,7 +399,7 @@ export default function CreateExam(props) {
                                         <div className={classes.inlineInput}>
                                             <div>
                                                 <input
-                                                    accept="image/*"
+                                                    accept="image/x-png,image/jpeg"
                                                     style={{display: 'none'}}
                                                     id={`icon-button-file-${indexQuestion}`}
                                                     onChange={(e) => addCurrentImage(e, indexQuestion)}
