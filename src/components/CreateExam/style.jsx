@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
-    paperBottom:{
+    paperBottom: {
         textAlign: 'center',
         color: theme.palette.text.secondary,
         backgroundColor: "transparent",
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     textField: {
         width: '25ch',
     },
-    navBar:{
+    navBar: {
         textAlign: "center",
         overflow: "hidden",
         position: "fixed",
@@ -63,7 +63,14 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: green[700]
         },
     },
-    buttonSaveExam:{
+    buttonDelete: {
+        backgroundColor: red[500],
+        "&:hover": {
+            backgroundColor: red[700]
+        },
+        color: "#fff"
+    },
+    buttonSaveExam: {
         backgroundColor: blue[500],
         "&:hover": {
             backgroundColor: blue[700]
@@ -74,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         margin: theme.spacing(1),
         position: 'relative',
+    },
+    icon: {
+        color: '#fff',
     },
 }));
 

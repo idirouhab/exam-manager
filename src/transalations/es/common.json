@@ -1,5 +1,7 @@
 {
   "save": "Guardar",
+  "upload_image": "Subir imagen",
+  "delete_image": "Borrar imagen",
   "delete": "Borrar",
   "drag_and_drop": "Arrastra y suelta un archivo aquí",
   "cancel": "Cancelar",

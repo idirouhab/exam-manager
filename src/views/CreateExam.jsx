@@ -10,12 +10,10 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import useStyles from "../components/CreateExam/style";
 import ShortAnswer from "../components/CreateExam/ShortAnswer";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 import MultipleChoice from "../components/CreateExam/MultipleChoice";
 import Button from "@material-ui/core/Button";
-import {Add, Remove} from "@material-ui/icons";
-import {DropzoneArea} from "material-ui-dropzone";
+import {Add, PhotoCamera, Remove} from "@material-ui/icons";
+import DeleteIcon from '@material-ui/icons/Delete';
 import ImageProvider from "../providers/image";
 import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
@@ -27,6 +25,9 @@ import FolderModel from "../models/folder";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import CreateFolderModal from "../components/Folders/CreateFolderModal";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
 
 
 class Exam {
@@ -138,14 +139,6 @@ export default function CreateExam(props) {
         setQuestions(oldQuestion);
     };
 
-    const addImageSwitch = (e, indexQuestion) => {
-        let oldQuestion = [...questions];
-        oldQuestion[indexQuestion].addImage = e.target.checked
-        if (!e.target.checked) {
-            oldQuestion[indexQuestion].image = false;
-        }
-        setQuestions(oldQuestion);
-    };
 
     const updateQuestion = (e, indexQuestion) => {
         let oldQuestion = [...questions];
@@ -230,15 +223,15 @@ export default function CreateExam(props) {
         setExam(oldExam);
     };
 
-    const addCurrentImage = (images, questionIndex) => {
+    const addCurrentImage = (e, questionIndex) => {
         let oldQuestion = [...questions];
-        ImageProvider.saveImage(images[0]).then((res) => {
+        ImageProvider.saveImage(e.target.files[0]).then((res) => {
             oldQuestion[questionIndex].image = res.data.uuid;
             setQuestions(oldQuestion)
         });
     };
 
-    const deleteCurrentImage = (images, questionIndex) => {
+    const deleteCurrentImage = (questionIndex) => {
         let oldQuestion = [...questions];
         ImageProvider.deleteImage(oldQuestion[questionIndex].image).then((res) => {
             oldQuestion[questionIndex].image = null;
@@ -296,31 +289,41 @@ export default function CreateExam(props) {
 
     return (
         <Fragment>
-            <CreateFolderModal createFolder={createFolder} open={createFolderModal} handleClose={()=>{setCreateFolderModal(false)}}/>
+            <CreateFolderModal createFolder={createFolder} open={createFolderModal} handleClose={() => {
+                setCreateFolderModal(false)
+            }}/>
             <Grid container spacing={1} direction="column">
                 {folders.length > 0 && <Grid container item spacing={0} justify="center">
                     <Grid item xs={8}>
                         <Paper className={classes.paper} square>
-                            <FormControl className={classes.formControl} style={{width: "50%"}}>
+                            <div className={classes.formControl} style={{width: "100%"}}>
                                 <InputLabel>{t('select_your_folder')}</InputLabel>
-                                <Select
-                                    startAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                onClick={()=>{setCreateFolderModal(true)}}
-                                            >
-                                                <Add/>
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    onChange={(e) => updateExamFolder(e)}
-                                    value={exam.folderId}
-                                >
-                                    {folders.map((folder, key) => {
-                                        return <MenuItem key={`menu_${key}`} value={folder.id}>{folder.name}</MenuItem>
-                                    })}
-                                </Select>
-                            </FormControl>
+                                <Box mt={2}>
+                                    <Select
+                                        style={{width: "50%"}}
+
+                                        startAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() => {
+                                                        setCreateFolderModal(true)
+                                                    }}
+                                                >
+                                                    <Add/>
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        onChange={(e) => updateExamFolder(e)}
+                                        value={exam.folderId || ""}
+                                    >
+                                        {folders.map((folder, key) => {
+                                            return <MenuItem key={`menu_${key}`}
+                                                             value={folder.id}>{folder.name}</MenuItem>
+                                        })}
+                                        <MenuItem value="">{t('none')}</MenuItem>
+                                    </Select>
+                                </Box>
+                            </div>
                         </Paper>
                     </Grid>
                 </Grid>}
@@ -394,20 +397,53 @@ export default function CreateExam(props) {
                                 <Paper className={classes.paper} square>
                                     <Grid item xs={12}>
                                         <div className={classes.inlineInput}>
-                                            <FormControlLabel
-                                                onChange={e => addImageSwitch(e, indexQuestion)}
-                                                value={question.addImage}
-                                                control={<Switch checked={question.addImage} color="primary"/>}
-                                                label={t('create_exam.label.add_image')}
-                                            />
-                                            {question.addImage && <DropzoneArea
-                                                acceptedFiles={['image/jpeg, image/png']}
-                                                filesLimit={1}
-                                                dropzoneText={t('drag_and_drop')}
-                                                initialFiles={question.image ? [imageUrl + question.image] : []}
-                                                onDrop={(e) => addCurrentImage(e, indexQuestion)}
-                                                onDelete={(e) => deleteCurrentImage(e, indexQuestion)}
-                                            />}
+                                            <div>
+                                                <input
+                                                    accept="image/*"
+                                                    style={{display: 'none'}}
+                                                    id={`icon-button-file-${indexQuestion}`}
+                                                    onChange={(e) => addCurrentImage(e, indexQuestion)}
+                                                    type="file"
+                                                />
+
+                                                <label htmlFor={`icon-button-file-${indexQuestion}`}>
+                                                    <Button
+                                                        className={classes.buttonSaveExam}
+                                                        variant="contained"
+                                                        color="primary"
+                                                        component="span"
+                                                        startIcon={<PhotoCamera/>}
+                                                    >
+                                                        {t('upload_image')}
+                                                    </Button>
+                                                </label>
+                                                {question.image &&
+                                                <div style={{display: "flex", justifyContent: "center"}}>
+                                                    <Box my={2}>
+                                                        <GridList
+                                                            cols={1} cellHeight={"auto"} spacing={1}>
+                                                            <GridListTile style={{width: "auto"}}>
+                                                                <img src={imageUrl + question.image}/>
+                                                                <GridListTileBar
+                                                                    style={{textAlign: "center"}}
+                                                                    actionIcon={
+
+                                                                        <IconButton
+                                                                            className={classes.buttonDelete}
+                                                                            component="span"
+                                                                            onClick={() => deleteCurrentImage(indexQuestion)}
+                                                                        >
+                                                                            <DeleteIcon />
+                                                                        </IconButton>
+                                                                    }
+                                                                />
+                                                            </GridListTile>
+                                                        </GridList>
+                                                    </Box>
+                                                </div>}
+
+
+                                            </div>
                                         </div>
                                     </Grid>
                                 </Paper>

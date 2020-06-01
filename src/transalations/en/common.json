@@ -1,5 +1,7 @@
 {
   "seconds": "seconds",
+  "upload_image": "Upload image",
+  "delete_image": "Delete image",
   "delete": "Delete",
   "drag_and_drop": "Drag and drop a file here or click",
   "cancel": "Cancel",
