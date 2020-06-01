@@ -83,5 +83,6 @@
   "select_your_folder": "Where do you wanna store your the exam?",
   "reminder": "Reminder",
   "close": "Close",
-  "previous": "Previous"
+  "previous": "Previous",
+  "search_exam": "Search exam by title"
 }

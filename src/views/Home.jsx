@@ -16,6 +16,10 @@ import Slide from "@material-ui/core/Slide";
 import FolderProvider from "../providers/folder";
 import Tag from "../models/tag";
 import FolderModel from "../models/folder";
+import InputBase from "@material-ui/core/InputBase";
+import IconButton from "@material-ui/core/IconButton";
+import SearchIcon from '@material-ui/icons/Search';
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const StyledTableCell = withStyles(() => ({
     head: {
@@ -26,11 +30,30 @@ const StyledTableCell = withStyles(() => ({
     },
 }))(TableCell);
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: 400,
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+    iconButton: {
+        padding: 10,
+    },
+
+}));
+
 export default function Home() {
+    const classes = useStyles();
     const {t} = useTranslation("common");
     const [exams, setExams] = React.useState([]);
-    const [loading, setLoading] = useState(true)
-    const [folders, setFolders] = useState([])
+    const [loading, setLoading] = useState(true);
+    const [folders, setFolders] = useState([]);
+    const [filterText, setFilterText] = useState("")
 
     const deleteExam = (id) => {
         ExamProvider.deleteExam(id).then(() => {
@@ -49,7 +72,8 @@ export default function Home() {
                         questions: exam.questions,
                         folderId: exam.folderId ? exam.folderId : -1,
                         user: (exam.userId ? exam.userId.name : ""),
-                        answers: exam.answers
+                        answers: exam.answers,
+                        hide: false
                     }
                 )
             });
@@ -94,28 +118,56 @@ export default function Home() {
             setExams(currentExam);
         })
     }
+
+    const filterExams = () => {
+        const oldExams = [...exams];
+
+        let constNewExam = oldExams.map(exam => {
+            exam.hide = !exam.text.includes(filterText);
+
+            return exam;
+        });
+
+        setExams(constNewExam)
+    };
+
     return (
         <>
             <Fragment>
                 <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
+                            <Paper className={classes.root} square>
+                                <InputBase
+                                    className={classes.input}
+                                    placeholder="Search Google Maps"
+                                    inputProps={{'aria-label': 'search google maps'}}
+                                    value={filterText}
+                                    onChange={e => setFilterText(e.target.value)}
+
+                                />
+                                <IconButton onClick={filterExams} className={classes.iconButton}>
+                                    <SearchIcon/>
+                                </IconButton>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
                             <TableContainer component={Paper}>
                                 <Table size={"small"}>
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell size="small"/>
+                                            <StyledTableCell/>
                                             <TableCell className="capitalize">{t('exam')}</TableCell>
                                             <TableCell>{t('folder')}</TableCell>
-                                            <StyledTableCell size="small" align="center"/>
-                                            <StyledTableCell size="small" align="center"/>
-                                            <StyledTableCell size="small" align="center"/>
-                                            <StyledTableCell size="small" align="center"/>
+                                            <StyledTableCell align="center"/>
+                                            <StyledTableCell align="center"/>
+                                            <StyledTableCell align="center"/>
+                                            <StyledTableCell align="center"/>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {exams.map((exam, key) => (
-                                            <Exam
+                                            !exam.hide && <Exam
                                                 key={key}
                                                 exam={exam}
                                                 deleteExam={deleteExam}

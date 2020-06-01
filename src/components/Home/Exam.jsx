@@ -52,7 +52,7 @@ export default function Exam(props) {
     return (
         <>
             <TableRow>
-                <StyledTableCell size="small" align="center">
+                <StyledTableCell align="center">
                     {props.exam.user}
                 </StyledTableCell>
                 <TableCell component="th" scope="row">
@@ -60,8 +60,8 @@ export default function Exam(props) {
                 </TableCell>
 
                 <TableCell component="th" scope="row" style={{width: "20%"}}>
-                    <FormControl variant="outlined" className={classes.formControl} style={{width: "100%"}}>
                         <Select
+
                             onChange={(e) => props.updateExamFolder(e, props.exam.id)}
                             value={props.exam.folderId}
                         >
@@ -73,14 +73,14 @@ export default function Exam(props) {
                             })}
 
                         </Select>
-                    </FormControl>
                 </TableCell>
-                <StyledTableCell size="small" align="center">
+                <StyledTableCell align="center">
                     <Tooltip title={t('stats_exam')}>
                         <Button
                             id={`stats_${props.index}`}
                             variant="contained"
                             color="primary"
+                            size={"small"}
                             component={RouterLink}
                             className={`${classes.buttonPrimary}`}
                             to={`/admin/stats/${props.exam.id}`}
@@ -89,13 +89,14 @@ export default function Exam(props) {
                         </Button>
                     </Tooltip>
                 </StyledTableCell>
-                <StyledTableCell size="small" align="center">
+                <StyledTableCell  align="center">
                     <Tooltip title={t('link_exam')}>
                         <Button
                             id={`quiz_${props.index}`}
                             className={`${classes.buttonSuccess}`}
                             variant="contained"
                             color="primary"
+                            size={"small"}
                             component={RouterLink}
                             to={`/quiz/${props.exam.id}`}
                             target="_blank"
@@ -105,11 +106,12 @@ export default function Exam(props) {
                     </Tooltip>
                 </StyledTableCell>
 
-                <StyledTableCell size="small" align="center">
+                <StyledTableCell align="center">
                     <Tooltip title={t('clone_exam')}>
                         <Button
                             id={`copy_${props.index}`}
                             className={`${classes.buttonBrown}`}
+                            size={"small"}
                             variant="contained"
                             color="primary"
                             component={RouterLink}
@@ -120,12 +122,13 @@ export default function Exam(props) {
                     </Tooltip>
                 </StyledTableCell>
 
-                <StyledTableCell size="small" align="center">
+                <StyledTableCell  align="center">
                     <Tooltip title={t('edit_exam')}>
                         <Button
                             id={`copy_${props.index}`}
                             variant="contained"
                             color="primary"
+                            size={"small"}
                             component={RouterLink}
                             to={`/admin/edit-exam/${props.exam.id}`}
                         >
@@ -134,12 +137,13 @@ export default function Exam(props) {
                     </Tooltip>
                 </StyledTableCell>
 
-                <StyledTableCell size="small" align="center">
+                <StyledTableCell align="center">
                     <Tooltip title={t('delete_exam')}>
                         <Button
                             id={`delete_${props.index}`}
                             variant="contained"
                             color="secondary"
+                            size={"small"}
                             onClick={(e) => {
                                 props.deleteExam(props.exam.id)
                             }}

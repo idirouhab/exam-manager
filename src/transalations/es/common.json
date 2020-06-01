@@ -84,5 +84,6 @@
   "select_your_folder": "¿En qué capeta quieres guardar el exámen?",
   "reminder": "Recordatorio",
   "close": "Cerrar",
-  "previous": "Anterior"
+  "previous": "Anterior",
+  "search_exam": "Buscar examen por título"
 }
