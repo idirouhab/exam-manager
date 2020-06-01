@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Route, Switch} from "react-router";
 import routes from "../routes";
 import SideBar from "../components/SideBar/SideBard";
@@ -6,6 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import SessionProvider from "../providers/session";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -34,10 +35,16 @@ export default function Private(props) {
     });
     const container = window !== undefined ? () => window().document.body : undefined;
 
+    const recordSession = () => {
+        SessionProvider.save(props.location.pathname)
+    };
+
+    useEffect(recordSession, [props.location.pathname]);
+
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline/>
-            <div className={classes.wrapper} >
+            <div className={classes.wrapper}>
                 <SideBar
                     {...props}
                     routes={routes}
