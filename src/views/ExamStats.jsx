@@ -122,7 +122,7 @@ export default function ExamStats(props) {
                                                     {moment(answer.createdAt).fromNow()}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
-                                                    {getScore(answer, questions)}/{questions.length}
+                                                    {answer.score}/{questions.length}
                                                 </StyledTableCell>
                                                 <StyledTableCell size="small" align="center">
                                                     {humanizeDuration(answer.time * 1000, {language: LANGUAGE})}
