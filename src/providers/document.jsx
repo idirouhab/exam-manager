@@ -15,6 +15,12 @@ const DocumentProvider = {
                 return res.data;
             });
     },
+    updateDocument: async function (documentName, documentId, document) {
+        return await axios.put(`${backendUrl}/api/document/${documentName}/${documentId}`, {document}, {headers: AuthService.authHeader()})
+            .then(res => {
+                return res.data;
+            });
+    }
 };
 
 export default DocumentProvider

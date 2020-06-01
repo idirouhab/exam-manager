@@ -28,9 +28,10 @@ export default function Document() {
     const [collectionName, setCollectionName] = useState("")
     const [collectionId, setCollectionId] = useState("")
     const [collection, setCollection] = useState({})
+    const [data, setData] = useState({});
 
     const onDocumentUpdate = (key, value, parent, data) => {
-        console.log(key, value, parent, data);
+        setCollection(data);
     };
 
     const getDocument = () => {
@@ -40,9 +41,15 @@ export default function Document() {
                 .then(data => setCollection(data))
                 .finally(() => setLoading(false));
         } else {
-            DocumentProvider.fetchDocument(collectionName,collectionId)
+            DocumentProvider.fetchDocument(collectionName, collectionId)
                 .then(data => setCollection(data))
                 .finally(() => setLoading(false));
+        }
+    };
+
+    const updateDocument = () => {
+        if (collectionId) {
+            DocumentProvider.updateDocument(collectionName, collectionId, collection).then(response => console.log(response));
         }
     };
 
@@ -58,10 +65,10 @@ export default function Document() {
                                            className={classes.input} label="Collection name"/>
                                 <TextField value={collectionId} onChange={event => setCollectionId(event.target.value)}
                                            className={classes.input} label="Collection ID"/>
-                                <IconButton onClick={getDocument} className={classes.iconButton} aria-label="search">
+                                <IconButton onClick={getDocument} className={classes.iconButton}>
                                     <SearchIcon/>
                                 </IconButton>
-                                <IconButton onClick={getDocument} className={classes.iconButton} aria-label="search">
+                                <IconButton onClick={updateDocument} className={classes.iconButton}>
                                     <Send/>
                                 </IconButton>
                             </Paper>
