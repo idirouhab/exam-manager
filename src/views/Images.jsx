@@ -52,7 +52,6 @@ export default function Images() {
                         if (questionList.length > 0) {
                             for (let i in images) {
                                 if (imageArraylist.includes(images[i].id)) {
-
                                     images[i].examTitle = exam.text;
                                 }
                             }
@@ -79,7 +78,6 @@ export default function Images() {
         images.forEach((image) => {
             totalSize += parseInt(image.contentLength);
         });
-
         return totalSize
     };
 
