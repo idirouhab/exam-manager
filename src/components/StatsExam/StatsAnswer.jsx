@@ -39,7 +39,7 @@ export default function MaxWidthDialog(props) {
 
         return question.options.find((option) => {
             return option._id === actualQuestion.option_id
-        }).text
+        }).text || ""
     };
 
 

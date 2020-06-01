@@ -67,25 +67,6 @@ export default function ExamStats(props) {
         );
     };
 
-    const getScore = (answer, questions) => {
-        let points = 0;
-        questions.forEach(question => {
-            let selectedOption = answer.answers.find(currentAnswer => {
-                return question._id === currentAnswer.question_id
-            });
-
-            let matchSelection = question.options.find((option) => {
-                return selectedOption.option_id === option._id && option.correct
-            });
-
-            if (matchSelection) {
-                points++;
-            }
-
-
-        });
-        return points
-    };
 
     return (
         <>
