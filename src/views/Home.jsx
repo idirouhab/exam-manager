@@ -18,7 +18,7 @@ import Tag from "../models/tag";
 import FolderModel from "../models/folder";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const StyledTableCell = withStyles(() => ({
@@ -48,12 +48,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-    const classes = useStyles();
     const {t} = useTranslation("common");
+    const classes = useStyles();
     const [exams, setExams] = React.useState([]);
     const [loading, setLoading] = useState(true);
     const [folders, setFolders] = useState([]);
-    const [filterText, setFilterText] = useState("")
+    const [filterText, setFilterText] = useState("");
 
     const deleteExam = (id) => {
         ExamProvider.deleteExam(id).then(() => {
@@ -117,7 +117,7 @@ export default function Home() {
             });
             setExams(currentExam);
         })
-    }
+    };
 
     const filterExams = () => {
         const oldExams = [...exams];
@@ -143,7 +143,6 @@ export default function Home() {
                                     placeholder={t('search_exam')}
                                     value={filterText}
                                     onChange={e => setFilterText(e.target.value)}
-
                                 />
                                 <IconButton onClick={filterExams} className={classes.iconButton}>
                                     <SearchIcon/>
@@ -152,7 +151,7 @@ export default function Home() {
                         </Grid>
                         <Grid item xs={12}>
                             <TableContainer component={Paper}>
-                                <Table size={"small"}>
+                                <Table size="small">
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell/>

@@ -51,12 +51,11 @@ export default function Folder(props) {
     const {t} = useTranslation("common");
     const classes = useStyles();
     const [exams, setExams] = React.useState([]);
-    const [loading, setLoading] = useState(true)
-    const [folders, setFolders] = useState([])
-    const [filterText, setFilterText] = useState("")
+    const [loading, setLoading] = useState(true);
+    const [folders, setFolders] = useState([]);
+    const [filterText, setFilterText] = useState("");
 
     const deleteExam = (id) => {
-
         ExamProvider.deleteExam(id).then(() => {
             getExams();
         })
@@ -82,7 +81,6 @@ export default function Folder(props) {
                     )
                 }
             });
-
             setExams(exams);
         }).finally(() => {
             setLoading(false);
@@ -105,7 +103,7 @@ export default function Folder(props) {
     useEffect(() => {
         getExams();
         getFolders();
-    }, [props.match.params]);
+    }, []);
 
 
     const updateExamFolder = (e, examId) => {
@@ -127,8 +125,10 @@ export default function Folder(props) {
 
     const filterExams = () => {
         const oldExams = [...exams];
+
         let constNewExam = oldExams.map(exam => {
             exam.hide = !exam.text.includes(filterText);
+
             return exam;
         });
 
@@ -155,7 +155,7 @@ export default function Folder(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <TableContainer component={Paper}>
-                                <Table aria-label="simple table" size="small">
+                                <Table size="small">
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell/>
