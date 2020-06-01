@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Route, Switch} from "react-router";
 import routes from "../routes";
 import SideBar from "../components/SideBar/SideBard";
@@ -7,6 +7,7 @@ import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import SessionProvider from "../providers/session";
+import auth from "../providers/auth";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
-    wrapper:{
+    wrapper: {
         display: "flex",
     }
 }));
@@ -36,7 +37,9 @@ export default function Private(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     const recordSession = () => {
-        SessionProvider.save(props.location.pathname)
+        if (!auth.isRoot()) {
+            SessionProvider.save(props.location.pathname);
+        }
     };
 
     useEffect(recordSession, [props.location.pathname]);
