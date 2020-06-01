@@ -140,8 +140,7 @@ export default function Home() {
                             <Paper className={classes.root} square>
                                 <InputBase
                                     className={classes.input}
-                                    placeholder="Search Google Maps"
-                                    inputProps={{'aria-label': 'search google maps'}}
+                                    placeholder={t('search_exam')}
                                     value={filterText}
                                     onChange={e => setFilterText(e.target.value)}
 
