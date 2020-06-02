@@ -25,6 +25,21 @@ const humanFileSize = (size) => {
     return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
 };
 
+const LANGUAGES_LABEL = [
+    {
+        code: 'en',
+        text: 'English',
+    },
+    {
+        code: 'es',
+        text: 'Español',
+    },
+    {
+        code: 'ca',
+        text: 'Català',
+    },
+];
+
 export {
     drawerWidth,
     backendUrl,
@@ -34,5 +49,6 @@ export {
     LANGUAGE,
     imageBackendUrl,
     humanFileSize,
-    moment
+    moment,
+    LANGUAGES_LABEL
 };

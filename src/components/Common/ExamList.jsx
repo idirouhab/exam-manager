@@ -63,7 +63,6 @@ export default function ExamList(props) {
 
     const getExams = () => {
         const {id} = props;
-        console.log(id);
         ExamProvider.fetchExams().then(data => {
             let exams = [];
             data.forEach(exam => {
