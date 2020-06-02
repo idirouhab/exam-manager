@@ -3,7 +3,6 @@
   "upload_image": "Upload image",
   "delete_image": "Delete image",
   "delete": "Delete",
-  "drag_and_drop": "Drag and drop a file here or click",
   "cancel": "Cancel",
   "save": "Save",
   "folder": "Folder",
@@ -17,7 +16,6 @@
   "next": "Next",
   "quiz_reminder_read": "> Read carefully every question before answering",
   "quiz_reminder_copy": "> Do your best it's better than cheating",
-  "quiz_reminder_back": "> Once you answer the question, you cant't go back",
   "question": "Question",
   "selected_answer": "Selected answer",
   "correct_answer": "Correct answer",
@@ -50,7 +48,9 @@
     "folders": "Folders",
     "users": "Users",
     "document": "Documents",
-    "image": "Images"
+    "image": "Images",
+    "calendar": "Calendar"
+
   },
   "input": {
     "error": {

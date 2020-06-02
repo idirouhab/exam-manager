@@ -3,12 +3,11 @@
   "upload_image": "Subir imagen",
   "delete_image": "Borrar imagen",
   "delete": "Borrar",
-  "drag_and_drop": "Arrastra y suelta un archivo aquí",
   "cancel": "Cancelar",
   "seconds": "segundos",
   "folder_name": "Nombre de la carpeta",
   "create_folder": "Nueva carpeta",
-  "tags": "Tags",
+  "tags": "Etiquetas",
   "folder": "Carpeta",
   "done_at": "Fecha de respuesta",
   "your_score": "Puntuación",
@@ -17,7 +16,6 @@
   "next": "Siguiente",
   "quiz_reminder_read": "> Recuerda leer todas las preguntas con atención",
   "quiz_reminder_copy": "> Contesta lo mejor que puedas, es mejor que copiar",
-  "quiz_reminder_back": "> Una vez completes la pregunta, ya no podrás volver atrás",
   "question": "Pregunta",
   "selected_answer": "Respuesta seleccionada",
   "correct_answer": "Respuesta correcta",
@@ -26,11 +24,11 @@
   "create_an_account": "Crear cuenta",
   "sign_in_instead": "Prefiero iniciar sesión",
   "start": "Comenzar",
-  "login": "Login",
+  "login": "Iniciar sesión",
   "register": "Registro",
   "register_submit": "Registrarse",
   "login_user_not_found": "Usuario no encontrado.",
-  "ask_admin": "Estamos teniendo problemas técnicos, por favor, prueba mas tarde.",
+  "ask_admin": "Estamos teniendo problemas técnicos, por favor, pruebe mas tarde.",
   "logout": "Cerrar sesión",
   "login_user": "Email",
   "login_password": "Contraseña",
@@ -51,7 +49,8 @@
     "folders": "Carpetas",
     "users": "Usuarios",
     "document": "Documentos",
-    "image": "Imágenes"
+    "image": "Imágenes",
+    "calendar": "Calendario"
   },
   "input": {
     "error": {
@@ -72,7 +71,7 @@
       "answer": "Respuesta",
       "add_image": "Añadir imagen"
     },
-    "create_folder": "Debes tener una carpea creada antes de crear un examen, si no tienes ninguna, dirígete al menú de Carpetas situdo a la izquierda y crea una."
+    "create_folder": "Debes tener una carpeta creada antes de crear un examen, si no tienes ninguna, dirígete al menú de Carpetas situado a la izquierda y crea una."
   },
   "exam": "examen",
   "avg_per_question": "Promedio por pregunta",
@@ -83,7 +82,7 @@
   "clone_exam": "Clonar examen",
   "edit_exam": "Editar exadem",
   "delete_exam": "Eliminar examen",
-  "select_your_folder": "¿En qué capeta quieres guardar el exámen?",
+  "select_your_folder": "¿En qué carpeta quieres guardar el exámen?",
   "reminder": "Recordatorio",
   "close": "Cerrar",
   "previous": "Anterior",

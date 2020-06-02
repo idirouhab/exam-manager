@@ -238,9 +238,7 @@ export default function Quiz(props) {
                                     <Typography variant="subtitle2" align={"center"}>
                                         <span>{t('quiz_reminder_copy')}</span>
                                     </Typography>
-                                    <Typography variant="subtitle2" align={"center"}>
-                                        <span>{t('quiz_reminder_back')}</span>
-                                    </Typography>
+
                                 </div>}
                                 subheader={exam.subtitle}
                             />

@@ -1,4 +1,6 @@
 import i18n from "../i18n";
+import m from 'moment';
+import 'moment/min/locales';
 
 const drawerWidth = 240;
 const backendUrl = process.env.REACT_APP_ENV_BACKEND_URL;
@@ -10,6 +12,9 @@ const QUESTION_TYPES = {
     MULTIPLE_CHOICE: "multiple_choice"
 };
 const LANGUAGE = i18n.language.split('-')[0];
+
+m.locale(LANGUAGE)
+const moment = m;
 
 const humanFileSize = (size) => {
     if (size === 0) {
@@ -28,5 +33,6 @@ export {
     QUESTION_TYPES,
     LANGUAGE,
     imageBackendUrl,
-    humanFileSize
+    humanFileSize,
+    moment
 };

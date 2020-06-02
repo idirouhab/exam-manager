@@ -55,7 +55,7 @@ const StyledTableCell = withStyles(() => ({
     },
 }))(TableCell);
 
-export default function Test() {
+export default function Calendar() {
     const classes = useStyles();
     const {t} = useTranslation('common');
     const [dateObject, setDateObject] = useState(moment());

@@ -10,6 +10,7 @@ import Folder from "./views/Folder";
 import Users from "./views/Users";
 import Document from "./views/Document";
 import Images from "./views/Images";
+import Calendar from "./views/Calendar";
 
 const routes = [
     {
@@ -17,6 +18,15 @@ const routes = [
         name: "home",
         icon: "home",
         component: Home,
+        section: '/admin',
+        hide: false,
+        nestedList: false
+    },
+    {
+        path: "/calendar",
+        name: "calendar",
+        icon: "event",
+        component: Calendar,
         section: '/admin',
         hide: false,
         nestedList: false
@@ -111,8 +121,8 @@ const routes = [
         name: "test",
         icon: "announcement",
         component: Test,
-        section: '/public',
-        scope: 'public',
+        section: '/admin',
+        scope: 'admin',
         hide: true,
         nestedList: false
 
