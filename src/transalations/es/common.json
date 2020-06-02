@@ -1,4 +1,5 @@
 {
+  "check_inbox": "Te hemos enviado un email de confirmación a {{email}}. Por favor, revisa to correo para activar tu cuenta.",
   "today": "Hoy",
   "save": "Guardar",
   "upload_image": "Subir imagen",
