@@ -11,7 +11,6 @@ import Users from "./views/Users";
 import Document from "./views/Document";
 import Images from "./views/Images";
 import Calendar from "./views/Calendar";
-import Chat from "./views/Chat";
 
 const routes = [
     {
