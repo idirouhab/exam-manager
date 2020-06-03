@@ -2,7 +2,7 @@ import i18n from "../i18n";
 import m from "moment";
 import "moment/min/locales";
 
-const CHAT_URL = process.env.REACT_APP_ENV_CHAT_URL|| "ws://localhost:3030";
+const CHAT_URL = process.env.REACT_APP_ENV_CHAT_URL|| "wss://tinaptic-chat.herokuapp.com";
 const drawerWidth = 240;
 const backendUrl = process.env.REACT_APP_ENV_BACKEND_URL;
 const imageBackendUrl = process.env.REACT_APP_ENV_IMAGE_BACKEND_URL;
