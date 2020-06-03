@@ -1,28 +1,40 @@
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 
 const AuthService = {
-    authHeader: function () {
-        const token = localStorage.getItem('token');
-        if (token) {
-            return {'x-access-token': token};
-        } else {
-            return {};
-        }
-    },
-    isTokenStored: function () {
-        return localStorage.getItem('token');
-    },
-    getRole: function () {
-        let role = '';
-        if (this.isTokenStored()) {
-            const decode = jwtDecode(localStorage.getItem('token'));
-            if (decode['user']) {
-                role = decode['user']['role'];
-            }
-        }
-
-        return role;
+  authHeader: function () {
+    const token = localStorage.getItem("token");
+    if (token) {
+      return { "x-access-token": token };
+    } else {
+      return {};
     }
+  },
+  isTokenStored: function () {
+    return localStorage.getItem("token");
+  },
+  getRole: function () {
+    let role = "";
+    if (this.isTokenStored()) {
+      const decode = jwtDecode(localStorage.getItem("token"));
+      if (decode["user"]) {
+        role = decode["user"]["role"];
+      }
+    }
+
+    return role;
+  },
+  getFullName: function () {
+    let fullName = "";
+    if (this.isTokenStored()) {
+      const decode = jwtDecode(localStorage.getItem("token"));
+      if (decode["user"]) {
+        fullName = decode["user"]["name"] + " " + decode["user"]["lastName"];
+      }
+    }
+
+    return fullName;
+  }
+
 };
 
-export default AuthService
+export default AuthService;

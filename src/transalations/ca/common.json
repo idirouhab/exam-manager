@@ -1,6 +1,7 @@
 {
-  "check_inbox": "T'hem enviat un correu electrònic de confirmació a {{email}}. Si us plau, revisa to correu per activar el teu compte.",
+  "check_inbox": "T'hem enviat un correu electrònic de confirmació a {{email}}. Si us plau, revisa el teu correu per activar el teu compte.",
   "today": "Avui",
+  "me": "Jo",
   "save": "Desar",
   "upload_image": "Pujar imatge",
   "delete_image": "Esborrar imatge",
@@ -51,7 +52,8 @@
     "users": "Usuaris",
     "document": "Documents",
     "image": "Imatges",
-    "calendar": "Calendari"
+    "calendar": "Calendari",
+    "chat": "Xat"
   },
   "input": {
     "error": {

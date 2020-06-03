@@ -1,5 +1,6 @@
 {
-  "check_inbox": "Te hemos enviado un email de confirmación a {{email}}. Por favor, revisa to correo para activar tu cuenta.",
+  "me": "Yo",
+  "check_inbox": "Te hemos enviado un email de confirmación a {{email}}. Por favor, revisa tu correo para activar tu cuenta.",
   "today": "Hoy",
   "save": "Guardar",
   "upload_image": "Subir imagen",
@@ -52,7 +53,8 @@
     "users": "Usuarios",
     "document": "Documentos",
     "image": "Imágenes",
-    "calendar": "Calendario"
+    "calendar": "Calendario",
+    "chat": "Chat"
   },
   "input": {
     "error": {
