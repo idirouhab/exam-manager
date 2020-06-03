@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 
 export default function Chat () {
   const classes = useStyles();
-  const [ws, setWs] = useState(new WebSocket(CHAT_URL));
+  const [ws, setWs] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [users, setUsers] = useState([]);
@@ -73,25 +73,23 @@ export default function Chat () {
   };
 
   useEffect(() => {
-    console.log("Principal");
-    ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
-      console.log("connected");
+    const wsClient = new WebSocket(CHAT_URL);
+    wsClient.onopen = () => {
+      console.log("ws opened");
+      setWs(wsClient);
     };
+    wsClient.onclose = () => console.log("ws closed");
 
-    ws.onclose = () => {
-      console.log("disconnected");
-      setWs(new WebSocket(CHAT_URL));
-      // automatically try to reconnect on connection loss
+    return () => {
+      wsClient.close();
     };
-
-    scrollToBottom();
   }, []);
 
   useEffect(() => {
-    ws.onmessage = evt => {
-      // on receiving a message, add it to the list of messages
-      const messagePayload = JSON.parse(evt.data);
+    if (!ws) return;
+
+    ws.onmessage = e => {
+      const messagePayload = JSON.parse(e.data);
       if (messagePayload.userName && !users.includes(messagePayload.userName)) {
         let oldUsers = [...users];
         oldUsers.push(messagePayload.userName);
@@ -99,7 +97,6 @@ export default function Chat () {
       }
       addMessage(messagePayload, users);
     };
-
     scrollToBottom();
   }, [ws, addMessage]);
 
