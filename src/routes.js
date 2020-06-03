@@ -33,15 +33,6 @@ const routes = [
         nestedList: false
     },
     {
-        path: "/chat",
-        name: "chat",
-        icon: "chat",
-        component: Chat,
-        section: '/admin',
-        hide: false,
-        nestedList: false
-    },
-    {
         path: "/create-exam",
         name: "create-exam",
         icon: "note_add",
