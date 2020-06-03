@@ -176,9 +176,18 @@ export default function Chat () {
           <Divider/>
           <Grid container style={{ padding: "20px" }}>
             <Grid item xs={11}>
+
               <TextField value={currentMessage}
                          onChange={e => {setCurrentMessage(e.target.value);}}
-                         id="outlined-basic-email" fullWidth/>
+                         id="outlined-basic-email"
+                         fullWidth
+                         onKeyPress={(ev) => {
+                           if (ev.key === "Enter") {
+                             ev.preventDefault();
+                             sendMessage();
+                           }
+                         }}
+              />
             </Grid>
             <Grid xs={1} item align="right">
               <Fab onClick={sendMessage} color="primary" aria-label="add"><SendIcon/></Fab>
