@@ -1,2 +1,2 @@
-const  newrelic = window.newrelic;
+const newrelic = window.newrelic;
 export default newrelic;

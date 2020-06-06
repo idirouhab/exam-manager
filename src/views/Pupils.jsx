@@ -16,97 +16,95 @@ import Image from "../components/Images/Image";
 import ExamProvider from "../providers/exam";
 
 const StyledTableCell = withStyles(() => ({
-    head: {
-        width: "5%",
-    },
-    body: {
-        width: "5%",
-    },
+  head: {
+    width: "5%",
+  },
+  body: {
+    width: "5%",
+  },
 }))(TableCell);
 
-export default function Pupils() {
-    const {t} = useTranslation("common");
-    const [loading, setLoading] = useState(true);
-    const [images, setImages] = useState([]);
-    const [exams, setExams] = useState([]);
+export default function Pupils () {
+  const { t } = useTranslation("common");
+  const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState([]);
+  const [exams, setExams] = useState([]);
 
+  const getExams = () => {
+    ExamProvider.fetchExams().then(exams => setExams(exams));
+  };
 
-    const getExams = () => {
-        ExamProvider.fetchExams().then(exams => setExams(exams))
-    };
+  useEffect(getExams, []);
 
-    useEffect(getExams, []);
+  const getImages = () => {
+    ImageProvider.fetchImages()
+      .then(images => {
+        exams.forEach(exam => {
+            let questionList = exam.questions.filter(question => {
+              return question.image;
+            });
 
-    const getImages = () => {
-        ImageProvider.fetchImages()
-            .then(images => {
-                exams.forEach(exam => {
-                        let questionList = exam.questions.filter(question => {
-                            return question.image
-                        });
+            let imageArraylist = questionList.map(question => {
+              return question.image;
+            });
+            if (questionList.length > 0) {
+              for (let i in images) {
+                if (imageArraylist.includes(images[i].id)) {
 
-                        let imageArraylist = questionList.map(question => {
-                            return question.image
-                        });
-                        if (questionList.length > 0) {
-                            for (let i in images) {
-                                if (imageArraylist.includes(images[i].id)) {
+                  images[i].examTitle = exam.text;
+                }
+              }
+            }
+          }
+        );
+        setImages(images);
+      })
+      .finally(() => setLoading(false));
+  };
+  useEffect(() => {
 
-                                    images[i].examTitle = exam.text;
-                                }
-                            }
-                        }
-                    }
-                );
-                setImages(images)
-            })
-            .finally(() => setLoading(false));
-    };
-    useEffect(() => {
+    if (exams.length > 0) {
+      getImages();
+    }
+  }, [exams]);
 
-        if (exams.length > 0) {
-            getImages()
-        }
-    }, [exams])
+  const deleteImage = (id) => {
+    ImageProvider.deleteImage(id).then(getImages);
+  };
 
-    const deleteImage = (id) => {
-        ImageProvider.deleteImage(id).then(getImages);
-    };
-
-    return (
-        <>
-            <Fragment>
-                <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <TableContainer component={Paper}>
-                                <Table size="small">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell className="capitalize">{t('id')}</TableCell>
-                                            <TableCell className="capitalize">{t('exam')}</TableCell>
-                                            <TableCell className="capitalize">{t('size')}</TableCell>
-                                            <StyledTableCell size="small" align="center"/>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {images.map((image, key) => (
-                                            <Image
-                                                key={key}
-                                                image={image}
-                                                index={key}
-                                                deleteImage={deleteImage}
-                                            />
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Grid>
-                    </Grid>
-
-                </Slide>
-                {loading && (<Loader/>)}
-            </Fragment>
-        </>
-    );
+  return (
+    <>
+      <Fragment>
+        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="capitalize">{t("id")}</TableCell>
+                      <TableCell className="capitalize">{t("exam")}</TableCell>
+                      <TableCell className="capitalize">{t("size")}</TableCell>
+                      <StyledTableCell size="small" align="center"/>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {images.map((image, key) => (
+                      <Image
+                        key={key}
+                        image={image}
+                        index={key}
+                        deleteImage={deleteImage}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          </Grid>
+        </Slide>
+        {loading && (<Loader/>)}
+      </Fragment>
+    </>
+  );
 }

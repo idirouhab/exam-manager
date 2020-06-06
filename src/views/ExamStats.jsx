@@ -21,120 +21,116 @@ import moment from "moment";
 import { LANGUAGE } from "../variables/general";
 
 const StyledTableCell = withStyles(() => ({
-    head: {
-        width: "10%",
-    },
-    body: {
-        width: "10%",
-    },
+  head: {
+    width: "10%",
+  },
+  body: {
+    width: "10%",
+  },
 }))(TableCell);
 
 const SmallStyledTableCell = withStyles(() => ({
-    head: {
-        width: "2%",
-    },
-    body: {
-        width: "2%",
-    },
+  head: {
+    width: "2%",
+  },
+  body: {
+    width: "2%",
+  },
 }))(TableCell);
 
-export default function ExamStats(props) {
-    const {t} = useTranslation("common");
-    const [answers, setAnswers] = useState([]);
-    const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function ExamStats (props) {
+  const { t } = useTranslation("common");
+  const [answers, setAnswers] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const getExam = () => {
+    const { id } = props.match.params;
+    ExamProvider.fetchExam(id).then(data => {
+      const dataAnswers = data.answers;
+      if (dataAnswers) {
+        setAnswers(dataAnswers);
+      }
+      setQuestions(data.questions);
+    }).finally(() => {
+      setLoading(false);
+    });
+  };
 
-    const getExam = () => {
-        const {id} = props.match.params;
-        ExamProvider.fetchExam(id).then(data => {
-            const dataAnswers = data.answers;
-            if (dataAnswers) {
-                setAnswers(dataAnswers)
-            }
-            setQuestions(data.questions);
-        }).finally(() => {
-            setLoading(false)
-        })
-    };
+  useEffect(getExam, []);
 
-    useEffect(getExam, []);
-
-    const deleteAnswer = (answerId) => {
-        AnswerProvider.deleteAnswer(answerId).then(() => {
-                getExam()
-            }
-        );
-    };
-
-
-    return (
-        <>
-            <Fragment>
-                <Slide direction="up" mountOnEnter in={!loading}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell className="capitalize">{t('name')}</TableCell>
-                                            <StyledTableCell size="small"
-                                                             align="center">{t('done_at')}</StyledTableCell>
-                                            <StyledTableCell size="small" align="center">{t('score')}</StyledTableCell>
-                                            <StyledTableCell size="small" align="center">{t('time')}</StyledTableCell>
-                                            <StyledTableCell size="small"
-                                                             align="center">{t('avg_per_question')}</StyledTableCell>
-                                            <SmallStyledTableCell size="small" align="center"/>
-                                            <SmallStyledTableCell size="small" align="center"/>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {answers.map((answer, key) => (
-                                            <TableRow key={key}>
-                                                <TableCell
-                                                    component="th"
-                                                    scope="row"
-                                                >
-                                                    {answer.playerName}
-                                                </TableCell>
-                                                <StyledTableCell size="small" align="center">
-                                                    {moment(answer.createdAt).fromNow()}
-                                                </StyledTableCell>
-                                                <StyledTableCell size="small" align="center">
-                                                    {answer.score}/{questions.length}
-                                                </StyledTableCell>
-                                                <StyledTableCell size="small" align="center">
-                                                    {humanizeDuration(answer.time * 1000, {language: LANGUAGE})}
-                                                </StyledTableCell>
-                                                <StyledTableCell size="small" align="center">
-                                                    {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, {language: LANGUAGE})}
-                                                </StyledTableCell>
-                                                <SmallStyledTableCell size="small" align="center">
-                                                    <MaxWidthDialog
-                                                        questions={questions}
-                                                        answers={answer.answers}
-                                                    />
-                                                </SmallStyledTableCell>
-
-                                                <SmallStyledTableCell size="small" align="center">
-                                                    <IconButton variant="outlined" color="secondary"
-                                                                id={`delete_${key}`}
-                                                                onClick={(e) => deleteAnswer(answer._id)}>
-                                                        <Delete/>
-                                                    </IconButton>
-                                                </SmallStyledTableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Grid>
-                    </Grid>
-                </Slide>
-                {loading && (<Loader/>)}
-            </Fragment>
-        </>
+  const deleteAnswer = (answerId) => {
+    AnswerProvider.deleteAnswer(answerId).then(() => {
+        getExam();
+      }
     );
+  };
+
+  return (
+    <>
+      <Fragment>
+        <Slide direction="up" mountOnEnter in={!loading}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="capitalize">{t("name")}</TableCell>
+                      <StyledTableCell size="small"
+                                       align="center">{t("done_at")}</StyledTableCell>
+                      <StyledTableCell size="small" align="center">{t("score")}</StyledTableCell>
+                      <StyledTableCell size="small" align="center">{t("time")}</StyledTableCell>
+                      <StyledTableCell size="small"
+                                       align="center">{t("avg_per_question")}</StyledTableCell>
+                      <SmallStyledTableCell size="small" align="center"/>
+                      <SmallStyledTableCell size="small" align="center"/>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {answers.map((answer, key) => (
+                      <TableRow key={key}>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                        >
+                          {answer.playerName}
+                        </TableCell>
+                        <StyledTableCell size="small" align="center">
+                          {moment(answer.createdAt).fromNow()}
+                        </StyledTableCell>
+                        <StyledTableCell size="small" align="center">
+                          {answer.score}/{questions.length}
+                        </StyledTableCell>
+                        <StyledTableCell size="small" align="center">
+                          {humanizeDuration(answer.time * 1000, { language: LANGUAGE })}
+                        </StyledTableCell>
+                        <StyledTableCell size="small" align="center">
+                          {humanizeDuration(Math.round((answer.time / questions.length)) * 1000, { language: LANGUAGE })}
+                        </StyledTableCell>
+                        <SmallStyledTableCell size="small" align="center">
+                          <MaxWidthDialog
+                            questions={questions}
+                            answers={answer.answers}
+                          />
+                        </SmallStyledTableCell>
+                        <SmallStyledTableCell size="small" align="center">
+                          <IconButton variant="outlined" color="secondary"
+                                      id={`delete_${key}`}
+                                      onClick={(e) => deleteAnswer(answer._id)}>
+                            <Delete/>
+                          </IconButton>
+                        </SmallStyledTableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          </Grid>
+        </Slide>
+        {loading && (<Loader/>)}
+      </Fragment>
+    </>
+  );
 }

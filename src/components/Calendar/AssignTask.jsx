@@ -11,80 +11,80 @@ import blue from "@material-ui/core/colors/blue";
 import EventProvider from "../../providers/event";
 
 const BlueCheckbox = withStyles({
-    root: {
-        color: blue[400],
-        '&$checked': {
-            color: blue[600],
-        },
+  root: {
+    color: blue[400],
+    "&$checked": {
+      color: blue[600],
     },
-    checked: {},
+  },
+  checked: {},
 })((props) => <Checkbox color="default" {...props} />);
 
-export default function AssignTask(props) {
-    const {onClose, value: valueProp, open, ...other} = props;
-    const [value, setValue] = React.useState(valueProp);
-    const radioGroupRef = React.useRef(null);
-    const maxWidth = React.useState('md');
+export default function AssignTask (props) {
+  const { onClose, value: valueProp, open, ...other } = props;
+  const [value, setValue] = React.useState(valueProp);
+  const radioGroupRef = React.useRef(null);
+  const maxWidth = React.useState("md");
 
-    React.useEffect(() => {
-        if (!open) {
-            setValue(valueProp);
-        }
-    }, [valueProp, open]);
+  React.useEffect(() => {
+    if (!open) {
+      setValue(valueProp);
+    }
+  }, [valueProp, open]);
 
-    const handleEntering = () => {
-        if (radioGroupRef.current != null) {
-            radioGroupRef.current.focus();
-        }
+  const handleEntering = () => {
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+  };
+
+  const handleCancel = () => {
+    onClose();
+  };
+
+  const handleOk = () => {
+    onClose(value);
+  };
+
+  const handleChange = (event) => {
+    const data = {
+      examId: event.target.value,
+      date: props.date.toISOString()
     };
 
-    const handleCancel = () => {
-        onClose();
-    };
+    if (event.target.checked) {
+      EventProvider.save(data);
+    } else {
+      EventProvider.delete(data);
+    }
+  };
 
-    const handleOk = () => {
-        onClose(value);
-    };
+  return (
+    <Dialog
+      maxWidth={maxWidth}
+      disableBackdropClick
+      disableEscapeKeyDown
+      onEntering={handleEntering}
+      aria-labelledby="confirmation-dialog-title"
+      open={open}
+      {...other}
+    >
+      <DialogTitle id="confirmation-dialog-title">{props.date.format("DD-MMMM-YYYY").toUpperCase()}</DialogTitle>
+      <DialogContent dividers>
+        {props.exams.map((exam) => (
+          <FormControlLabel value={exam.id} key={exam.id} control={<BlueCheckbox onChange={handleChange}/>}
+                            label={exam.text}/>
+        ))}
 
-    const handleChange = (event) => {
-        const data = {
-            examId: event.target.value,
-            date: props.date.toISOString()
-        };
-
-        if (event.target.checked) {
-            EventProvider.save(data)
-        } else {
-            EventProvider.delete(data)
-        }
-    };
-
-    return (
-        <Dialog
-            maxWidth={maxWidth}
-            disableBackdropClick
-            disableEscapeKeyDown
-            onEntering={handleEntering}
-            aria-labelledby="confirmation-dialog-title"
-            open={open}
-            {...other}
-        >
-            <DialogTitle id="confirmation-dialog-title">{props.date.format("DD-MMMM-YYYY").toUpperCase()}</DialogTitle>
-            <DialogContent dividers>
-                {props.exams.map((exam) => (
-                    <FormControlLabel value={exam.id} key={exam.id} control={<BlueCheckbox onChange={handleChange}/>}
-                                      label={exam.text}/>
-                ))}
-
-            </DialogContent>
-            <DialogActions>
-                <Button autoFocus onClick={handleCancel} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={handleOk} color="primary">
-                    Ok
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={handleCancel} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleOk} color="primary">
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }

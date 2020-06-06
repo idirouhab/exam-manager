@@ -22,170 +22,167 @@ import FolderModel from "../../models/folder";
 import Tag from "../../models/tag";
 
 const StyledTableCell = withStyles(() => ({
-    head: {
-        width: "5%",
-    },
-    body: {
-        width: "5%",
-    },
+  head: {
+    width: "5%",
+  },
+  body: {
+    width: "5%",
+  },
 }))(TableCell);
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: '2px 4px',
-        display: 'flex',
-        alignItems: 'center',
-        width: 400,
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-    },
-    iconButton: {
-        padding: 10,
-    },
-
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
 }));
 
-export default function ExamList(props) {
-    const {t} = useTranslation("common");
-    const classes = useStyles();
-    const [exams, setExams] = React.useState([]);
-    const [loading, setLoading] = useState(true);
-    const [folders, setFolders] = useState([]);
-    const [filterText, setFilterText] = useState("");
+export default function ExamList (props) {
+  const { t } = useTranslation("common");
+  const classes = useStyles();
+  const [exams, setExams] = React.useState([]);
+  const [loading, setLoading] = useState(true);
+  const [folders, setFolders] = useState([]);
+  const [filterText, setFilterText] = useState("");
 
-    const deleteExam = (id) => {
-        ExamProvider.deleteExam(id).then(() => {
-            getExams();
-        })
-    };
+  const deleteExam = (id) => {
+    ExamProvider.deleteExam(id).then(() => {
+      getExams();
+    });
+  };
 
-    const getExams = () => {
-        const {id} = props;
-        ExamProvider.fetchExams().then(data => {
-            let exams = [];
-            data.forEach(exam => {
-               if (id === exam.folderId || !id) {
-                    exams.push(
-                        {
-                            id: exam.id,
-                            text: exam.text,
-                            questions: exam.questions,
-                            folderId: exam.folderId ? exam.folderId : -1,
-                            user: (exam.userId ? exam.userId.name : ""),
-                            answers: exam.answers,
-                            hide: false
-                        }
-                    )
-               }
-            });
-            setExams(exams);
-        }).finally(() => {
-            setLoading(false);
-        })
-    };
+  const getExams = () => {
+    const { id } = props;
+    ExamProvider.fetchExams().then(data => {
+      let exams = [];
+      data.forEach(exam => {
+        if (id === exam.folderId || !id) {
+          exams.push(
+            {
+              id: exam.id,
+              text: exam.text,
+              questions: exam.questions,
+              folderId: exam.folderId ? exam.folderId : -1,
+              user: (exam.userId ? exam.userId.name : ""),
+              answers: exam.answers,
+              hide: false
+            }
+          );
+        }
+      });
+      setExams(exams);
+    }).finally(() => {
+      setLoading(false);
+    });
+  };
 
-    const getFolders = () => {
-        FolderProvider.fetchFolders().then(response => {
-            const responseFolders = response.data;
-            let finalFolder = responseFolders.map(folder => {
-                let tags = folder.tags.map(tag => {
-                    return new Tag(tag._id, tag.name);
-                });
-                return new FolderModel(folder.id, folder.name, tags)
-            });
-            setFolders(finalFolder);
+  const getFolders = () => {
+    FolderProvider.fetchFolders().then(response => {
+      const responseFolders = response.data;
+      let finalFolder = responseFolders.map(folder => {
+        let tags = folder.tags.map(tag => {
+          return new Tag(tag._id, tag.name);
         });
-    };
+        return new FolderModel(folder.id, folder.name, tags);
+      });
+      setFolders(finalFolder);
+    });
+  };
 
-    useEffect(() => {
-        getExams();
-        getFolders();
-    }, [props.id]);
+  useEffect(() => {
+    getExams();
+    getFolders();
+  }, [props.id]);
 
+  const updateExamFolder = (e, examId) => {
 
-    const updateExamFolder = (e, examId) => {
+    let selectedExam = exams.find(exam => {
+      return exam.id === examId;
+    });
 
-        let selectedExam = exams.find(exam => {
-            return exam.id === examId;
-        });
+    selectedExam.folderId = e.target.value;
 
-        selectedExam.folderId = e.target.value
+    ExamProvider.updateExam(selectedExam).then((data) => {
+      let olderExams = [...exams];
+      let currentExam = olderExams.map((exam) => {
+        return (exam.id === examId) ? selectedExam : exam;
+      });
+      setExams(currentExam);
+    });
+  };
 
-        ExamProvider.updateExam(selectedExam).then((data) => {
-            let olderExams = [...exams]
-            let currentExam = olderExams.map((exam) => {
-                return (exam.id === examId) ? selectedExam : exam;
-            });
-            setExams(currentExam);
-        })
-    };
+  const filterExams = () => {
+    const oldExams = [...exams];
 
-    const filterExams = () => {
-        const oldExams = [...exams];
+    let constNewExam = oldExams.map(exam => {
+      exam.hide = !exam.text.includes(filterText);
 
-        let constNewExam = oldExams.map(exam => {
-            exam.hide = !exam.text.includes(filterText);
+      return exam;
+    });
 
-            return exam;
-        });
+    setExams(constNewExam);
+  };
 
-        setExams(constNewExam)
-    };
-
-    return (
-        <>
-            <Fragment>
-                <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <Paper className={classes.root} square>
-                                <InputBase
-                                    className={classes.input}
-                                    placeholder={t('search_exam')}
-                                    value={filterText}
-                                    onChange={e => setFilterText(e.target.value)}
-                                />
-                                <IconButton onClick={filterExams} className={classes.iconButton}>
-                                    <SearchIcon/>
-                                </IconButton>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TableContainer component={Paper}>
-                                <Table size="small">
-                                    <TableHead>
-                                        <TableRow>
-                                            <StyledTableCell/>
-                                            <TableCell className="capitalize">{t('exam')}</TableCell>
-                                            <TableCell>{t('folder')}</TableCell>
-                                            <StyledTableCell align="center"/>
-                                            <StyledTableCell align="center"/>
-                                            <StyledTableCell align="center"/>
-                                            <StyledTableCell align="center"/>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {exams.map((exam, key) => (
-                                            !exam.hide && <Exam
-                                                key={key}
-                                                exam={exam}
-                                                deleteExam={deleteExam}
-                                                index={key}
-                                                folders={folders}
-                                                updateExamFolder={updateExamFolder}
-                                            />
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Grid>
-                    </Grid>
-                </Slide>
-                {loading && (<Loader/>)}
-            </Fragment>
-        </>
-    );
-
+  return (
+    <>
+      <Fragment>
+        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper className={classes.root} square>
+                <InputBase
+                  className={classes.input}
+                  placeholder={t("search_exam")}
+                  value={filterText}
+                  onChange={e => setFilterText(e.target.value)}
+                />
+                <IconButton onClick={filterExams} className={classes.iconButton}>
+                  <SearchIcon/>
+                </IconButton>
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell/>
+                      <TableCell className="capitalize">{t("exam")}</TableCell>
+                      <TableCell>{t("folder")}</TableCell>
+                      <StyledTableCell align="center"/>
+                      <StyledTableCell align="center"/>
+                      <StyledTableCell align="center"/>
+                      <StyledTableCell align="center"/>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {exams.map((exam, key) => (
+                      !exam.hide && <Exam
+                        key={key}
+                        exam={exam}
+                        deleteExam={deleteExam}
+                        index={key}
+                        folders={folders}
+                        updateExamFolder={updateExamFolder}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          </Grid>
+        </Slide>
+        {loading && (<Loader/>)}
+      </Fragment>
+    </>
+  );
 }

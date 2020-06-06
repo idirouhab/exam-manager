@@ -34,7 +34,6 @@ const AuthService = {
 
     return fullName;
   }
-
 };
 
 export default AuthService;

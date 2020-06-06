@@ -12,81 +12,79 @@ import DocumentProvider from "../providers/document";
 import { Send } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        padding: theme.spacing(2),
-        color: theme.palette.text.secondary,
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-    },
+  paper: {
+    padding: theme.spacing(2),
+    color: theme.palette.text.secondary,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
 }));
 
-export default function Document() {
-    const classes = useStyles();
-    const [loading, setLoading] = useState(false);
-    const [collectionName, setCollectionName] = useState("")
-    const [collectionId, setCollectionId] = useState("")
-    const [collection, setCollection] = useState({})
+export default function Document () {
+  const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const [collectionName, setCollectionName] = useState("");
+  const [collectionId, setCollectionId] = useState("");
+  const [collection, setCollection] = useState({});
 
-    const onDocumentUpdate = (key, value, parent, data) => {
-        setCollection(data);
-    };
+  const onDocumentUpdate = (key, value, parent, data) => {
+    setCollection(data);
+  };
 
-    const getDocument = () => {
-        setLoading(true);
-        if (!collectionId) {
-            DocumentProvider.fetchDocuments(collectionName)
-                .then(data => setCollection(data))
-                .finally(() => setLoading(false));
-        } else {
-            DocumentProvider.fetchDocument(collectionName, collectionId)
-                .then(data => setCollection(data))
-                .finally(() => setLoading(false));
-        }
-    };
+  const getDocument = () => {
+    setLoading(true);
+    if (!collectionId) {
+      DocumentProvider.fetchDocuments(collectionName)
+        .then(data => setCollection(data))
+        .finally(() => setLoading(false));
+    } else {
+      DocumentProvider.fetchDocument(collectionName, collectionId)
+        .then(data => setCollection(data))
+        .finally(() => setLoading(false));
+    }
+  };
 
-    const updateDocument = () => {
-        if (collectionId) {
-            DocumentProvider.updateDocument(collectionName, collectionId, collection).then(response => console.log(response));
-        }
-    };
+  const updateDocument = () => {
+    if (collectionId) {
+      DocumentProvider.updateDocument(collectionName, collectionId, collection).then(response => console.log(response));
+    }
+  };
 
-    return (
-        <>
-            <Fragment>
-                <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
-                    <Grid container spacing={3} justify={"center"}>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <TextField value={collectionName}
-                                           onChange={event => setCollectionName(event.target.value)}
-                                           className={classes.input} label="Collection name"/>
-                                <TextField value={collectionId} onChange={event => setCollectionId(event.target.value)}
-                                           className={classes.input} label="Collection ID"/>
-                                <IconButton onClick={getDocument} className={classes.iconButton}>
-                                    <SearchIcon/>
-                                </IconButton>
-                                <IconButton onClick={updateDocument} className={classes.iconButton}>
-                                    <Send/>
-                                </IconButton>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-
-                                <JSONEditor
-                                    data={collection}
-                                    onChange={onDocumentUpdate}
-                                    collapsible
-                                />
-
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                </Slide>
-                {loading && (<Loader/>)}
-            </Fragment>
-        </>
-    );
+  return (
+    <>
+      <Fragment>
+        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+          <Grid container spacing={3} justify={"center"}>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <TextField value={collectionName}
+                           onChange={event => setCollectionName(event.target.value)}
+                           className={classes.input} label="Collection name"/>
+                <TextField value={collectionId} onChange={event => setCollectionId(event.target.value)}
+                           className={classes.input} label="Collection ID"/>
+                <IconButton onClick={getDocument} className={classes.iconButton}>
+                  <SearchIcon/>
+                </IconButton>
+                <IconButton onClick={updateDocument} className={classes.iconButton}>
+                  <Send/>
+                </IconButton>
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <JSONEditor
+                  data={collection}
+                  onChange={onDocumentUpdate}
+                  collapsible
+                />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Slide>
+        {loading && (<Loader/>)}
+      </Fragment>
+    </>
+  );
 }
