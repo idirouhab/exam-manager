@@ -17,7 +17,6 @@ import { ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => (
   {
-
     appBar: {
       [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -93,13 +92,13 @@ export default function ButtonAppBar (props) {
           <Typography variant="h6" noWrap className={classes.title}>
             {getBrand()}
           </Typography>
-          <div className={classes.sectionDesktop}>
+          <div>
             <IconButton
               onClick={handleClick}
               style={{ color: "#fff" }}
             >
               <TranslateIcon/>
-              <Typography variant={"button"}>&nbsp;
+              <Typography className={classes.sectionDesktop} variant={"button"}>&nbsp;
                 {LANGUAGES_LABEL.filter((language) => {
                   return language.code === LANGUAGE;
                 })[0].text}
