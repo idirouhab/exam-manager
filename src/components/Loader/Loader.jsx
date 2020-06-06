@@ -1,8 +1,7 @@
-import React from 'react';
-import {makeStyles} from "@material-ui/core/styles";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {blue} from "@material-ui/core/colors";
-
+import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(() => ({
     loaderContainer: {

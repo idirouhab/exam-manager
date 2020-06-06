@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
+import React, { useState } from "react";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
-import {Check, Clear, Visibility} from "@material-ui/icons";
+import { Check, Clear, Visibility } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 
 export default function MaxWidthDialog(props) {

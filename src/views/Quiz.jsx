@@ -1,20 +1,20 @@
-import React, {Fragment, useEffect, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
+import React, { Fragment, useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {RadioButtonChecked, RadioButtonUnchecked} from "@material-ui/icons";
-import {useTranslation} from "react-i18next";
+import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
+import { useTranslation } from "react-i18next";
 import ExamProvider from "../providers/exam";
-import {imageUrl, LANGUAGE, QUESTION_TYPES} from "../variables/general";
+import { imageUrl, LANGUAGE, QUESTION_TYPES } from "../variables/general";
 import Loader from "../components/Loader/Loader";
 import TextField from "@material-ui/core/TextField";
 import useWindowDimensions from "../hooks/resize";
@@ -22,14 +22,13 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import green from "@material-ui/core/colors/green";
 import AnswerProvider from "../providers/answer";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 import humanizeDuration from "humanize-duration";
-import imageBackground from "../assets/images/quiz_background.jpg"
-import wellDoneGif from "../assets/images/well_done.gif"
-import nextTimeGif from "../assets/images/nex_time.gif"
+import imageBackground from "../assets/images/quiz_background.jpg";
+import wellDoneGif from "../assets/images/well_done.gif";
+import nextTimeGif from "../assets/images/nex_time.gif";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-
 
 class Option {
     constructor(id = null, text = '', correct = false) {

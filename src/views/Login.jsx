@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import {Box} from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import {useTranslation} from "react-i18next";
-import Auth from '../providers/auth';
-import {useSnackbar} from "notistack";
+import { useTranslation } from "react-i18next";
+import Auth from "../providers/auth";
+import { useSnackbar } from "notistack";
 import newrelic from "../variables/newrelic";
-import imageBackground from "../assets/images/login_background.jpg"
+import imageBackground from "../assets/images/login_background.jpg";
 import useWindowDimensions from "../hooks/resize";
 import blue from "@material-ui/core/colors/blue";
 import Typography from "@material-ui/core/Typography";
@@ -19,7 +19,7 @@ import Link from "@material-ui/core/Link";
 
 export default function Test(props) {
     const {height, width} = useWindowDimensions();
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles(() => ({
         form: {
             '& .MuiTextField-root': {
                 width: '50%',

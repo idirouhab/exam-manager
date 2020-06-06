@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
-import {Route, Switch} from "react-router";
+import React from "react";
+import { Route, Switch } from "react-router";
 import routes from "../routes";
 import SideBar from "../components/SideBar/SideBard";
-import {makeStyles} from "@material-ui/core/styles";
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 

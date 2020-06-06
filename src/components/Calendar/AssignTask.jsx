@@ -1,10 +1,10 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import withStyles from "@material-ui/core/styles/withStyles";
 import blue from "@material-ui/core/colors/blue";
@@ -24,7 +24,7 @@ export default function AssignTask(props) {
     const {onClose, value: valueProp, open, ...other} = props;
     const [value, setValue] = React.useState(valueProp);
     const radioGroupRef = React.useRef(null);
-    const [maxWidth, setMaxWidth] = React.useState('md');
+    const maxWidth = React.useState('md');
 
     React.useEffect(() => {
         if (!open) {

@@ -1,18 +1,17 @@
-import dotenv from 'dotenv';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import {createBrowserHistory} from "history";
-import {Route, Router, Switch} from "react-router-dom";
-import {Redirect} from "react-router";
+import dotenv from "dotenv";
+import React from "react";
+import ReactDOM from "react-dom";
+import * as serviceWorker from "./serviceWorker";
+import { createBrowserHistory } from "history";
+import { Route, Router, Switch } from "react-router-dom";
+import { Redirect } from "react-router";
 import PublicSection from "./sections/Public";
 import PrivateSection from "./sections/Private";
 import "assets/main.scss";
-import 'typeface-roboto';
-import Auth from './providers/auth';
-
-import './i18n';
-import {SnackbarProvider} from "notistack";
+import "typeface-roboto";
+import Auth from "./providers/auth";
+import "./i18n";
+import { SnackbarProvider } from "notistack";
 
 const hist = createBrowserHistory();
 dotenv.config();

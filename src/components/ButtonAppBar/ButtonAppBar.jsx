@@ -1,19 +1,19 @@
-import React, {Fragment} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import {drawerWidth, LANGUAGE, LANGUAGES_LABEL} from "../../variables/general";
-import routes from '../../routes';
+import React, { Fragment } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { drawerWidth, LANGUAGE, LANGUAGES_LABEL } from "../../variables/general";
+import routes from "../../routes";
 import Button from "@material-ui/core/Button";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Auth from "../../providers/auth";
-import TranslateIcon from '@material-ui/icons/Translate';
+import TranslateIcon from "@material-ui/icons/Translate";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {ExpandMore} from "@material-ui/icons";
+import { ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => (
     {
@@ -138,15 +138,8 @@ export default function ButtonAppBar(props) {
 
                         <Button color="inherit" onClick={logout}>{t(`logout`)}</Button>
                     </div>
-
-                    {/*
-                <Button color="inherit" onClick={logout}>{t(`logout`)}</Button>
-*/}
                 </Toolbar>
-
             </AppBar>
-
         </Fragment>
-
     );
 }

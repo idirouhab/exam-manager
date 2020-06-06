@@ -2,7 +2,7 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import useStyles from "./style";
 
 export default function ShortAnswer(props) {
@@ -19,7 +19,6 @@ export default function ShortAnswer(props) {
                             fullWidth
                             multiline
                             onChange={e => props.updateAnswerText(e, props.indexQuestion, 0)}
-
                         />
                     </div>
                 </Grid>

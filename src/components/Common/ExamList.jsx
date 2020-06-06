@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -7,8 +7,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import {withStyles} from "@material-ui/styles";
-import {useTranslation} from "react-i18next";
+import { withStyles } from "@material-ui/styles";
+import { useTranslation } from "react-i18next";
 import Exam from "../Home/Exam";
 import Loader from "../Loader/Loader";
 import Slide from "@material-ui/core/Slide";

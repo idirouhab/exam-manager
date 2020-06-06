@@ -1,15 +1,15 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import useStyles from "./style";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import {Clear} from "@material-ui/icons";
+import { Clear } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from '@material-ui/core/Input';
+import Input from "@material-ui/core/Input";
 
 export default function MultipleChoice(props) {
     const classes = useStyles();

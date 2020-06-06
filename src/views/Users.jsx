@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -7,8 +7,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import {withStyles} from "@material-ui/styles";
-import {useTranslation} from "react-i18next";
+import { withStyles } from "@material-ui/styles";
+import { useTranslation } from "react-i18next";
 import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
 import UserProvider from "../providers/user";
@@ -64,11 +64,8 @@ export default function Users() {
                                 <Table size="small">
                                     <TableHead>
                                         <TableRow>
-
                                             <TableCell className="capitalize">{t('role')}</TableCell>
                                             <TableCell className="capitalize">{t('username')}</TableCell>
-
-
                                             <StyledTableCell size="small" align="center"/>
                                         </TableRow>
                                     </TableHead>
@@ -86,7 +83,6 @@ export default function Users() {
                             </TableContainer>
                         </Grid>
                     </Grid>
-
                 </Slide>
                 {loading && (<Loader/>)}
             </Fragment>

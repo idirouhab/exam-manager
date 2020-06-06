@@ -1,8 +1,8 @@
-import React, {Fragment, useEffect, useRef, useState} from 'react';
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Box from "@material-ui/core/Box";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -12,14 +12,14 @@ import useStyles from "../components/CreateExam/style";
 import ShortAnswer from "../components/CreateExam/ShortAnswer";
 import MultipleChoice from "../components/CreateExam/MultipleChoice";
 import Button from "@material-ui/core/Button";
-import {Add, PhotoCamera, Remove} from "@material-ui/icons";
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Add, PhotoCamera, Remove } from "@material-ui/icons";
+import DeleteIcon from "@material-ui/icons/Delete";
 import ImageProvider from "../providers/image";
 import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
-import {DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES} from "../variables/general";
+import { DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES } from "../variables/general";
 import FolderProvider from "../providers/folder";
 import FolderModel from "../models/folder";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -28,7 +28,6 @@ import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-
 
 class Exam {
     constructor() {

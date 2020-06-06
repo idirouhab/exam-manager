@@ -1,15 +1,15 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Loader from "../components/Loader/Loader";
 import Slide from "@material-ui/core/Slide";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {JSONEditor} from 'react-json-editor-viewer';
+import { JSONEditor } from "react-json-editor-viewer";
 import DocumentProvider from "../providers/document";
-import {Send} from "@material-ui/icons";
+import { Send } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,7 +28,6 @@ export default function Document() {
     const [collectionName, setCollectionName] = useState("")
     const [collectionId, setCollectionId] = useState("")
     const [collection, setCollection] = useState({})
-    const [data, setData] = useState({});
 
     const onDocumentUpdate = (key, value, parent, data) => {
         setCollection(data);

@@ -1,7 +1,6 @@
 import axios from "axios";
-import {backendUrl} from "../variables/general";
+import { backendUrl } from "../variables/general";
 import AuthService from "../services/auth";
-
 
 const ExamProvider = {
     fetchExams: async function () {

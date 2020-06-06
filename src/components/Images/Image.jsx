@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import React from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import {withStyles} from "@material-ui/styles";
-import {humanFileSize} from "../../variables/general";
+import { withStyles } from "@material-ui/styles";
+import { humanFileSize } from "../../variables/general";
 
-const StyledTableCell = withStyles((theme) => ({
+const StyledTableCell = withStyles(() => ({
     head: {
         width: "5%",
     },

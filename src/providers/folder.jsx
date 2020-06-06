@@ -1,5 +1,5 @@
 import axios from "axios";
-import {backendUrl} from "../variables/general";
+import { backendUrl } from "../variables/general";
 import AuthService from "../services/auth";
 
 const FolderProvider = {
@@ -16,7 +16,6 @@ const FolderProvider = {
         return await axios.delete(`${backendUrl}/api/folder/${folderId}`, {headers: AuthService.authHeader()})
     },
     updateFolder: async function (folder) {
-
         return await axios.put(`${backendUrl}/api/folder/${folder.id}`, {folder}, {headers: AuthService.authHeader()}
         )
     },

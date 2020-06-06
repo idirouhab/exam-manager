@@ -2,20 +2,19 @@ import React from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";
-import {Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
-import {withStyles} from "@material-ui/styles";
-import {makeStyles} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
 import blue from "@material-ui/core/colors/blue";
 import brown from "@material-ui/core/colors/brown";
-import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from "@material-ui/core/Tooltip";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
-const StyledTableCell = withStyles((theme) => ({
+const StyledTableCell = withStyles(() => ({
     head: {
         width: "5%",
     },
@@ -24,7 +23,7 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     buttonSuccess: {
         backgroundColor: green[500],
         "&:hover": {
