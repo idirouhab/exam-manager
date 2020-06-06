@@ -413,7 +413,7 @@ export default function CreateExam (props) {
                             <GridList
                               cols={1} cellHeight={"auto"} spacing={1}>
                               <GridListTile style={{ width: "auto" }}>
-                                <img src={imageUrl + question.image}/>
+                                <img alt={question.text} src={imageUrl + question.image}/>
                                 <GridListTileBar
                                   style={{ textAlign: "center" }}
                                   actionIcon={

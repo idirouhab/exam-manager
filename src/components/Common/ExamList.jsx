@@ -17,9 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import ExamProvider from "../../providers/exam";
-import FolderProvider from "../../providers/folder";
-import FolderModel from "../../models/folder";
-import Tag from "../../models/tag";
+import FolderService from "../../services/folderService";
 
 const StyledTableCell = withStyles(() => ({
   head: {
@@ -86,16 +84,7 @@ export default function ExamList (props) {
   };
 
   const getFolders = () => {
-    FolderProvider.fetchFolders().then(response => {
-      const responseFolders = response.data;
-      let finalFolder = responseFolders.map(folder => {
-        let tags = folder.tags.map(tag => {
-          return new Tag(tag._id, tag.name);
-        });
-        return new FolderModel(folder.id, folder.name, tags);
-      });
-      setFolders(finalFolder);
-    });
+    FolderService.getFolders().then(folders => setFolders(folders));
   };
 
   useEffect(() => {

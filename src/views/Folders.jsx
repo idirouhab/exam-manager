@@ -6,8 +6,6 @@ import { Add } from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
 import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import FolderProvider from "../providers/folder";
-import FolderModel from "../models/folder";
-import Tag from "../models/tag";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -20,6 +18,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import FolderService from "../services/folderService";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -86,17 +85,7 @@ export default function Folders (props) {
   };
 
   const getFolders = () => {
-    FolderProvider.fetchFolders().then(response => {
-      const responseFolders = response.data;
-      let finalFolder = responseFolders.map(folder => {
-        let tags = folder.tags.map(tag => {
-          return new Tag(tag._id, tag.name);
-        });
-
-        return new FolderModel(folder.id, folder.name, tags);
-      });
-      setFolders(finalFolder);
-    });
+    FolderService.getFolders().then(folders => setFolders(folders));
   };
 
   useEffect(() => {

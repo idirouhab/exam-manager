@@ -289,7 +289,7 @@ export default function Quiz (props) {
                           <GridList
                             cols={1} cellHeight={"auto"} spacing={1}>
                             <GridListTile>
-                              <img style={{ maxWidth: "100%", height: "auto" }} src={imageUrl + question.image}/>
+                              <img align={question.text} style={{ maxWidth: "100%", height: "auto" }} src={imageUrl + question.image}/>
                             </GridListTile>
                           </GridList>
                         </Box>
