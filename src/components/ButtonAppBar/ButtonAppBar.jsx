@@ -87,6 +87,7 @@ export default function ButtonAppBar (props) {
             onClick={props.handleDrawerToggle}
             className={classes.menuButton}
           >
+            <Typography />
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>

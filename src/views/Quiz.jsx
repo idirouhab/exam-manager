@@ -172,7 +172,7 @@ export default function Quiz (props) {
   const selectOption = (indexQuestion, currentOptionIndex) => {
     let oldQuestions = [...exam.questions];
     for (let optionIndex in oldQuestions[indexQuestion].options) {
-      oldQuestions[indexQuestion].options[optionIndex].selected = optionIndex == currentOptionIndex;
+      oldQuestions[indexQuestion].options[optionIndex].selected = parseInt(optionIndex) === parseInt(currentOptionIndex);
     }
     setExam({ ...exam, questions: oldQuestions });
   };
@@ -206,11 +206,13 @@ export default function Quiz (props) {
     AnswerProvider.saveAnswer(answer).then(res => {
     });
   };
+
   useEffect(() => {
     if (score !== false) {
       send();
     }
-  }, [score]);
+  }, [send, score]);
+
   const getScore = () => {
     const { questions } = exam;
     let totalPoints = 0;
@@ -277,11 +279,11 @@ export default function Quiz (props) {
                 subheader={exam.subtitle}
               />
               {exam.questions.map((question, indexQuestion) => {
-                let display = indexQuestion === currentIndexQuestion ? "" : "none";
                 return (
                   <div
                     key={`question_${indexQuestion}`}
-                    style={{ display: display }}>
+                    style={{ display: indexQuestion === currentIndexQuestion ? "" : "none" }}
+                  >
                     <CardContent>
                       {question.image &&
                       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -289,14 +291,14 @@ export default function Quiz (props) {
                           <GridList
                             cols={1} cellHeight={"auto"} spacing={1}>
                             <GridListTile>
-                              <img align={question.text} style={{ maxWidth: "100%", height: "auto" }} src={imageUrl + question.image}/>
+                              <img alt={question.text} style={{ maxWidth: "100%", height: "auto" }}
+                                   src={imageUrl + question.image}/>
                             </GridListTile>
                           </GridList>
                         </Box>
                       </div>}
                       <Box mb={5}>
-                        <Typography variant="body2" color="textSecondary"
-                                    component="p">{question.text}</Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">{question.text}</Typography>
                       </Box>
                       {question.type === QUESTION_TYPES.FREE_TEXT ? (
                         <TextField

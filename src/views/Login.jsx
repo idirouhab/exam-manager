@@ -48,7 +48,7 @@ export default function Test (props) {
   const classes = useStyles();
   const { t } = useTranslation("common");
   const { enqueueSnackbar } = useSnackbar();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
@@ -62,8 +62,8 @@ export default function Test (props) {
 
   }, [redirectToReferrer, from, props]);
 
-  const updateUsername = (e) => {
-    setUsername(e.target.value);
+  const updateEmail = (e) => {
+    setEmail(e.target.value);
   };
 
   const updatePassword = (e) => {
@@ -74,11 +74,11 @@ export default function Test (props) {
     e.preventDefault();
     setSubmitted(true);
 
-    if (username && password) {
-      Auth.login(username, password).then(() => {
+    if (email && password) {
+      Auth.login(email, password).then(() => {
         setRedirectToReferrer(true);
       }).catch((err) => {
-        newrelic.noticeError(err, { username: username });
+        newrelic.noticeError(err, { email: email });
         const options = {
           variant: "error",
           anchorOrigin: {
@@ -116,10 +116,10 @@ export default function Test (props) {
                     fullWidth
                     label={t("login_user")}
                     variant="outlined"
-                    onChange={updateUsername}
-                    value={username}
-                    error={username.length === 0 && submitted}
-                    helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
+                    onChange={updateEmail}
+                    value={email}
+                    error={email.length === 0 && submitted}
+                    helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
                   />
                 </Box>
                 <Box mb={2}>

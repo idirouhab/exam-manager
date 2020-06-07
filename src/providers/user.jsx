@@ -6,10 +6,10 @@ const UserProvider = {
   saveUser: async function (user) {
     return await axios.post(`${backendUrl}/login`, { user });
   },
-  fetchUser: async function (username, password) {
+  fetchUser: async function (email, password) {
     return axios.get(`${backendUrl}/login`, {
       params: {
-        username: username,
+        email: email,
         password: password
       }
     });

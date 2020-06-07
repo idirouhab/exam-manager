@@ -49,7 +49,7 @@ export default function Register (props) {
   const classes = useStyles();
   const { t } = useTranslation("common");
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -68,8 +68,8 @@ export default function Register (props) {
     setLastName(e.target.value);
   };
 
-  const updateUsername = (e) => {
-    setUsername(e.target.value);
+  const updateEmail = (e) => {
+    setEmail(e.target.value);
   };
 
   const updatePassword = (e) => {
@@ -80,10 +80,10 @@ export default function Register (props) {
     e.preventDefault();
     setSubmitted(true);
 
-    if (username && password && name && lastName) {
+    if (email && password && name && lastName) {
       userProvider.saveUser(
         {
-          username,
+          email,
           password,
           name,
           lastName,
@@ -132,11 +132,11 @@ export default function Register (props) {
                     fullWidth
                     variant="outlined"
                     label={t("register_email")}
-                    onChange={updateUsername}
+                    onChange={updateEmail}
                     type={"email"}
-                    value={username}
-                    error={username.length === 0 && submitted}
-                    helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
+                    value={email}
+                    error={email.length === 0 && submitted}
+                    helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
                   />
                 </Box>
 
@@ -180,7 +180,7 @@ export default function Register (props) {
         >
           <DialogContent>
             <DialogContentText>
-              {t("check_inbox", { email: username })}
+              {t("check_inbox", { email: email })}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

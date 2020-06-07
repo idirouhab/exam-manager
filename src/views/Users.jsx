@@ -42,7 +42,7 @@ export default function Users () {
           {
             id: user.id,
             role: user.role,
-            username: user.username,
+            email: user.email,
           }
         );
       });
@@ -65,7 +65,7 @@ export default function Users () {
                   <TableHead>
                     <TableRow>
                       <TableCell className="capitalize">{t("role")}</TableCell>
-                      <TableCell className="capitalize">{t("username")}</TableCell>
+                      <TableCell className="capitalize">{t("email")}</TableCell>
                       <StyledTableCell size="small" align="center"/>
                     </TableRow>
                   </TableHead>
