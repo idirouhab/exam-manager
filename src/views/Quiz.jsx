@@ -29,6 +29,7 @@ import wellDoneGif from "../assets/images/well_done.gif";
 import nextTimeGif from "../assets/images/nex_time.gif";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import _ from "lodash";
 
 class Option {
   constructor (id = null, text = "", correct = false) {
@@ -130,7 +131,7 @@ export default function Quiz (props) {
         });
         newExam.questions.push(emptyQuestion);
       });
-
+      newExam.questions = _.shuffle(newExam.questions);
       setExam(newExam);
 
     }).finally(() => {
