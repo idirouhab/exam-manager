@@ -94,7 +94,7 @@ export default function ButtonAppBar (props) {
             {getBrand()}
           </Typography>
           <div>
-            <IconButton
+            <Button
               onClick={handleClick}
               style={{ color: "#fff" }}
             >
@@ -105,7 +105,7 @@ export default function ButtonAppBar (props) {
                 })[0].text}
               </Typography>
               <ExpandMore fontSize="small"/>
-            </IconButton>
+            </Button>
             <Menu
               id="long-menu"
               anchorEl={anchorEl}
