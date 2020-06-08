@@ -29,7 +29,8 @@ export default function Private (props) {
 
   const theme = createMuiTheme({
     palette: {
-      type: "light"
+      type: "light",
+      primary: { main: "#2e3353" },
     },
   });
   const container = window !== undefined ? () => window().document.body : undefined;

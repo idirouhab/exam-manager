@@ -28,18 +28,6 @@ const useStyles = makeStyles((theme) => ({
     },
     textAlign: "left"
   },
-  buttonAddQuestion: {
-    backgroundColor: blue[500],
-    "&:hover": {
-      backgroundColor: blue[700]
-    }
-  },
-  buttonDeleteQuestion: {
-    backgroundColor: red[500],
-    "&:hover": {
-      backgroundColor: red[700]
-    }
-  },
   margin: {
     margin: theme.spacing(1),
   },
@@ -69,13 +57,7 @@ const useStyles = makeStyles((theme) => ({
     },
     color: "#fff"
   },
-  buttonSaveExam: {
-    backgroundColor: blue[500],
-    "&:hover": {
-      backgroundColor: blue[700]
-    },
-    color: "white"
-  },
+
   wrapper: {
     textAlign: "center",
     margin: theme.spacing(1),

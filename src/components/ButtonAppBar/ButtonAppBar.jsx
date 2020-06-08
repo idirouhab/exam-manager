@@ -17,13 +17,17 @@ import { ExpandMore } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => (
   {
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
     appBar: {
       [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
       },
-      color: "#fff",
-      backgroundColor: "#1976d2",
+      backgroundColor: "#fff",
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -39,9 +43,6 @@ const useStyles = makeStyles((theme) => (
       [theme.breakpoints.up("md")]: {
         display: "flex",
       },
-    },
-    selectEmpty: {
-      color: "#fff"
     },
   }));
 
@@ -78,25 +79,26 @@ export default function ButtonAppBar (props) {
 
   return (
     <Fragment>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar elevation={1} position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-            color="inherit"
+
             aria-label="open drawer"
             edge="start"
             onClick={props.handleDrawerToggle}
             className={classes.menuButton}
           >
-            <Typography />
+            <Typography/>
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
             {getBrand()}
           </Typography>
-          <div>
+          <div className={classes.root}>
             <Button
+              color={"primary"}
               onClick={handleClick}
-              style={{ color: "#fff" }}
+              variant="contained"
             >
               <TranslateIcon/>
               <Typography className={classes.sectionDesktop} variant={"button"}>&nbsp;
@@ -132,7 +134,7 @@ export default function ButtonAppBar (props) {
                 </MenuItem>
               ))}
             </Menu>
-            <Button color="inherit" onClick={logout}>{t(`logout`)}</Button>
+           <Button variant="contained" color={"primary"} onClick={logout}>{t(`logout`)}</Button>
           </div>
         </Toolbar>
       </AppBar>

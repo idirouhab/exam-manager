@@ -17,7 +17,7 @@ import FolderModel from "../../models/folder";
 import Auth from "../../providers/auth";
 
 const useStyles = makeStyles((theme) => ({
-  drawer: {
+    drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: theme.palette.primary.main,
+    color: "#fff"
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -78,7 +80,7 @@ export default function SideBar (props) {
                 selected={activeRoute(prop.path)}
                 style={hidden}
               >
-                {prop.icon ? <ListItemIcon><Icon>{prop.icon}</Icon></ListItemIcon> : null}
+                {prop.icon ? <ListItemIcon><Icon color="primary" style={{color: "#fff"}}>{prop.icon}</Icon></ListItemIcon> : null}
                 <ListItemText primary={t(`sections.${prop.name}`)}
                               onClick={() => {
                                 props.history.push(prop.section + prop.path);
@@ -100,7 +102,7 @@ export default function SideBar (props) {
                                      }}
                     >
                       <ListItemIcon>
-                        <Folder/>
+                        <Folder color="primary" style={{color: "#fff"}}/>
                       </ListItemIcon>
                       <ListItemText primary={folder.name}/>
                     </ListItem>;
