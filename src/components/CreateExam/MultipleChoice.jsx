@@ -16,18 +16,18 @@ export default function MultipleChoice (props) {
   const { t } = useTranslation("common");
 
   return (<>
-    <Grid container justify="center">
-      {props.options.map((option, indexOption) => {
-        return <Grid item xs={8} key={`option_${props.indexQuestion}_${indexOption}`}>
-          <Paper className={classes.paper} square>
-            <Grid item xs={12}>
-              <div className={classes.inlineInput}>
-                <FormControlLabel
-                  label={
-                    <Input
-                      value={option.text}
-                      style={{ width: "100%" }}
-                      label={t("create_exam.label.option")}
+        <Grid container justify="center">
+            {props.options.map((option, indexOption) => {
+                return <Grid item xs={8} key={`option_${props.indexQuestion}_${indexOption}`}>
+                    <Paper className={classes.paper} square>
+                        <Grid item xs={12}>
+                            <div className={classes.inlineInput}>
+                                <FormControlLabel
+                                    label={
+                                        <Input
+                                            value={option.text}
+                                            style={{width: "100%"}}
+                                            label={t("create_exam.label.option")}
                       autoFocus={props.options.length > 1}
                       onChange={e => props.updateAnswerText(e, props.indexQuestion, indexOption)}
                       endAdornment={
