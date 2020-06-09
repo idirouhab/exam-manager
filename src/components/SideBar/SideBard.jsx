@@ -80,7 +80,7 @@ export default function SideBar (props) {
       <div className={classes.toolbar} style={{ backgroundColor: "#fff", borderRight: "#fff" }} align={"center"}>
         <Box py={1}>
           <a href={"/"}>
-            <img src={Logo} width={"25%"}/>
+            <img src={Logo}  width={"20%"}/>
           </a>
         </Box>
       </div>
