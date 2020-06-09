@@ -15,16 +15,26 @@ import { ExpandLess, ExpandMore, Folder } from "@material-ui/icons";
 import FolderProvider from "../../providers/folder";
 import FolderModel from "../../models/folder";
 import Auth from "../../providers/auth";
+import Logo from "../../assets/images/logo.jpeg";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
-    drawer: {
+  drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
 
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    ...theme.mixins.toolbar,
+    paddingLeft: theme.spacing(3),
+    display: "flex",
+    flexGrow: 1,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: theme.palette.primary.main,
@@ -65,8 +75,15 @@ export default function SideBar (props) {
     return open ? <ExpandLess onClick={handleClick}/> : <ExpandMore onClick={handleClick}/>;
   };
 
-  const drawer = (<div>
-      <div className={classes.toolbar}/>
+  const drawer = (
+    <div>
+      <div className={classes.toolbar} style={{ backgroundColor: "#fff", borderRight: "#fff" }} align={"center"}>
+        <Box py={1}>
+          <a href={"/"}>
+            <img src={Logo} width={"25%"}/>
+          </a>
+        </Box>
+      </div>
       <Divider/>
       <List>
         {routes.map((prop, index) => {
@@ -80,7 +97,8 @@ export default function SideBar (props) {
                 selected={activeRoute(prop.path)}
                 style={hidden}
               >
-                {prop.icon ? <ListItemIcon><Icon color="primary" style={{color: "#fff"}}>{prop.icon}</Icon></ListItemIcon> : null}
+                {prop.icon ? <ListItemIcon><Icon color="primary"
+                                                 style={{ color: "#fff" }}>{prop.icon}</Icon></ListItemIcon> : null}
                 <ListItemText primary={t(`sections.${prop.name}`)}
                               onClick={() => {
                                 props.history.push(prop.section + prop.path);
@@ -102,7 +120,7 @@ export default function SideBar (props) {
                                      }}
                     >
                       <ListItemIcon>
-                        <Folder color="primary" style={{color: "#fff"}}/>
+                        <Folder color="primary" style={{ color: "#fff" }}/>
                       </ListItemIcon>
                       <ListItemText primary={folder.name}/>
                     </ListItem>;
