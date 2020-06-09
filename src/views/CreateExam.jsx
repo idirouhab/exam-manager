@@ -446,7 +446,6 @@ export default function CreateExam (props) {
                         size="large"
                         className={classes.buttonDeleteQuestion}
                         onClick={() => deleteQuestion(indexQuestion)}
-
                       >
                         <Remove/>
                       </Button>}
@@ -470,6 +469,7 @@ export default function CreateExam (props) {
             <Paper className={classes.paperBottom} square>
               <Fab
                 onClick={saveExam}
+                color={"secondary"}
                 className={`${success ? classes.buttonSuccess : classes.buttonSaveExam}`}
               >
                 {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
