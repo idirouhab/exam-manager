@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: theme.palette.primary.main,
-    color: "#fff"
+    color: "#fff",
+    border: 0
   },
   nested: {
     paddingLeft: theme.spacing(4),
@@ -78,11 +79,9 @@ export default function SideBar (props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} style={{ backgroundColor: "#fff", borderRight: "#fff" }} align={"center"}>
-        <Box py={1}>
           <a href={"/"}>
             <img src={Logo}  width={"20%"}/>
           </a>
-        </Box>
       </div>
       <Divider/>
       <List>
