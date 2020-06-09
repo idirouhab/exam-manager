@@ -16,7 +16,6 @@ import FolderProvider from "../../providers/folder";
 import FolderModel from "../../models/folder";
 import Auth from "../../providers/auth";
 import Logo from "../../assets/images/logo.jpeg";
-import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
