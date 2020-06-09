@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { blue } from "@material-ui/core/colors";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   loaderContainer: {
     position: "fixed",
     top: 0,
@@ -17,12 +17,11 @@ const useStyles = makeStyles(() => ({
     zIndex: -1,
     position: "absolute",
   },
-
 }));
 
 export default function Loader (props) {
   const classes = useStyles();
-  const PROGRESS_COLOR = props.progressColor || blue[500];
+  const PROGRESS_COLOR = props.progressColor || "#2e3353";
   const BACKGROUND_COLOR = props.backgroundColor || "transparent";
 
   return (
