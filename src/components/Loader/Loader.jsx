@@ -1,35 +1,41 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { blue } from "@material-ui/core/colors";
-
-const useStyles = makeStyles((theme) => ({
-  loaderContainer: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-  },
-  loader: {
-    left: "50%",
-    top: "30%",
-    zIndex: -1,
-    position: "absolute",
-  },
-}));
 
 export default function Loader (props) {
-  const classes = useStyles();
-  const PROGRESS_COLOR = props.progressColor || "#2e3353";
-  const BACKGROUND_COLOR = props.backgroundColor || "transparent";
+  const useStyles = makeStyles((theme) => ({
+    loaderContainer: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: props.backgroundColor || "transparent"
+    },
+    loader: {
+      left: "50%",
+      top: "30%",
+      zIndex: -1,
+      position: "absolute",
+    },
+    spinner: {
+      left: "50%",
+      marginLeft: "-50px",
+      marginTop: "-50px",
+      backgroundSize: "100%",
+      position: "absolute",
+      height: "100px",
+      width: "100px",
+      color: props.progressColor || theme.palette.primary.main,
+    }
+  }));
 
+  const classes = useStyles();
   return (
-    <div className={classes.loaderContainer} style={{ backgroundColor: BACKGROUND_COLOR }}>
+    <div className={classes.loaderContainer}>
       <div className={classes.loader}>
         <CircularProgress
-          className={"spinner"}
-          style={{ color: PROGRESS_COLOR }}
+          className={classes.spinner}
           variant="indeterminate"
           size={100}/>
       </div>
