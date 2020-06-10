@@ -4,6 +4,7 @@ import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { withStyles } from "@material-ui/styles";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -18,7 +19,18 @@ export default function User (props) {
   return (
     <>
       <TableRow>
-
+        <TableCell padding="checkbox">
+          <Checkbox
+            checked={props.user.isBlocked}
+            onChange={(e) => props.update(props.user.id, e,"isBlocked")}
+          />
+        </TableCell>
+        <TableCell padding="checkbox">
+          <Checkbox
+            checked={props.user.isVerified}
+            onChange={(e) => props.update(props.user.id, e,"isVerified")}
+          />
+        </TableCell>
         <TableCell component="th" scope="row">
           {props.user.role}
         </TableCell>

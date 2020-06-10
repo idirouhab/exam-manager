@@ -43,6 +43,8 @@ export default function Users () {
             id: user.id,
             role: user.role,
             email: user.email,
+            isBlocked: user.isBlocked,
+            isVerified: user.isVerified,
           }
         );
       });
@@ -54,6 +56,23 @@ export default function Users () {
 
   useEffect(getUsers, []);
 
+  const update = (userId, e, fieldName) => {
+    const checked = e.target.checked;
+    const oldUsers = [...users];
+    const data = {};
+    data[fieldName] = e.target.checked;
+
+    UserProvider.updateUser(userId, data).then(() => {
+      const newUsers = oldUsers.map(user => {
+        if (user.id === userId) {
+          user[fieldName] = checked;
+        }
+        return user;
+      });
+      setUsers(newUsers);
+    });
+  };
+
   return (
     <>
       <Fragment>
@@ -64,6 +83,8 @@ export default function Users () {
                 <Table size="small">
                   <TableHead>
                     <TableRow>
+                      <TableCell className="capitalize">{t("Banned")}</TableCell>
+                      <TableCell className="capitalize">{t("Verified")}</TableCell>
                       <TableCell className="capitalize">{t("role")}</TableCell>
                       <TableCell className="capitalize">{t("email")}</TableCell>
                       <StyledTableCell size="small" align="center"/>
@@ -75,6 +96,7 @@ export default function Users () {
                         key={key}
                         user={user}
                         deleteUser={deleteUser}
+                        update={update}
                         index={key}
                       />
                     ))}

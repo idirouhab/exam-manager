@@ -12,7 +12,7 @@ class Auth {
 
   login (email, password) {
     return userProvider.fetchUser(email, password).then(res => {
-      if (res.status === 200) {
+      if (res.status === 200 && !res.data.user.isBlocked) {
         this.email = res.data.user.email;
         this.userId = res.data.user.id;
         this.authenticated = true;
