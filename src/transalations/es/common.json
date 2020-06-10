@@ -43,6 +43,20 @@
   "register_password": "Contraseña",
   "select_correct": "Selecciona la correcta",
   "option_header": "Posibles respuestas",
+  "exam": "examen",
+  "avg_per_question": "Promedio por pregunta",
+  "score": "Nota",
+  "write_answer": "Escribe tu respuesta",
+  "stats_exam": "Ver estadísticas del examen",
+  "link_exam": "Compartir examen",
+  "clone_exam": "Clonar examen",
+  "edit_exam": "Editar examen",
+  "delete_exam": "Eliminar examen",
+  "select_your_folder": "¿En qué carpeta quieres guardar el exámen?",
+  "reminder": "Recordatorio",
+  "close": "Cerrar",
+  "previous": "Anterior",
+  "search_exam": "Buscar examen por título",
   "sections": {
     "home": "Inicio",
     "login": "Login",
@@ -77,19 +91,5 @@
       "add_image": "Añadir imagen"
     },
     "create_folder": "Debes tener una carpeta creada antes de crear un examen, si no tienes ninguna, dirígete al menú de Carpetas situado a la izquierda y crea una."
-  },
-  "exam": "examen",
-  "avg_per_question": "Promedio por pregunta",
-  "score": "Nota",
-  "write_answer": "Escribe tu respuesta",
-  "stats_exam": "Ver estadísticas del examen",
-  "link_exam": "Compartir examen",
-  "clone_exam": "Clonar examen",
-  "edit_exam": "Editar exadem",
-  "delete_exam": "Eliminar examen",
-  "select_your_folder": "¿En qué carpeta quieres guardar el exámen?",
-  "reminder": "Recordatorio",
-  "close": "Cerrar",
-  "previous": "Anterior",
-  "search_exam": "Buscar examen por título"
+  }
 }

@@ -43,6 +43,20 @@
   "option_header": "Possible options",
   "create_an_account": "Create account",
   "sign_in_instead": "Sign in instead",
+  "exam": "exam",
+  "avg_per_question": "Average per question",
+  "score": "Score",
+  "write_answer": "Write your answer",
+  "stats_exam": "View exam stats",
+  "link_exam": "Link to exam",
+  "clone_exam": "Clone exam",
+  "edit_exam": "Edit exam",
+  "delete_exam": "Delete exam",
+  "select_your_folder": "Where do you wanna store your the exam?",
+  "reminder": "Reminder",
+  "close": "Close",
+  "previous": "Previous",
+  "search_exam": "Search exam by title",
   "sections": {
     "home": "Home",
     "login": "Login",
@@ -77,19 +91,5 @@
       "add_image": "Add image"
     },
     "create_folder": "You must have a folder created before creating an exam, if you don't have one, go to the Folders menu on the left side and create one."
-  },
-  "exam": "exam",
-  "avg_per_question": "Average per question",
-  "score": "Score",
-  "write_answer": "Write your answer",
-  "stats_exam": "View exam stats",
-  "link_exam": "Link to exam",
-  "clone_exam": "Clone exam",
-  "edit_exam": "Edit exam",
-  "delete_exam": "Delete exam",
-  "select_your_folder": "Where do you wanna store your the exam?",
-  "reminder": "Reminder",
-  "close": "Close",
-  "previous": "Previous",
-  "search_exam": "Search exam by title"
+  }
 }

@@ -5,29 +5,33 @@ import common_es from "./transalations/es/common.json";
 import common_en from "./transalations/en/common.json";
 import common_ca from "./transalations/ca/common.json";
 import common_gl from "./transalations/gl/common.json";
+import common_fr from "./transalations/fr/common.json";
 
 i18n
-    .use(initReactI18next)
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-        interpolation: {escapeValue: false},
-        debug: false,
-        fallbackLng: 'en',
-        resources: {
-            en: {
-                common: common_en
-            },
-            es: {
-                common: common_es
-            },
-            ca: {
-                common: common_ca
-            },
-            gl: {
-              common: common_gl
-            },
-        },
-    });
+  .use(initReactI18next)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    interpolation: { escapeValue: false },
+    debug: false,
+    fallbackLng: "en",
+    resources: {
+      en: {
+        common: common_en
+      },
+      es: {
+        common: common_es
+      },
+      ca: {
+        common: common_ca
+      },
+      gl: {
+        common: common_gl
+      },
+      fr: {
+        common: common_fr
+      },
+    },
+  });
 
 export default i18n;

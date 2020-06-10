@@ -43,6 +43,10 @@ const LANGUAGES_LABEL = [
     code: "gl",
     text: "Galego",
   },
+  {
+    code: "fr",
+    text: "Français",
+  },
 ];
 
 export {
