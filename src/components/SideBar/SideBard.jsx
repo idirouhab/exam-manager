@@ -15,7 +15,7 @@ import { ExpandLess, ExpandMore, Folder } from "@material-ui/icons";
 import FolderProvider from "../../providers/folder";
 import FolderModel from "../../models/folder";
 import Auth from "../../providers/auth";
-import Logo from "../../assets/images/logo.jpeg";
+import Logo from "../../assets/images/logo.png";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -128,9 +128,7 @@ export default function SideBar (props) {
               </Collapse>}
             </Fragment>
           );
-
         })}
-
       </List>
     </div>
   );
