@@ -4,7 +4,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import Icon from "@material-ui/core/Icon";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -15,7 +14,7 @@ import { ExpandLess, ExpandMore, Folder } from "@material-ui/icons";
 import FolderProvider from "../../providers/folder";
 import FolderModel from "../../models/folder";
 import Auth from "../../providers/auth";
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/logo_invert.png";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -77,10 +76,10 @@ export default function SideBar (props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar}  align={"center"}>
-        {/*  <a href={"/"}>
-            <img src={Logo}  width={"20%"}/>
-          </a>*/}
+      <div className={classes.toolbar} align={"center"}>
+        <a href={"/"}>
+          <img src={Logo} width={"20%"}/>
+        </a>
       </div>
       <List>
         {routes.map((prop, index) => {
