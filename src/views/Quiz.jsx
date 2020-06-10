@@ -26,7 +26,7 @@ import Confetti from "react-confetti";
 import humanizeDuration from "humanize-duration";
 import imageBackground from "../assets/images/quiz_background.jpg";
 import wellDoneGif from "../assets/images/well_done.gif";
-import nextTimeGif from "../assets/images/nex_time.gif";
+import nextTimeGif from "../assets/images/bad.gif";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import _ from "lodash";
@@ -372,11 +372,18 @@ export default function Quiz (props) {
           {submitExam && <div>
             <Grid item className={classes.card}>
               <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
-                <CardMedia
-                  className={classes.media}
-                  image={score > (exam.questions.length / 2) ? wellDoneGif : nextTimeGif}
-                />
                 <CardContent style={{ textAlign: "center" }}>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Box mb={2}>
+                      <GridList
+                        cols={1} cellHeight={"auto"} spacing={1}>
+                        <GridListTile>
+                          <img alt={"final"}  style={{ maxWidth: "100%", height: "auto" }}
+                                src={score > (exam.questions.length / 2) ? wellDoneGif : nextTimeGif}/>
+                        </GridListTile>
+                      </GridList>
+                    </Box>
+                  </div>
                   <Typography
                     variant="subtitle1"><strong>{t("your_score")}: </strong>{score}/{exam.questions.length}
                   </Typography>

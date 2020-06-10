@@ -54,10 +54,10 @@ export default function Exam (props) {
         <StyledTableCell align="center">
           {props.exam.user}
         </StyledTableCell>
-        <TableCell component="th" scope="row">
+        <TableCell>
           {props.exam.text} ({props.exam.answers.length})
         </TableCell>
-        <TableCell component="th" scope="row" style={{ width: "20%" }}>
+        <TableCell>
           <Select
             onChange={(e) => props.updateExamFolder(e, props.exam.id)}
             value={props.exam.folderId}

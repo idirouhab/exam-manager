@@ -208,7 +208,6 @@ export default function Calendar () {
                   <TableRow>
                     <TableCell align="center" colSpan={moment.weekdaysShort().length}>
                       <Typography variant="h5" gutterBottom>
-
                         <strong>{month().toUpperCase()}-{year()}</strong>
                       </Typography>
                       <IconButton component="span" onClick={onPrev}>
@@ -218,7 +217,6 @@ export default function Calendar () {
                       <IconButton component="span" onClick={onNext}>
                         <ArrowForwardIosIcon/>
                       </IconButton>
-
                     </TableCell>
 
                   </TableRow>
@@ -227,7 +225,6 @@ export default function Calendar () {
                     {moment.weekdaysShort(true).map(day => {
                       return <StyledTableCell align={"center"} key={day}>{day}</StyledTableCell>;
                     })}
-
                   </TableRow>
                 </TableHead>
                 <TableBody>

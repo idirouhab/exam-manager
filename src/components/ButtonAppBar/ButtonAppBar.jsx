@@ -14,11 +14,12 @@ import TranslateIcon from "@material-ui/icons/Translate";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { ExpandMore } from "@material-ui/icons";
+import green from "@material-ui/core/colors/green";
 
 const useStyles = makeStyles((theme) => (
   {
     root: {
-      '& > *': {
+      "& > *": {
         margin: theme.spacing(1),
       },
     },
@@ -43,6 +44,18 @@ const useStyles = makeStyles((theme) => (
       [theme.breakpoints.up("md")]: {
         display: "flex",
       },
+    },
+    sectionSmall: {
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
+      },
+    },
+    green: {
+      color: "#fff",
+      backgroundColor: green[500],
+      "&:hover": {
+        backgroundColor: green[700]
+      }
     },
   }));
 
@@ -82,7 +95,6 @@ export default function ButtonAppBar (props) {
       <AppBar elevation={1} position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-
             aria-label="open drawer"
             edge="start"
             onClick={props.handleDrawerToggle}
@@ -95,6 +107,8 @@ export default function ButtonAppBar (props) {
             {getBrand()}
           </Typography>
           <div className={classes.root}>
+            <Button href={"create-exam"} variant="contained"
+                    className={classes.green}>{t(`sections.create-exam`)}</Button>
             <Button
               color={"primary"}
               onClick={handleClick}

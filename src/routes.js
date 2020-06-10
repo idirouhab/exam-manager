@@ -37,7 +37,7 @@ const routes = [
     icon: "note_add",
     component: CreateExam,
     section: "/admin",
-    hide: false,
+    hide: true,
     nestedList: false
   },
   {

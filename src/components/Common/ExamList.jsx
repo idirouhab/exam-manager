@@ -151,6 +151,7 @@ export default function ExamList (props) {
                       <StyledTableCell align="center"/>
                       <StyledTableCell align="center"/>
                       <StyledTableCell align="center"/>
+                      <StyledTableCell align="center"/>
                     </TableRow>
                   </TableHead>
                   <TableBody>
