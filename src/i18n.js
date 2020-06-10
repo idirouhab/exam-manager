@@ -4,6 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import common_es from "./transalations/es/common.json";
 import common_en from "./transalations/en/common.json";
 import common_ca from "./transalations/ca/common.json";
+import common_gl from "./transalations/gl/common.json";
 
 i18n
     .use(initReactI18next)
@@ -22,6 +23,9 @@ i18n
             },
             ca: {
                 common: common_ca
+            },
+            gl: {
+              common: common_gl
             },
         },
     });

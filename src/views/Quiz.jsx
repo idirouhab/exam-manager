@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
@@ -99,12 +98,12 @@ export default function Quiz (props) {
 
   const classes = useStyles();
   const { t } = useTranslation("common");
+  const [step, setStep] = useState(0);
   const [exam, setExam] = useState(new Exam());
   const [currentIndexQuestion, setCurrentIndexQuestion] = useState(0);
   const [loading, setLoading] = useState(true);
   const [playerName, setPlayerName] = useState("");
   const [playerLastName, setPlayerLastName] = useState("");
-  const [startGame, setStartGame] = useState(false);
   const [submitExam, setSubmitExam] = useState(false);
   const [score, setScore] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -141,7 +140,7 @@ export default function Quiz (props) {
 
   useEffect(() => {
     let interval = null;
-    if (startGame) {
+    if (step === 1) {
       interval = setInterval(() => {
         setSeconds(seconds => seconds + 1);
       }, 1000);
@@ -149,14 +148,14 @@ export default function Quiz (props) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [startGame, submitExam]);
+  }, [step, submitExam]);
 
   const updateCurrentQuestion = (addition) => {
     if (getOptionSelected(currentIndexQuestion)) {
       if ((currentIndexQuestion + addition) < exam.questions.length) {
         setCurrentIndexQuestion(currentIndexQuestion + addition);
       } else {
-        setStartGame(false);
+        setStep(2);
         setSubmitExam(true);
         getScore();
       }
@@ -181,7 +180,7 @@ export default function Quiz (props) {
   const onStartGame = () => {
     if (playerName && playerLastName) {
       setPlayerName(playerName + " " + playerLastName);
-      setStartGame(true);
+      setStep(1);
     }
   };
 
@@ -227,7 +226,7 @@ export default function Quiz (props) {
     <Fragment>
       {!loading && (
         <Grid container justify={"center"} className={classes.gridContainer}>
-          {!startGame && !submitExam && <Grid item className={classes.card}>
+          {step === 0 && <Grid item className={classes.card}>
             <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
               <CardHeader
                 title={<div>{exam.text}
@@ -273,7 +272,8 @@ export default function Quiz (props) {
               </CardActions>
             </Card>
           </Grid>}
-          {startGame && !submitExam && <Grid item className={classes.card}>
+          {step === 1 &&
+          <Grid item className={classes.card}>
             <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
               <CardHeader
                 title={exam.text}
@@ -369,7 +369,8 @@ export default function Quiz (props) {
             </Card>
           </Grid>}
           {/*end of the game*/}
-          {submitExam && <div>
+          {step === 2 &&
+          <div>
             <Grid item className={classes.card}>
               <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
                 <CardContent style={{ textAlign: "center" }}>
@@ -378,8 +379,8 @@ export default function Quiz (props) {
                       <GridList
                         cols={1} cellHeight={"auto"} spacing={1}>
                         <GridListTile>
-                          <img alt={"final"}  style={{ maxWidth: "100%", height: "auto" }}
-                                src={score > (exam.questions.length / 2) ? wellDoneGif : nextTimeGif}/>
+                          <img alt={"final"} style={{ maxWidth: "100%", height: "auto" }}
+                               src={score > (exam.questions.length / 2) ? wellDoneGif : nextTimeGif}/>
                         </GridListTile>
                       </GridList>
                     </Box>
