@@ -77,12 +77,11 @@ export default function SideBar (props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} style={{ backgroundColor: "#fff", borderRight: "#fff" }} align={"center"}>
-          <a href={"/"}>
+      <div className={classes.toolbar}  align={"center"}>
+        {/*  <a href={"/"}>
             <img src={Logo}  width={"20%"}/>
-          </a>
+          </a>*/}
       </div>
-      <Divider/>
       <List>
         {routes.map((prop, index) => {
           let hidden = (prop.hide || (!Auth.isRoot() && prop.scope === "root")) ? { display: "none" } : {};

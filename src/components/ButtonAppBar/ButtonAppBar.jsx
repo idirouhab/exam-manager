@@ -1,8 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { drawerWidth, LANGUAGE, LANGUAGES_LABEL } from "../../variables/general";
@@ -13,14 +12,25 @@ import Auth from "../../providers/auth";
 import TranslateIcon from "@material-ui/icons/Translate";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { ExpandMore } from "@material-ui/icons";
+import { ExitToApp, NoteAdd } from "@material-ui/icons";
 import green from "@material-ui/core/colors/green";
+import Tooltip from "@material-ui/core/Tooltip";
+import Link from "@material-ui/core/Link";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => (
   {
     root: {
-      "& > *": {
-        margin: theme.spacing(1),
+      display: "flex",
+    },
+    grow: {
+      flex: "1 1 auto",
+    },
+    language: {
+      margin: theme.spacing(0, 0.5, 0, 1),
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "block",
       },
     },
     appBar: {
@@ -28,34 +38,14 @@ const useStyles = makeStyles((theme) => (
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
       },
-      backgroundColor: "#fff",
+      transition: theme.transitions.create("width"),
     },
     menuButton: {
+      color: "#fff",
       marginRight: theme.spacing(2),
       [theme.breakpoints.up("sm")]: {
         display: "none",
       },
-    },
-    title: {
-      flexGrow: 1,
-    },
-    sectionDesktop: {
-      display: "none",
-      [theme.breakpoints.up("md")]: {
-        display: "flex",
-      },
-    },
-    sectionSmall: {
-      [theme.breakpoints.up("sm")]: {
-        display: "none",
-      },
-    },
-    green: {
-      color: "#fff",
-      backgroundColor: green[500],
-      "&:hover": {
-        backgroundColor: green[700]
-      }
     },
   }));
 
@@ -63,23 +53,10 @@ const ITEM_HEIGHT = 48;
 export default function ButtonAppBar (props) {
   const classes = useStyles();
   const { t } = useTranslation("common");
-
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const getBrand = () => {
-    let brandName = "Default Brand";
-    routes.map((prop, key) => {
-      if (window.location.href.indexOf(prop.section + "/" + prop.name) !== -1) {
-        brandName = prop.name;
-      }
-      return null;
-    });
-    return t(`sections.${brandName}`);
-  };
-
   const logout = () => {
     Auth.logout();
-    window.location.reload(false);
+    window.location.reload();
   };
 
   const handleClick = (event) => {
@@ -91,67 +68,77 @@ export default function ButtonAppBar (props) {
   };
 
   return (
-    <Fragment>
+    <div className={classes.root}>
       <AppBar elevation={1} position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-            aria-label="open drawer"
             edge="start"
             onClick={props.handleDrawerToggle}
             className={classes.menuButton}
           >
-            <Typography/>
             <MenuIcon/>
           </IconButton>
-          <Typography variant="h6" noWrap className={classes.title}>
-            {getBrand()}
-          </Typography>
-          <div className={classes.root}>
-            <Button href={"create-exam"} variant="contained"
-                    className={classes.green}>{t(`sections.create-exam`)}</Button>
+          <div className={classes.grow}/>
+
+          <Tooltip title={t("change_language")} enterDelay={300}>
             <Button
-              color={"primary"}
+              color="inherit"
               onClick={handleClick}
-              variant="contained"
             >
               <TranslateIcon/>
-              <Typography className={classes.sectionDesktop} variant={"button"}>&nbsp;
-                {LANGUAGES_LABEL.filter((language) => {
-                  return language.code === LANGUAGE;
-                })[0].text}
-              </Typography>
-              <ExpandMore fontSize="small"/>
+              <span className={classes.language}>
+              {LANGUAGES_LABEL.filter((language) => {
+                return language.code === LANGUAGE;
+              })[0].text}
+              </span>
+              <ExpandMoreIcon fontSize="small"/>
             </Button>
-            <Menu
-              id="long-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  maxHeight: ITEM_HEIGHT * 4.5,
-                  width: "20ch",
-                },
-              }}
+          </Tooltip>
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: "20ch",
+              },
+            }}
+          >
+            {LANGUAGES_LABEL.map((language) => (
+              <MenuItem key={language.code}
+                        component={Link}
+                        data-no-link="true"
+                        href={`?lng=${language.code}`}
+                        selected={language.code === LANGUAGE}
+                        lang={language.code}
+                        hrefLang={language.code}
+                        onClick={handleClose}>
+                {language.text}
+              </MenuItem>
+            ))}
+          </Menu>
+          <Tooltip title={t("sections.create-exam")} enterDelay={300}>
+            <IconButton
+              color="inherit"
+              component={Link}
+
+              href={"create-exam"}
             >
-              {LANGUAGES_LABEL.map((language) => (
-                <MenuItem key={language.code}
-                          component="a"
-                          data-no-link="true"
-                          href={`?lng=${language.code}`}
-                          selected={language.code === LANGUAGE}
-                          lang={language.code}
-                          hrefLang={language.code}
-                          onClick={handleClose}>
-                  {language.text}
-                </MenuItem>
-              ))}
-            </Menu>
-           <Button variant="contained" color={"primary"} onClick={logout}>{t(`logout`)}</Button>
-          </div>
+              <NoteAdd/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t("logout")} enterDelay={300}>
+            <IconButton
+              color="inherit"
+              onClick={logout}
+            >
+              <ExitToApp/>
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
-    </Fragment>
+    </div>
   );
 }

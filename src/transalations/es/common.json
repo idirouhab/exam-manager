@@ -1,4 +1,5 @@
 {
+  "change_language": "Cambiar idioma",
   "me": "Yo",
   "check_inbox": "Te hemos enviado un email de confirmación a {{email}}. Por favor, revisa tu correo para activar tu cuenta.",
   "today": "Hoy",
