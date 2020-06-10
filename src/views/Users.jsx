@@ -10,7 +10,6 @@ import TableBody from "@material-ui/core/TableBody";
 import { withStyles } from "@material-ui/styles";
 import { useTranslation } from "react-i18next";
 import Loader from "../components/Loader/Loader";
-import Slide from "@material-ui/core/Slide";
 import UserProvider from "../providers/user";
 import User from "../components/Users/User";
 
@@ -57,6 +56,7 @@ export default function Users () {
   useEffect(getUsers, []);
 
   const update = (userId, e, fieldName) => {
+    setLoading(true);
     const checked = e.target.checked;
     const oldUsers = [...users];
     const data = {};
@@ -70,44 +70,44 @@ export default function Users () {
         return user;
       });
       setUsers(newUsers);
+      setLoading(false);
     });
   };
 
   return (
     <>
       <Fragment>
-        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <TableContainer component={Paper}>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell className="capitalize">{t("Banned")}</TableCell>
-                      <TableCell className="capitalize">{t("Verified")}</TableCell>
-                      <TableCell className="capitalize">{t("role")}</TableCell>
-                      <TableCell className="capitalize">{t("email")}</TableCell>
-                      <StyledTableCell size="small" align="center"/>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {users.map((user, key) => (
-                      <User
-                        key={key}
-                        user={user}
-                        deleteUser={deleteUser}
-                        update={update}
-                        index={key}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="capitalize">{t("Banned")}</TableCell>
+                    <TableCell className="capitalize">{t("Verified")}</TableCell>
+                    <TableCell className="capitalize">{t("role")}</TableCell>
+                    <TableCell className="capitalize">{t("email")}</TableCell>
+                    <StyledTableCell size="small" align="center"/>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {users.map((user, key) => (
+                    <User
+                      key={key}
+                      user={user}
+                      deleteUser={deleteUser}
+                      update={update}
+                      index={key}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Grid>
-        </Slide>
+        </Grid>
         {loading && (<Loader/>)}
       </Fragment>
+      {loading && <Loader/>}
     </>
   );
 }
