@@ -25,7 +25,7 @@ import Confetti from "react-confetti";
 import humanizeDuration from "humanize-duration";
 import imageBackground from "../assets/images/quiz_background.jpg";
 import wellDoneGif from "../assets/images/well_done.gif";
-import nextTimeGif from "../assets/images/bad.gif";
+import nextTimeGif from "../assets/images/nex_time.gif";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import _ from "lodash";
