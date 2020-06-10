@@ -1,4 +1,5 @@
 {
+  "profile": "Perfil",
   "change_language": "Canviar idioma",
   "check_inbox": "T'hem enviat un correu electrònic de confirmació a {{email}}. Si us plau, revisa el teu correu per activar el teu compte.",
   "today": "Avui",

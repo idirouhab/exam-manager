@@ -16,6 +16,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const useStyles = makeStyles((theme) => (
   {
@@ -65,16 +66,21 @@ const useStyles = makeStyles((theme) => (
         display: "none",
       },
     },
+    dropDownButton: {
+      textTransform: "none",
+    }
   }));
 
 const ITEM_HEIGHT = 48;
 export default function ButtonAppBar (props) {
   const classes = useStyles();
   const { t } = useTranslation("common");
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
+  const [anchorElProfile, setAnchorElProfile] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const isMenuOpen = Boolean(anchorEl);
+  const isLanguageMenuOpen = Boolean(anchorElLanguage);
+  const isProfileMenuOpen = Boolean(anchorElProfile);
 
   const logout = () => {
     Auth.logout();
@@ -90,23 +96,55 @@ export default function ButtonAppBar (props) {
   };
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorElProfile(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleLanguageMenuOpen = (event) => {
+    setAnchorElLanguage(event.currentTarget);
   };
+
+  const handleLanguageMenuClose = () => {
+    setAnchorElLanguage(null);
+  };
+
+  const handleProfileMenuClose = () => {
+    setAnchorElProfile(null);
+  };
+
+  const menuProfileId = "primary-search-account-menu";
+  const renderProfileMenu = (
+    <Menu
+      anchorEl={anchorElProfile}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuProfileId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isProfileMenuOpen}
+      onClose={handleProfileMenuClose}
+    >
+      <MenuItem onClick={handleProfileMenuClose}>
+        <Button
+          className={classes.dropDownButton}
+          color="inherit"
+          onClick={logout}
+          startIcon={<ExitToApp/>}
+        >
+          {t("logout")}
+        </Button>
+      </MenuItem>
+    </Menu>
+  );
 
   const menuId = "primary-search-account-menu";
   const renderLanguageMenu = (
     <Menu
-      anchorEl={anchorEl}
+      anchorEl={anchorElLanguage}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      open={isLanguageMenuOpen}
+      onClose={handleLanguageMenuClose}
       PaperProps={{
         style: {
           maxHeight: ITEM_HEIGHT * 4.5,
@@ -122,7 +160,7 @@ export default function ButtonAppBar (props) {
                   selected={language.code === LANGUAGE}
                   lang={language.code}
                   hrefLang={language.code}
-                  onClick={handleMenuClose}>
+                  onClick={handleLanguageMenuClose}>
           {language.text}
         </MenuItem>
       ))}
@@ -140,60 +178,51 @@ export default function ButtonAppBar (props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <Tooltip title={t("change_language")} enterDelay={300}>
-          <Button
-            color="inherit"
-            onClick={handleProfileMenuOpen}
-          >
-            <TranslateIcon/>
-
-            <span className={classes.languageMobile}>
-              {LANGUAGES_LABEL.filter((language) => {
-                return language.code === LANGUAGE;
-              })[0].text}
-              </span>
-            <ExpandMoreIcon fontSize="small"/>
-          </Button>
-        </Tooltip>
-
+      <MenuItem onClick={handleLanguageMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <TranslateIcon/>
+        </IconButton>
+        <p>
+          {LANGUAGES_LABEL.filter((language) => {
+            return language.code === LANGUAGE;
+          })[0].text}
+        </p>
+        <ExpandMoreIcon fontSize="small"/>
       </MenuItem>
       <MenuItem>
-        <Tooltip title={t("sections.create-exam")} enterDelay={300}>
-          <IconButton
-            color="inherit"
-            component={Link}
+        <IconButton
+          color="inherit"
+          component={Link}
 
-            href={"create-exam"}
-          >
-            <NoteAdd/>
-          </IconButton>
-        </Tooltip>
+          href={"create-exam"}
+        >
+          <NoteAdd/>
+        </IconButton>
         <p>{t("sections.create-exam")}</p>
       </MenuItem>
-      <MenuItem>
-        <Tooltip title={t("logout")} enterDelay={300}>
-          <IconButton
-            color="inherit"
-            onClick={logout}
-          >
-            <ExitToApp/>
-          </IconButton>
-        </Tooltip>
-        <p>{t("logout")}</p>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle/>
+        </IconButton>
+        <p>{t('profile')}</p>
       </MenuItem>
     </Menu>
   );
 
   return (
     <div className={classes.root}>
-
-
       <AppBar elevation={1} position="fixed" className={classes.appBar}>
         <Toolbar>
-          <div style={{ backgroundColor: isMobileMenuOpen ? "red" : "blue" }}>
-            {JSON.stringify(!!mobileMoreAnchorEl)}
-          </div>
           <IconButton
             edge="start"
             onClick={props.handleDrawerToggle}
@@ -210,14 +239,14 @@ export default function ButtonAppBar (props) {
                 aria-controls={menuId}
                 aria-haspopup="true"
                 color="inherit"
-                onClick={handleProfileMenuOpen}
+                onClick={handleLanguageMenuOpen}
               >
                 <TranslateIcon/>
-                <span className={classes.language}>
-              {LANGUAGES_LABEL.filter((language) => {
-                return language.code === LANGUAGE;
-              })[0].text}
-              </span>
+                <p className={classes.language}>
+                  {LANGUAGES_LABEL.filter((language) => {
+                    return language.code === LANGUAGE;
+                  })[0].text}
+                </p>
                 <ExpandMoreIcon fontSize="small"/>
               </Button>
             </Tooltip>
@@ -232,15 +261,21 @@ export default function ButtonAppBar (props) {
                 <NoteAdd/>
               </IconButton>
             </Tooltip>
-            <Tooltip title={t("logout")} enterDelay={300}>
+            <Tooltip title={t("profile")} enterDelay={300}>
               <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
                 color="inherit"
-                onClick={logout}
               >
-                <ExitToApp/>
+                <AccountCircle/>
               </IconButton>
             </Tooltip>
+
           </div>
+
           <div className={classes.sectionMobile}>
             <IconButton
               aria-controls={mobileMenuId}
@@ -255,6 +290,7 @@ export default function ButtonAppBar (props) {
       </AppBar>
       {renderMobileMenu}
       {renderLanguageMenu}
+      {renderProfileMenu}
     </div>
   );
 }
