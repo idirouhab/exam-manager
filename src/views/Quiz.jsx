@@ -29,6 +29,9 @@ import nextTimeGif from "../assets/images/nex_time.gif";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import _ from "lodash";
+import Zoom from "react-reveal/Zoom";
+import Slide from "@material-ui/core/Slide";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 class Option {
   constructor (id = null, text = "", correct = false) {
@@ -226,52 +229,55 @@ export default function Quiz (props) {
     <Fragment>
       {!loading && (
         <Grid container justify={"center"} className={classes.gridContainer}>
-          {step === 0 && <Grid item className={classes.card}>
-            <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
-              <CardHeader
-                title={<div>{exam.text}
-                  <br/><br/>
-                  <Typography variant="subtitle2" align={"center"} gutterBottom>
-                    <span>{t("quiz_reminder_read")}</span>
-                  </Typography>
-                  <Typography variant="subtitle2" align={"center"}>
-                    <span>{t("quiz_reminder_copy")}</span>
-                  </Typography>
-                </div>}
-                subheader={exam.subtitle}
-              />
-              <CardContent style={{ textAlign: "center" }}>
-                <TextField
-                  helperText={!playerName ? t("input.error.empty") : ""}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  label={t("quiz_player_name")}
-                  fullWidth
-                  value={playerName}
-                  variant="outlined"/>
-                <Box mt={2}>
+          {step === 0 &&
+          <Zoom top>
+            <Grid item className={classes.card}>
+              <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
+                <CardHeader
+                  title={<div>{exam.text}
+                    <br/><br/>
+                    <Typography variant="subtitle2" align={"center"} gutterBottom>
+                      <span>{t("quiz_reminder_read")}</span>
+                    </Typography>
+                    <Typography variant="subtitle2" align={"center"}>
+                      <span>{t("quiz_reminder_copy")}</span>
+                    </Typography>
+                  </div>}
+                  subheader={exam.subtitle}
+                />
+                <CardContent style={{ textAlign: "center" }}>
                   <TextField
-                    helperText={!playerLastName ? t("input.error.empty") : ""}
-                    onChange={(e) => setPlayerLastName(e.target.value)}
-                    label={t("quiz_player_lastName")}
+                    helperText={!playerName ? t("input.error.empty") : ""}
+                    onChange={(e) => setPlayerName(e.target.value)}
+                    label={t("quiz_player_name")}
                     fullWidth
-                    value={playerLastName}
+                    value={playerName}
                     variant="outlined"/>
-                </Box>
-              </CardContent>
-              <CardActions style={{ textAlign: "center" }}>
-                <div style={{ width: "100%" }}>
-                  <Button
-                    onClick={onStartGame}
-                    variant="contained"
-                    color="primary"
-                    className={classes.footerButtonNext}
-                  >
-                    {t("start")}
-                  </Button>
-                </div>
-              </CardActions>
-            </Card>
-          </Grid>}
+                  <Box mt={2}>
+                    <TextField
+                      helperText={!playerLastName ? t("input.error.empty") : ""}
+                      onChange={(e) => setPlayerLastName(e.target.value)}
+                      label={t("quiz_player_lastName")}
+                      fullWidth
+                      value={playerLastName}
+                      variant="outlined"/>
+                  </Box>
+                </CardContent>
+                <CardActions style={{ textAlign: "center" }}>
+                  <div style={{ width: "100%" }}>
+                    <Button
+                      onClick={onStartGame}
+                      variant="contained"
+                      color="primary"
+                      className={classes.footerButtonNext}
+                    >
+                      {t("start")}
+                    </Button>
+                  </div>
+                </CardActions>
+              </Card>
+            </Grid>
+          </Zoom>}
           {step === 1 &&
           <Grid item className={classes.card}>
             <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
@@ -285,60 +291,70 @@ export default function Quiz (props) {
                     key={`question_${indexQuestion}`}
                     style={{ display: indexQuestion === currentIndexQuestion ? "" : "none" }}
                   >
-                    <CardContent>
-                      {question.image &&
-                      <div style={{ display: "flex", justifyContent: "center" }}>
-                        <Box mb={2}>
-                          <GridList
-                            cols={1} cellHeight={"auto"} spacing={1}>
-                            <GridListTile>
-                              <img alt={question.text} style={{ maxWidth: "100%", height: "auto" }}
-                                   src={imageUrl + question.image}/>
-                            </GridListTile>
-                          </GridList>
+                    <Slide direction="up" in={indexQuestion === currentIndexQuestion} mountOnEnter unmountOnExit>
+                      <CardContent>
+                        {question.image &&
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                          <Box mb={2}>
+                            <GridList
+                              cols={1} cellHeight={"auto"} spacing={1}>
+                              <GridListTile>
+                                <img alt={question.text} style={{ maxWidth: "100%", height: "auto" }}
+                                     src={imageUrl + question.image}/>
+                              </GridListTile>
+                            </GridList>
+                          </Box>
+                        </div>}
+                        <Box mb={5}>
+                          <Typography variant="body2" color="textSecondary" component="p">{question.text}</Typography>
                         </Box>
-                      </div>}
-                      <Box mb={5}>
-                        <Typography variant="body2" color="textSecondary" component="p">{question.text}</Typography>
-                      </Box>
-                      {question.type === QUESTION_TYPES.FREE_TEXT ? (
-                        <TextField
-                          multiline
-                          rows={6}
-                          fullWidth
-                          label={t("write_answer")}
-                          value={question.options[0].text}
-                          variant="outlined"
-                        />) : (
-                        <List
-                          component="nav"
-                          aria-labelledby="nested-list-subheader"
-                          className={classes.root}>
-                          {question.options.map((option, optionIndex) => {
-                            return (
-                              <ListItem
-                                key={`options_${indexQuestion}_${optionIndex}`}
-                                button
-                                onClick={() => selectOption(indexQuestion, optionIndex)}>
-                                <ListItemIcon>
-                                  {option.selected ? (
-                                    <RadioButtonChecked
-                                      edge="start"
-                                      tabIndex={-1}
-                                    />
-                                  ) : (
-                                    <RadioButtonUnchecked
-                                      edge="start"
-                                      tabIndex={-1}
-                                    />
-                                  )}
-                                </ListItemIcon>
-                                <ListItemText primary={option.text}/>
-                              </ListItem>);
-                          })}
-                        </List>
-                      )}
-                    </CardContent>
+                        {question.type === QUESTION_TYPES.FREE_TEXT ? (
+                          <TextField
+                            multiline
+                            rows={6}
+                            fullWidth
+                            label={t("write_answer")}
+                            value={question.options[0].text}
+                            variant="outlined"
+                          />) : (
+                          <List
+                            component="nav"
+                            aria-labelledby="nested-list-subheader"
+                            className={classes.root}>
+                            {question.options.map((option, optionIndex) => {
+                              return (
+                                <ListItem
+                                  key={`options_${indexQuestion}_${optionIndex}`}
+                                  button
+                                  onClick={() => selectOption(indexQuestion, optionIndex)}>
+                                  <ListItemIcon>
+                                    {option.selected ? (
+                                      <RadioButtonChecked
+                                        edge="start"
+                                        tabIndex={-1}
+                                      />
+                                    ) : (
+                                      <RadioButtonUnchecked
+                                        edge="start"
+                                        tabIndex={-1}
+                                      />
+                                    )}
+                                  </ListItemIcon>
+                                  <ListItemText primary={option.text}/>
+                                </ListItem>);
+                            })}
+                          </List>
+                        )}
+                        <div
+                          style={{
+                            textAlign: "center",
+                            display: question.options.find(option => option.selected) ? "none" : ""
+                          }}
+                          align={"center"}>
+                          <FormHelperText style={{ fontSize: "1em" }} component="span" error>{t('create_exam.label.option_not_select')}</FormHelperText>
+                        </div>
+                      </CardContent>
+                    </Slide>
                   </div>);
               })}
               <CardActions style={{ textAlign: "center" }}>
