@@ -13,6 +13,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useTranslation } from "react-i18next";
+import { Delete, Edit, Equalizer, FileCopy, Share } from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
 const StyledTableCell = withStyles(() => ({
   head: {
@@ -25,22 +27,13 @@ const StyledTableCell = withStyles(() => ({
 
 const useStyles = makeStyles(() => ({
   buttonSuccess: {
-    backgroundColor: green[500],
-    "&:hover": {
-      backgroundColor: green[700]
-    }
+    color: green[500],
   },
   buttonPrimary: {
-    backgroundColor: blue[500],
-    "&:hover": {
-      backgroundColor: blue[700]
-    }
+    color: blue[500],
   },
   buttonBrown: {
-    backgroundColor: brown[500],
-    "&:hover": {
-      backgroundColor: brown[700]
-    }
+    color: brown[500],
   },
 }));
 
@@ -72,38 +65,34 @@ export default function Exam (props) {
         </TableCell>
         <StyledTableCell align="center">
           <Tooltip title={t("stats_exam")}>
-            <Button
+            <IconButton
               id={`stats_${props.index}`}
-              variant="contained"
-              color="primary"
               size={"small"}
               component={RouterLink}
               className={`${classes.buttonPrimary}`}
               to={`/admin/stats/${props.exam.id}`}
             >
-              <Icon>equalizer</Icon>
-            </Button>
+              <Equalizer/>
+            </IconButton>
           </Tooltip>
         </StyledTableCell>
         <StyledTableCell align="center">
           <Tooltip title={t("link_exam")}>
-            <Button
+            <IconButton
               id={`quiz_${props.index}`}
               className={`${classes.buttonSuccess}`}
-              variant="contained"
-              color="primary"
               size={"small"}
               component={RouterLink}
               to={`/quiz/${props.exam.id}`}
               target="_blank"
             >
-              <Icon>share</Icon>
-            </Button>
+              <Share/>
+            </IconButton>
           </Tooltip>
         </StyledTableCell>
         <StyledTableCell align="center">
           <Tooltip title={t("clone_exam")}>
-            <Button
+            <IconButton
               id={`copy_${props.index}`}
               className={`${classes.buttonBrown}`}
               size={"small"}
@@ -112,13 +101,13 @@ export default function Exam (props) {
               component={RouterLink}
               to={`/admin/clone-exam/${props.exam.id}`}
             >
-              <Icon>file_copy</Icon>
-            </Button>
+              <FileCopy/>
+            </IconButton>
           </Tooltip>
         </StyledTableCell>
         <StyledTableCell align="center">
           <Tooltip title={t("edit_exam")}>
-            <Button
+            <IconButton
               id={`copy_${props.index}`}
               variant="contained"
               color="primary"
@@ -126,13 +115,13 @@ export default function Exam (props) {
               component={RouterLink}
               to={`/admin/edit-exam/${props.exam.id}`}
             >
-              <Icon>edit</Icon>
-            </Button>
+              <Edit/>
+            </IconButton>
           </Tooltip>
         </StyledTableCell>
         <StyledTableCell align="center">
           <Tooltip title={t("delete_exam")}>
-            <Button
+            <IconButton
               id={`delete_${props.index}`}
               variant="contained"
               color="secondary"
@@ -141,8 +130,8 @@ export default function Exam (props) {
                 props.deleteExam(props.exam.id);
               }}
             >
-              <Icon>delete</Icon>
-            </Button>
+              <Delete/>
+            </IconButton>
           </Tooltip>
         </StyledTableCell>
       </TableRow>
