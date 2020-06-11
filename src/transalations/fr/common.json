@@ -42,6 +42,7 @@
   "register_lastname": "Nom de famille",
   "register_email": "Email",
   "register_password": "Mot de passe",
+  "register_language": "Langage",
   "select_correct": "Choisis la réponse correcte",
   "option_header": "Des réponses possibles",
   "exam": "examen",

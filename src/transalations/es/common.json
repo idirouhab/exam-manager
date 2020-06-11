@@ -42,6 +42,7 @@
   "register_lastname": "Apellidos",
   "register_email": "Email",
   "register_password": "Contraseña",
+  "register_language": "Idioma",
   "select_correct": "Selecciona la correcta",
   "option_header": "Posibles respuestas",
   "exam": "examen",

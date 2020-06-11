@@ -42,6 +42,7 @@
   "register_lastname": "Cogmons",
   "register_email": "Correu",
   "register_password": "Contrasenya",
+  "register_language": "Idioma",
   "select_correct": "Selecciona la correcta",
   "option_header": "Posibles respostes",
   "exam": "examen",

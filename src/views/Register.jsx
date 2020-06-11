@@ -18,6 +18,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import { LANGUAGES_LABEL } from "../variables/general";
 
 export default function Register (props) {
   const { height, width } = useWindowDimensions();
@@ -53,27 +57,12 @@ export default function Register (props) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [language, setLanguage] = useState(LANGUAGES_LABEL.find(language => language.code === "en"));
   const [submitted, setSubmitted] = useState(false);
   const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const updateName = (e) => {
-    setName(e.target.value);
-  };
-
-  const updateLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const updateEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const updatePassword = (e) => {
-    setPassword(e.target.value);
   };
 
   const onSubmit = (e) => {
@@ -87,10 +76,10 @@ export default function Register (props) {
           password,
           name,
           lastName,
+          language
         }
       ).then(() => {
         setOpen(true);
-        //props.history.push('/login')
       });
     }
   };
@@ -110,7 +99,7 @@ export default function Register (props) {
                     fullWidth
                     label={t("register_name")}
                     variant="outlined"
-                    onChange={updateName}
+                    onChange={(e) => {setName(e.target.value);}}
                     value={name}
                     error={name.length === 0 && submitted}
                     helperText={name.length === 0 && submitted ? t("input.error.empty") : ""}
@@ -121,7 +110,7 @@ export default function Register (props) {
                     fullWidth
                     variant="outlined"
                     label={t("register_lastname")}
-                    onChange={updateLastName}
+                    onChange={(e) => {setLastName(e.target.value);}}
                     value={lastName}
                     error={lastName.length === 0 && submitted}
                     helperText={lastName.length === 0 && submitted ? t("input.error.empty") : ""}
@@ -132,7 +121,7 @@ export default function Register (props) {
                     fullWidth
                     variant="outlined"
                     label={t("register_email")}
-                    onChange={updateEmail}
+                    onChange={(e) => {setEmail(e.target.value);}}
                     type={"email"}
                     value={email}
                     error={email.length === 0 && submitted}
@@ -145,14 +134,34 @@ export default function Register (props) {
                     fullWidth
                     variant="outlined"
                     label={t("register_password")}
-                    onChange={updatePassword}
+                    onChange={(e) => {setPassword(e.target.value);}}
                     value={password}
                     type="password"
                     error={password.length === 0 && submitted}
                     helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
                   />
                 </Box>
+                <Box mt={2}>
+                  <FormControl variant="outlined" style={{ width: "100%" }}>
+                    <InputLabel htmlFor="select-language">{t("register_language")}</InputLabel>
+                    <Select
+                      value={language}
+                      onChange={(e) => {setLanguage(e.target.value);}}
+                      variant="outlined"
+                      native
+                      label={t("register_language")}
+                      inputProps={{
+                        name: "language",
+                        id: "select-language",
+                      }}
+                    >
+                      {LANGUAGES_LABEL.map(language => {
+                        return (<option key={language.code} value={language.code}>{language.text}</option>);
+                      })}
 
+                    </Select>
+                  </FormControl>
+                </Box>
                 <Box my={5}>
                   <Typography variant="subtitle1">
                     <Link

@@ -42,6 +42,7 @@
   "register_lastname": "Apelidos",
   "register_email": "Correo electrónico",
   "register_password": "Contrasinal",
+  "register_language": "Idioma",
   "select_correct": "Selecciona o correcto",
   "option_header": "Posibles respostas",
   "sections": {

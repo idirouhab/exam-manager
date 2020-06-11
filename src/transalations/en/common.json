@@ -40,6 +40,7 @@
   "register_lastname": "Last Name",
   "register_email": "Email",
   "register_password": "Password",
+  "register_language": "Language",
   "select_correct": "Pick the right one",
   "option_header": "Possible options",
   "create_an_account": "Create account",
