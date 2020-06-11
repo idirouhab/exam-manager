@@ -16,7 +16,7 @@ import { Check, Clear, Visibility } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 
 export default function MaxWidthDialog (props) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

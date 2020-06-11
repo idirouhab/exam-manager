@@ -39,14 +39,14 @@ const LANGUAGES_LABEL = [
     code: "ca",
     text: "Català",
   },
-  {
+/*  {
     code: "gl",
     text: "Galego",
   },
   {
     code: "fr",
     text: "Français",
-  },
+  },*/
 ];
 
 export {

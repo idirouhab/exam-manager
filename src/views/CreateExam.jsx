@@ -64,7 +64,7 @@ class Option extends Answer {
 
 export default function CreateExam (props) {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [exam, setExam] = useState(new Exam());
   const [success, setSuccess] = useState(false);
   const [questions, setQuestions] = useState([new Question()]);

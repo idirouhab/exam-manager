@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ExamList (props) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const classes = useStyles();
   const [exams, setExams] = React.useState([]);
   const [loading, setLoading] = useState(true);

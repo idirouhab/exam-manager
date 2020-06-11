@@ -23,7 +23,7 @@ const StyledTableCell = withStyles(() => ({
 }))(TableCell);
 
 export default function Users () {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [users, setUsers] = React.useState([]);
   const [loading, setLoading] = useState(true);
 

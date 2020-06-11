@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
 
 export default function Exam (props) {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   return (
     <>

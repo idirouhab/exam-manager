@@ -7,7 +7,7 @@ import useStyles from "./style";
 
 export default function ShortAnswer (props) {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   return (<>
     <Grid item xs={8}>

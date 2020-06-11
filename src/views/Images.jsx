@@ -26,7 +26,7 @@ const StyledTableCell = withStyles(() => ({
 }))(TableCell);
 
 export default function Images () {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [exams, setExams] = useState([]);

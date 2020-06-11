@@ -109,7 +109,7 @@ export default function Folders (props) {
     props.history.push(`/admin/folders/${folderId}`);
   };
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   const options = [
     {

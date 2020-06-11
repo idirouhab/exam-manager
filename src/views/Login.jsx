@@ -46,7 +46,7 @@ export default function Test (props) {
   }));
 
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

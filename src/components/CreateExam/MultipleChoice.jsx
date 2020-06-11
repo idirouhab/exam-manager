@@ -14,7 +14,7 @@ import Typography from "@material-ui/core/Typography";
 
 export default function MultipleChoice (props) {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   return (<>
     <Grid container justify="center">

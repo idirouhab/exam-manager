@@ -1,0 +1,4 @@
+{
+  "email_already_exist": "That email is taken. Try another.",
+  "email_not_sent": "The verification email couldn't be sent, please contact the administrator."
+}

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SideBar (props) {
   const classes = useStyles();
   const { routes } = props;
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [folders, setFolders] = useState([]);
 

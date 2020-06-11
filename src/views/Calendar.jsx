@@ -54,7 +54,7 @@ const StyledTableCell = withStyles(() => ({
 
 export default function Calendar () {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [dateObject, setDateObject] = useState(moment());
   const [open, setOpen] = React.useState(false);
   const [selectedDay, setSelectedDay] = React.useState(null);

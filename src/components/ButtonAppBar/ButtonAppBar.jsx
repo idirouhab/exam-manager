@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => (
 const ITEM_HEIGHT = 48;
 export default function ButtonAppBar (props) {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
   const [anchorElProfile, setAnchorElProfile] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

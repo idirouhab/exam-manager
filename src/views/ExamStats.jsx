@@ -39,7 +39,7 @@ const SmallStyledTableCell = withStyles(() => ({
 }))(TableCell);
 
 export default function ExamStats (props) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);

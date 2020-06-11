@@ -13,7 +13,7 @@ import Tag from "../../models/tag";
 import { Box } from "@material-ui/core";
 
 export default function CreateFolderModal (props) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [folder, setFolder] = useState(new FolderModel());
   const maxWidth = "xs";
 

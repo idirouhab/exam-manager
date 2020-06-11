@@ -97,7 +97,7 @@ export default function Quiz (props) {
   }));
 
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [exam, setExam] = useState(new Exam());
   const [currentIndexQuestion, setCurrentIndexQuestion] = useState(0);

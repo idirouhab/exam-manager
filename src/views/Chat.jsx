@@ -47,7 +47,7 @@ export default function Chat () {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [users, setUsers] = useState([]);
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   const addMessage = (messagePayload) => {
     if (!messagePayload.text) return false;

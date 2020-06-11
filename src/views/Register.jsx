@@ -22,6 +22,8 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { LANGUAGES_LABEL } from "../variables/general";
+import { useSnackbar } from "notistack";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export default function Register (props) {
   const { height, width } = useWindowDimensions();
@@ -39,19 +41,14 @@ export default function Register (props) {
       backgroundSize: "cover",
       height
     },
-    enterButton: {
-      backgroundColor: blue[500],
-      "&:hover": {
-        backgroundColor: blue[700]
-      }
-    },
     card: {
       backgroundColor: "transparent",
       shadowBox: "none",
     }
   }));
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["api"]);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,6 +57,14 @@ export default function Register (props) {
   const [language, setLanguage] = useState(LANGUAGES_LABEL.find(language => language.code === "en"));
   const [submitted, setSubmitted] = useState(false);
   const [open, setOpen] = React.useState(false);
+
+  const errorSnackOptions = {
+    variant: "error",
+    anchorOrigin: {
+      vertical: "top",
+      horizontal: "center",
+    }
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -78,8 +83,15 @@ export default function Register (props) {
           lastName,
           language
         }
-      ).then(() => {
-        setOpen(true);
+      ).then((response) => {
+        const { data } = response;
+        if (data.error) {
+          enqueueSnackbar(t(`api:${data.error}`), errorSnackOptions);
+        } else {
+          setOpen(true);
+        }
+      }).catch(err => {
+        enqueueSnackbar(err.message, errorSnackOptions);
       });
     }
   };
@@ -142,26 +154,26 @@ export default function Register (props) {
                   />
                 </Box>
                 <Box mt={2}>
-                  <FormControl variant="outlined" style={{ width: "100%" }}>
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    style={{ textAlign: "left" }}
+                  >
                     <InputLabel htmlFor="select-language">{t("register_language")}</InputLabel>
                     <Select
-                      value={language}
                       onChange={(e) => {setLanguage(e.target.value);}}
-                      variant="outlined"
-                      native
+                      className={classes.selectEmpty}
                       label={t("register_language")}
-                      inputProps={{
-                        name: "language",
-                        id: "select-language",
-                      }}
+                      defaultValue={language.code}
                     >
                       {LANGUAGES_LABEL.map(language => {
-                        return (<option key={language.code} value={language.code}>{language.text}</option>);
+                        return (<MenuItem key={language.code} value={language.code}>{language.text}</MenuItem>);
                       })}
-
                     </Select>
+
                   </FormControl>
                 </Box>
+
                 <Box my={5}>
                   <Typography variant="subtitle1">
                     <Link
