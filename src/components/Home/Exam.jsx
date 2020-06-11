@@ -1,9 +1,7 @@
 import React from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import Button from "@material-ui/core/Button";
 import { Link as RouterLink } from "react-router-dom";
-import Icon from "@material-ui/core/Icon";
 import { withStyles } from "@material-ui/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
@@ -25,15 +23,27 @@ const StyledTableCell = withStyles(() => ({
   },
 }))(TableCell);
 
-const useStyles = makeStyles(() => ({
-  buttonSuccess: {
+const useStyles = makeStyles((theme) => ({
+  buttonShare: {
     color: green[500],
+    padding: theme.spacing(1),
+
   },
-  buttonPrimary: {
+  buttonStats: {
     color: blue[500],
+    padding: theme.spacing(1),
+
   },
-  buttonBrown: {
+  buttonClone: {
     color: brown[500],
+    padding: theme.spacing(1),
+
+  },
+  buttonEdit: {
+    padding: theme.spacing(1),
+  },
+  buttonDelete: {
+    padding: theme.spacing(1),
   },
 }));
 
@@ -69,7 +79,7 @@ export default function Exam (props) {
               id={`stats_${props.index}`}
               size={"small"}
               component={RouterLink}
-              className={`${classes.buttonPrimary}`}
+              className={`${classes.buttonStats}`}
               to={`/admin/stats/${props.exam.id}`}
             >
               <Equalizer/>
@@ -80,7 +90,7 @@ export default function Exam (props) {
           <Tooltip title={t("link_exam")}>
             <IconButton
               id={`quiz_${props.index}`}
-              className={`${classes.buttonSuccess}`}
+              className={`${classes.buttonShare}`}
               size={"small"}
               component={RouterLink}
               to={`/quiz/${props.exam.id}`}
@@ -94,7 +104,7 @@ export default function Exam (props) {
           <Tooltip title={t("clone_exam")}>
             <IconButton
               id={`copy_${props.index}`}
-              className={`${classes.buttonBrown}`}
+              className={`${classes.buttonClone}`}
               size={"small"}
               variant="contained"
               color="primary"
@@ -109,6 +119,7 @@ export default function Exam (props) {
           <Tooltip title={t("edit_exam")}>
             <IconButton
               id={`copy_${props.index}`}
+              className={`${classes.buttonEdit}`}
               variant="contained"
               color="primary"
               size={"small"}
@@ -123,6 +134,7 @@ export default function Exam (props) {
           <Tooltip title={t("delete_exam")}>
             <IconButton
               id={`delete_${props.index}`}
+              className={classes.buttonDelete}
               variant="contained"
               color="secondary"
               size={"small"}
