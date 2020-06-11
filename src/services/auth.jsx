@@ -33,6 +33,16 @@ const AuthService = {
     }
 
     return fullName;
+  },
+  isExpired: function () {
+    let expired = true;
+    if (this.isTokenStored()) {
+      const decode = jwtDecode(localStorage.getItem("token"));
+      if (decode["exp"]) {
+        expired = decode["exp"] < new Date().getTime()/1000;
+      }
+    }
+    return expired;
   }
 };
 

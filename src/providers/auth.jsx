@@ -40,6 +40,9 @@ class Auth {
   }
 
   isAuthenticated () {
+    if (AuthService.isExpired()) {
+      this.logout();
+    }
 
     if (AuthService.isTokenStored()) {
       this.authenticated = true;
