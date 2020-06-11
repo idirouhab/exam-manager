@@ -32,6 +32,7 @@ import _ from "lodash";
 import Zoom from "react-reveal/Zoom";
 import Slide from "@material-ui/core/Slide";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { AnimateOnChange } from "react-animation";
 
 class Option {
   constructor (id = null, text = "", correct = false) {
@@ -63,6 +64,9 @@ class Exam {
 
 export default function Quiz (props) {
   const { width, height } = useWindowDimensions();
+  const words = [
+    3, 2, 1, "Start!", ""
+  ];
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -110,6 +114,27 @@ export default function Quiz (props) {
   const [submitExam, setSubmitExam] = useState(false);
   const [score, setScore] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    let interval = null;
+    if (step === 1) {
+      interval = setInterval(() => {
+        if (current === words.length - 1) {
+          setCurrent(0);
+        } else {
+          setCurrent(current + 1);
+        }
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+
+    if (current === 4 && step === 1) {
+      setStep(2);
+    }
+    return () => clearInterval(interval);
+  }, [words, current, step]);
 
   useEffect(() => {
     const { id } = props.match.params;
@@ -143,7 +168,7 @@ export default function Quiz (props) {
 
   useEffect(() => {
     let interval = null;
-    if (step === 1) {
+    if (step === 2) {
       interval = setInterval(() => {
         setSeconds(seconds => seconds + 1);
       }, 1000);
@@ -158,7 +183,7 @@ export default function Quiz (props) {
       if ((currentIndexQuestion + addition) < exam.questions.length) {
         setCurrentIndexQuestion(currentIndexQuestion + addition);
       } else {
-        setStep(2);
+        setStep(3);
         setSubmitExam(true);
         getScore();
       }
@@ -278,7 +303,30 @@ export default function Quiz (props) {
               </Card>
             </Grid>
           </Zoom>}
-          {step === 1 &&
+          {step === 1 && <div
+            style={{
+              background: "rgba(255,255,255,0.5)",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              flexDirection: "column",
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              textAlign: "center",
+              zIndex: "1000",
+              verticalAlign: "middle",
+            }}>
+            <Typography variant={"h1"}>
+              <AnimateOnChange
+                animationOut="bounceOut"
+                animationIn="bounceIn"
+                durationOut="1000">
+                {words[current]}
+              </AnimateOnChange>
+            </Typography>
+          </div>}
+          {step === 2 &&
           <Grid item className={classes.card}>
             <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
               <CardHeader
@@ -351,7 +399,10 @@ export default function Quiz (props) {
                             display: question.options.find(option => option.selected) ? "none" : ""
                           }}
                           align={"center"}>
-                          <FormHelperText style={{ fontSize: "1em" }} component="span" error>{t('create_exam.label.option_not_select')}</FormHelperText>
+                          <FormHelperText
+                            style={{ fontSize: "1em" }}
+                            component="span"
+                            error>{t("create_exam.label.option_not_select")}</FormHelperText>
                         </div>
                       </CardContent>
                     </Slide>
@@ -385,7 +436,7 @@ export default function Quiz (props) {
             </Card>
           </Grid>}
           {/*end of the game*/}
-          {step === 2 &&
+          {step === 3 &&
           <div>
             <Grid item className={classes.card}>
               <Card style={{ maxWidth: 600, width: (width * 0.90) }}>
