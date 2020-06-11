@@ -10,6 +10,7 @@ import { Clear } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Input from "@material-ui/core/Input";
+import Typography from "@material-ui/core/Typography";
 
 export default function MultipleChoice (props) {
   const classes = useStyles();
@@ -21,6 +22,8 @@ export default function MultipleChoice (props) {
         return <Grid item xs={8} key={`option_${props.indexQuestion}_${indexOption}`}>
           <Paper className={classes.paper} square>
             <Grid item xs={12}>
+              {(props.validateForm && !props.options.find(option => option.correct)) &&
+              <Typography style={{ color: "#f44336" }}>{t("create_exam.label.option_not_select")}</Typography>}
               <div className={classes.inlineInput}>
                 <FormControlLabel
                   label={

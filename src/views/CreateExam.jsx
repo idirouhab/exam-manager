@@ -28,6 +28,7 @@ import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 class Exam {
   constructor () {
@@ -71,6 +72,7 @@ export default function CreateExam (props) {
   const [actionName, setActionName] = useState("create");
   const [folders, setFolders] = useState([]);
   const [createFolderModal, setCreateFolderModal] = useState(false);
+  const [validateForm, setValidateForm] = useState(false);
 
   useEffect(() => {
     bottomElement.current.scrollIntoView({ behavior: "smooth" });
@@ -158,6 +160,7 @@ export default function CreateExam (props) {
     />;
     if (questionType === QUESTION_TYPES.MULTIPLE_CHOICE) {
       component = <MultipleChoice
+        validateForm={validateForm}
         indexQuestion={indexQuestion}
         updateAnswerText={updateAnswerText}
         addOptionToQuestion={addOptionToQuestion}
@@ -235,6 +238,11 @@ export default function CreateExam (props) {
   };
 
   const saveExam = () => {
+
+    setValidateForm(true);
+    if (!validForm()) {
+      return false;
+    }
     exam.questions = questions;
     let method;
     if (actionName === "edit") {
@@ -246,7 +254,7 @@ export default function CreateExam (props) {
       setExam(new Exam());
       setQuestions([new Question()]);
       setSuccess(true);
-
+      setValidateForm(true);
       setTimeout(() => {
         props.history.push("/admin/home");
       }, 1000);
@@ -280,6 +288,22 @@ export default function CreateExam (props) {
     });
   };
 
+  const validForm = () => {
+    if (exam.text.length === 0) {
+      console.log("empty exam");
+      return false;
+    }
+
+    if (questions.find(question => question.text.length === 0)) {
+      console.log("empty question");
+      return false;
+    }
+
+    return !!questions.find(question => {
+      return question.options.find(option => option.correct);
+    });
+  };
+
   return (
     <Fragment>
       <CreateFolderModal createFolder={createFolder} open={createFolderModal} handleClose={() => {
@@ -289,32 +313,37 @@ export default function CreateExam (props) {
         {folders.length > 0 && <Grid container item spacing={0} justify="center">
           <Grid item xs={8}>
             <Paper className={classes.paper} square>
-              <div className={classes.formControl} style={{ width: "100%" }}>
-                <InputLabel>{t("select_your_folder")}</InputLabel>
-                <Box mt={2}>
-                  <Select
-                    style={{ width: "50%" }}
-                    startAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => {
-                            setCreateFolderModal(true);
-                          }}
-                        >
-                          <Add/>
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    onChange={(e) => updateExamFolder(e)}
-                    value={exam.folderId || ""}
-                  >
-                    {folders.map((folder, key) => {
-                      return <MenuItem key={`menu_${key}`}
-                                       value={folder.id}>{folder.name}</MenuItem>;
-                    })}
-                    <MenuItem value="">{t("none")}</MenuItem>
-                  </Select>
-                </Box>
+              <div>
+                <FormControl className={classes.formControl} style={{ width: "100%" }} error={validateForm && !exam.folderId}>
+                  <InputLabel>{t("select_your_folder")}</InputLabel>
+                  <Box my={4}>
+                    <Select
+                      displayEmpty
+
+                      style={{ width: "100%" }}
+                      startAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+
+                            onClick={() => {
+                              setCreateFolderModal(true);
+                            }}
+                          >
+                            <Add/>
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      onChange={(e) => updateExamFolder(e)}
+                      value={exam.folderId || ""}
+                    >
+                      {folders.map((folder, key) => {
+                        return <MenuItem key={`menu_${key}`}
+                                         value={folder.id}>{folder.name}</MenuItem>;
+                      })}
+                    </Select>
+                    {validateForm && !exam.folderId && <FormHelperText>{t('create_exam.label.empty')}</FormHelperText>}
+                  </Box>
+                </FormControl>
               </div>
             </Paper>
           </Grid>
@@ -328,6 +357,8 @@ export default function CreateExam (props) {
                 onChange={updateTitle}
                 id="exame-title"
                 label={t("create_exam.label.title")}
+                helperText={validateForm && !exam.text ? t("create_exam.label.empty") : ""}
+                error={validateForm && !exam.text}
                 value={exam.text}
                 inputProps={{
                   style: {
@@ -362,6 +393,8 @@ export default function CreateExam (props) {
                         style={{ width: "55%" }}
                         onChange={e => updateQuestion(e, indexQuestion)}
                         value={question.text}
+                        helperText={validateForm && !question.text.length > 0 ? t("create_exam.label.empty") : ""}
+                        error={validateForm && !question.text.length > 0}
                       />
 
                       <FormControl className={classes.formControl} style={{ width: "40%" }}
@@ -398,7 +431,6 @@ export default function CreateExam (props) {
                         />
                         <label htmlFor={`icon-button-file-${indexQuestion}`}>
                           <Button
-                            className={classes.buttonSaveExam}
                             variant="contained"
                             color="primary"
                             component="span"
@@ -436,6 +468,7 @@ export default function CreateExam (props) {
                 </Paper>
               </Grid>
               {renderQuestionBlock(question.type, indexQuestion)}
+
               <Grid item xs={8}>
                 <Paper className={classes.paper} square>
                   <Grid item xs={12}>
@@ -453,7 +486,6 @@ export default function CreateExam (props) {
                         variant="contained"
                         color="primary"
                         size="large"
-                        className={classes.buttonAddQuestion}
                         onClick={addNewQuestion}
                       >
                         <Add/>
@@ -470,7 +502,7 @@ export default function CreateExam (props) {
               <Fab
                 onClick={saveExam}
                 color={"secondary"}
-                className={`${success ? classes.buttonSuccess : classes.buttonSaveExam}`}
+                className={`${success ? classes.buttonSuccess : ""}`}
               >
                 {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
               </Fab>
