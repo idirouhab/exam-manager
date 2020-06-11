@@ -17,7 +17,7 @@ import blue from "@material-ui/core/colors/blue";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 
-export default function Test (props) {
+export default function Login (props) {
   const { height, width } = useWindowDimensions();
   const useStyles = makeStyles(() => ({
     form: {
@@ -68,14 +68,6 @@ export default function Test (props) {
 
   }, [redirectToReferrer, from, props]);
 
-  const updateEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const updatePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -123,7 +115,9 @@ export default function Test (props) {
                     type={"email"}
                     label={t("login_user")}
                     variant="outlined"
-                    onChange={updateEmail}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
                     value={email}
                     error={email.length === 0 && submitted}
                     helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
@@ -134,7 +128,9 @@ export default function Test (props) {
                     fullWidth
                     variant="outlined"
                     label={t("login_password")}
-                    onChange={updatePassword}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
                     value={password}
                     type="password"
                     error={password.length === 0 && submitted}
