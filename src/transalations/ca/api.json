@@ -1,4 +1,8 @@
 {
   "email_already_exist": "Aquest email ja el té algú. Triue-ne un altre.",
-  "email_not_sent": "El correu de verificació no s'ha pogut enviar, siusplau, contact amb l'administrador."
+  "email_doesnt_exist": "No hem pogut trobar el teu compte associat a {email}.",
+  "user_not_verified": "No heu confirmat la vostra identitat. Comprovi el seu email.",
+  "invalid_credentials": "La contrasenya no és correcta. Torna-ho a provar.",
+  "email_not_sent": "El correu de verificació no s'ha pogut enviar, siusplau, contact amb l'administrador.",
+  "ask_admin": "Estem experimentant problemes tècnics. Si us plau, poseu-vos en contacte amb l’administrador."
 }

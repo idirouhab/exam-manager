@@ -1,5 +1,8 @@
 {
   "email_already_exist": "Ese email ya está en uso. Prueba con otro.",
-  "email_not_sent": "El email de verificación no ha podido ser enviado, por favor contacto con el administrador."
+  "email_doesnt_exist": "No se ha podido encontrar tu cuenta asociada con {email}.",
+  "user_not_verified": "No has confirmado tu identidad. Por favor, revise su email.",
+  "invalid_credentials": "Contraseña incorrecta. Vuelve a intentarlo.",
+  "email_not_sent": "Estamos sufriendo problemas técnicos, por favor, contacte con el administrador."
 
 }

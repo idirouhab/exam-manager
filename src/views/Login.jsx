@@ -46,14 +46,20 @@ export default function Test (props) {
   }));
 
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation("api");
   const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-
   const { from } = { from: { pathname: "/admin/home" } };
+  const snackErrorOptions = {
+    variant: "error",
+    anchorOrigin: {
+      vertical: "top",
+      horizontal: "center",
+    }
+  };
 
   useEffect(() => {
     if (redirectToReferrer) {
@@ -79,23 +85,23 @@ export default function Test (props) {
         setRedirectToReferrer(true);
       }).catch((err) => {
         newrelic.noticeError(err, { email: email });
-        const options = {
-          variant: "error",
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "center",
+        if (err.response && err.response.status) {
+          switch (err.response.status) {
+            case 401:
+              enqueueSnackbar(t("invalid_credentials"), snackErrorOptions);
+              break;
+            case 403:
+              enqueueSnackbar(t("user_not_verified"), snackErrorOptions);
+              break;
+            case 404:
+              enqueueSnackbar(t("email_doesnt_exist"), snackErrorOptions);
+              break;
+            default:
+              enqueueSnackbar(t("ask_admin"), snackErrorOptions);
+              break;
           }
-        };
-
-        if (err.response) {
-          if (err.response.status === 404) {
-            enqueueSnackbar(t("login_user_not_found"), options);
-          } else {
-            enqueueSnackbar(err.response.data.message, options);
-          }
-          // client never received a response, or request never left
         } else {
-          enqueueSnackbar("ask_admin", options);
+          enqueueSnackbar(t("ask_admin"), snackErrorOptions);
         }
       });
     }
@@ -114,6 +120,7 @@ export default function Test (props) {
                 <Box mb={3}>
                   <TextField
                     fullWidth
+                    type={"email"}
                     label={t("login_user")}
                     variant="outlined"
                     onChange={updateEmail}
@@ -144,7 +151,7 @@ export default function Test (props) {
                 </Box>
                 <Box>
                   <Button variant="contained" color="primary" type="submit"
-                          className={classes.enterButton}
+                          disabled={!email.length || !password.length}
                           id={"login_submit"}>
                     {t("login_accept")}
                   </Button>
