@@ -1,208 +1,349 @@
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import React, { useEffect, useRef, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import { LANGUAGE, LANGUAGES_LABEL } from "../variables/general";
+import Button from "@material-ui/core/Button";
+import { useTranslation } from "react-i18next";
+import TranslateIcon from "@material-ui/icons/Translate";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { ExitToApp } from "@material-ui/icons";
+import Tooltip from "@material-ui/core/Tooltip";
+import Link from "@material-ui/core/Link";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Logo from "../assets/images/logo.png";
+import Box from "@material-ui/core/Box";
+import MenuIcon from "@material-ui/icons/Menu";
+import { HideUntilLoaded } from "react-animation";
+import Grid from "@material-ui/core/Grid";
+import ImageLogo from "../assets/images/landing-first-section.jpg";
+import Hidden from "@material-ui/core/Hidden";
 
-const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+const useStyles = (toolbarHeight) => makeStyles((theme) => (
+  {
+    root: {
+      flexGrow: 1,
+      backgroundColor: "#F5F5F5",
+      height: "100vh"
     },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+    toolbar: {
+      backgroundColor: "#fff"
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
+    grow: {
+      flex: "1 1 auto",
     },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    sectionDesktop: {
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "flex",
+      },
     },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+    sectionMobile: {
+      display: "flex",
+      [theme.breakpoints.up("md")]: {
+        display: "none",
+      },
     },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    language: {
+      margin: theme.spacing(0, 0.5, 0, 1),
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "block",
+      },
     },
-  },
-}));
+    languageMobile: {
+      margin: theme.spacing(0, 0.5, 0, 1),
+      display: "none",
+      [theme.breakpoints.down("md")]: {
+        display: "block",
+      },
+    },
+    appBar: {
+      [theme.breakpoints.up("sm")]: {
+        width: "100%",
+      },
+      transition: theme.transitions.create("width"),
+    },
+    menuLogo: {
+      marginLeft: theme.spacing(2),
+      marginTop: theme.spacing(1),
+      maxWidth: 35,
+    },
+    firstBlock: {
+      height: `calc(100% - ${toolbarHeight}px)`,
+    },
+    firstSection: {
+      alignItems: "center",
+      textAlign: "center",
+      backgroundColor: theme.palette.primary.main,
+      color: "#fff",
+    },
+    secondSection: {
+      alignItems: "center",
+      textAlign: "center",
+      backgroundImage: `url(${ImageLogo})`,
+      backgroundSize: "cover",
+      color: "#fff",
+      maxHeight: "100%",
+    },
+    createAccountButton: {
+      backgroundColor: "#bdc1db",
+      color: theme.palette.primary.main,
+    },
+  }));
 
-export default function Test() {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const ITEM_HEIGHT = 48;
+export default function Test (props) {
+
+  const { t } = useTranslation("landing");
+  const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isLanguageMenuOpen = Boolean(anchorElLanguage);
+  const toolbarRef = useRef(null);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [toolbarHeight, setToolbarHeight] = useState(0);
+
+  const classes = useStyles(toolbarHeight)();
+  useEffect(() => {
+    console.log(toolbarRef.current.clientHeight);
+    setToolbarHeight(toolbarRef.current.clientHeight);
+
+  }, []);
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
+  const handleLanguageMenuOpen = (event) => {
+    setAnchorElLanguage(event.currentTarget);
+  };
+
+  const handleLanguageMenuClose = () => {
+    setAnchorElLanguage(null);
+  };
+
+  const menuId = "primary-select-language-menu";
+  const renderLanguageMenu = (
     <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorEl={anchorElLanguage}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isLanguageMenuOpen}
+      onClose={handleLanguageMenuClose}
+      PaperProps={{
+        style: {
+          maxHeight: ITEM_HEIGHT * 4.5,
+          width: "20ch",
+        },
+      }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {LANGUAGES_LABEL.map((language) => (
+        <MenuItem key={language.code}
+                  component={Link}
+                  data-no-link="true"
+                  href={`?lng=${language.code}`}
+                  selected={language.code === LANGUAGE}
+                  lang={language.code}
+                  hrefLang={language.code}
+                  onClick={handleLanguageMenuClose}>
+          {language.text}
+        </MenuItem>
+      ))}
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleLanguageMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
-          color="inherit"
+          color="primary"
+          variant="contained"
         >
-          <AccountCircle />
+          <TranslateIcon/>
         </IconButton>
-        <p>Profile</p>
+        <p>
+          {LANGUAGES_LABEL.filter((language) => {
+            return language.code === LANGUAGE;
+          })[0].text}
+        </p>
+        <ExpandMoreIcon fontSize="small"/>
+      </MenuItem>
+      <MenuItem
+        component={Link}
+        href={"/login"}
+      >
+        <IconButton
+          color="primary"
+          variant="contained"
+        >
+          <ExitToApp/>
+        </IconButton>
+        <p>{t("login_button")}</p>
       </MenuItem>
     </Menu>
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
+    <div className={classes.root}>
+      <CssBaseline/>
+      <AppBar
+        ref={toolbarRef}
+        elevation={0}
+        position="static"
+        className={classes.appBar}
+      >
+        <HideUntilLoaded
+          animationIn="bounceIn"
+        >
+          <Toolbar className={classes.toolbar}>
+            <Typography variant="body2" component={"div"} className={classes.title} gutterBottom>
+              <img className={classes.menuLogo} src={Logo} alt={"logo"}/>
+            </Typography>
+            <div className={classes.grow}/>
+            <div className={classes.sectionDesktop}>
+              <Box mr={2}>
+                <Tooltip title={t("change_language")} enterDelay={300}>
+                  <Button
+                    edge="end"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleLanguageMenuOpen}
+                  >
+                    <TranslateIcon/>
+                    <p className={classes.language}>
+                      {LANGUAGES_LABEL.filter((language) => {
+                        return language.code === LANGUAGE;
+                      })[0].text}
+                    </p>
+                    <ExpandMoreIcon fontSize="small"/>
+                  </Button>
+                </Tooltip>
+              </Box>
+              <Button
+                edge="end"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                color="primary"
+                variant="contained"
+                onClick={handleLanguageMenuOpen}
+              >
+                <ExitToApp/>
+                <p className={classes.language}>
+                  {t("login_button")}
+                </p>
+
+              </Button>
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                edge="start"
+                aria-controls={mobileMenuId}
+                onClick={handleMobileMenuOpen}
+                color="primary"
+                variant="contained"
+              >
+                <MenuIcon/>
+              </IconButton>
+            </div>
+          </Toolbar>
+        </HideUntilLoaded>
       </AppBar>
+
+      <Grid
+        container
+        spacing={0}
+        className={classes.firstBlock}>
+        <Grid
+          item
+          md={7}
+          xs={12}
+          className={classes.firstSection}>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify={"center"}
+            style={{ height: "100%" }}
+          >
+            <Grid
+              item
+              md={5}
+              xs={9}
+              style={{ textAlign: "left" }}
+            >
+              <Typography
+                paragraph
+                style={{ color: "#fff", }}
+                variant="h4"
+                color={"primary"}
+                component="h6"
+              >
+                <strong>{t("header")}</strong>
+              </Typography>
+              <Typography
+                paragraph
+                style={{ color: "#fff", }}
+                variant="subtitle1"
+                component="p"
+                color={"primary"}
+                dangerouslySetInnerHTML={{ __html: t("body") }}
+              />
+              <Button
+                className={classes.createAccountButton}
+                variant="contained"
+                href={"/register"}
+              >{t("create_account")}</Button>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Hidden xsDown>
+          <Grid
+            item
+            md={5}
+            xs={12}
+            className={classes.secondSection}>
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justify={"center"}
+            >
+            </Grid>
+          </Grid>
+        </Hidden>
+      </Grid>
+
+
       {renderMobileMenu}
-      {renderMenu}
+      {renderLanguageMenu}
     </div>
   );
 }

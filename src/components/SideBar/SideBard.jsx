@@ -137,7 +137,6 @@ export default function SideBar (props) {
         <Drawer
           container={props.container}
           variant="temporary"
-          anchor={props.theme.direction === "rtl" ? "right" : "left"}
           open={props.mobileOpen}
           onClose={props.handleDrawerToggle}
           classes={{

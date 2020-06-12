@@ -11,7 +11,6 @@ import Users from "./views/Users";
 import Document from "./views/Document";
 import Images from "./views/Images";
 import Calendar from "./views/Calendar";
-import Landing from "./views/Landing";
 
 const routes = [
   {
@@ -122,8 +121,8 @@ const routes = [
     name: "test",
     icon: "announcement",
     component: Test,
-    section: "/admin",
-    scope: "private",
+    section: "/root",
+    scope: "/private",
     hide: true,
     nestedList: false
   },
@@ -165,15 +164,6 @@ const routes = [
     section: "/admin",
     scope: "root",
     hide: false,
-    nestedList: false
-  },
-  {
-    path: "/",
-    name: "landing",
-    icon: "ac_unit",
-    component: Landing,
-    section: "",
-    hide: true,
     nestedList: false
   },
 ];

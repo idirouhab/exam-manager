@@ -3,9 +3,7 @@ import { Route, Switch } from "react-router";
 import routes from "../routes";
 import SideBar from "../components/SideBar/SideBard";
 import { makeStyles } from "@material-ui/core/styles";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -27,46 +25,34 @@ export default function Private (props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const theme = createMuiTheme({
-    palette: {
-      type: "light",
-      primary: { main: "#2e3353" },
-    },
-  });
   const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline/>
-      <div className={classes.wrapper}>
-        <SideBar
-          {...props}
-          routes={routes}
-          container={container}
-          theme={theme}
-          mobileOpen={mobileOpen}
-          handleDrawerToggle={handleDrawerToggle}
-        />
-        <ButtonAppBar
-          handleDrawerToggle={handleDrawerToggle}
-          theme={theme}
-        />
-        <main className={classes.content}>
-          <div className={classes.toolbar}/>
-          <Switch>
-            {/* eslint-disable-next-line array-callback-return */}
-            {routes.map((prop, key) => {
-              return (
-                <Route
-                  path={prop.section + prop.path}
-                  component={prop.component}
-                  key={key}
-                />
-              );
-            })}
-          </Switch>
-        </main>
-      </div>
-    </MuiThemeProvider>
+    <div className={classes.wrapper}>
+      <SideBar
+        {...props}
+        routes={routes}
+        container={container}
+        mobileOpen={mobileOpen}
+        handleDrawerToggle={handleDrawerToggle}
+      />
+      <ButtonAppBar
+        handleDrawerToggle={handleDrawerToggle}
+      />
+      <main className={classes.content}>
+        <div className={classes.toolbar}/>
+        <Switch>
+          {/* eslint-disable-next-line array-callback-return */}
+          {routes.map((prop, key) => {
+            return (
+              <Route
+                path={prop.section + prop.path}
+                component={prop.component}
+                key={key}
+              />
+            );
+          })}
+        </Switch>
+      </main>
+    </div>
   );
 }
