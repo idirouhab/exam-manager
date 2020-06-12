@@ -16,6 +16,9 @@ import useWindowDimensions from "../hooks/resize";
 import blue from "@material-ui/core/colors/blue";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 export default function Login (props) {
   const { height, width } = useWindowDimensions();
@@ -51,6 +54,7 @@ export default function Login (props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
   const { from } = { from: { pathname: "/admin/home" } };
   const snackErrorOptions = {
@@ -132,9 +136,22 @@ export default function Login (props) {
                       setPassword(e.target.value);
                     }}
                     value={password}
-                    type="password"
                     error={password.length === 0 && submitted}
-                    helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}/>
+                    helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{ // <-- This is where the toggle button is added.
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+
+                  />
                 </Box>
                 <Box mb={5}>
                   <Typography variant="subtitle1">

@@ -24,6 +24,9 @@ import FormControl from "@material-ui/core/FormControl";
 import { LANGUAGES_LABEL } from "../variables/general";
 import { useSnackbar } from "notistack";
 import MenuItem from "@material-ui/core/MenuItem";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 export default function Register (props) {
   const { height, width } = useWindowDimensions();
@@ -57,6 +60,7 @@ export default function Register (props) {
   const [language, setLanguage] = useState(LANGUAGES_LABEL.find(language => language.code === "en"));
   const [submitted, setSubmitted] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const errorSnackOptions = {
     variant: "error",
@@ -148,9 +152,20 @@ export default function Register (props) {
                     label={t("register_password")}
                     onChange={(e) => {setPassword(e.target.value);}}
                     value={password}
-                    type="password"
                     error={password.length === 0 && submitted}
                     helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{ // <-- This is where the toggle button is added.
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
                 </Box>
                 <Box mt={2}>
