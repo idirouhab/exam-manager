@@ -1,4 +1,9 @@
 {
+  "quiz_countdown": {
+    "ready": "Preparados",
+    "steady": "Listos",
+    "go": "¡Ya!"
+  },
   "profile": "Perfil",
   "change_language": "Cambiar idioma",
   "me": "Yo",

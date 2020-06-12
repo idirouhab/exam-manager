@@ -64,9 +64,6 @@ class Exam {
 
 export default function Quiz (props) {
   const { width, height } = useWindowDimensions();
-  const words = [
-    3, 2, 1, "Start!", ""
-  ];
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -116,6 +113,10 @@ export default function Quiz (props) {
   const [seconds, setSeconds] = useState(0);
   const [current, setCurrent] = useState(0);
 
+  const words = [
+    t("quiz_countdown.ready"), t("quiz_countdown.steady"), t("quiz_countdown.go"), ""
+  ];
+
   useEffect(() => {
     let interval = null;
     if (step === 1) {
@@ -130,7 +131,7 @@ export default function Quiz (props) {
       clearInterval(interval);
     }
 
-    if (current === 4 && step === 1) {
+    if (current === 3 && step === 1) {
       setStep(2);
     }
     return () => clearInterval(interval);
@@ -319,8 +320,8 @@ export default function Quiz (props) {
             }}>
             <Typography variant={"h1"}>
               <AnimateOnChange
-                animationOut="bounceOut"
                 animationIn="bounceIn"
+                animationOut="bounceOut"
                 durationOut="1000">
                 {words[current]}
               </AnimateOnChange>

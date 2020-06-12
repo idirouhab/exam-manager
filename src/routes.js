@@ -11,6 +11,7 @@ import Users from "./views/Users";
 import Document from "./views/Document";
 import Images from "./views/Images";
 import Calendar from "./views/Calendar";
+import Landing from "./views/Landing";
 
 const routes = [
   {
@@ -117,6 +118,15 @@ const routes = [
 
   },
   {
+    path: "/",
+    name: "landing",
+    icon: "ac_unit",
+    component: Landing,
+    section: "",
+    hide: true,
+    nestedList: false
+  },
+  {
     path: "/test",
     name: "test",
     icon: "announcement",
@@ -125,7 +135,6 @@ const routes = [
     scope: "private",
     hide: true,
     nestedList: false
-
   },
   {
     path: "/stats/:id",
