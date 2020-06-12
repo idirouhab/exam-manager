@@ -54,6 +54,7 @@ export default function Private (props) {
         <main className={classes.content}>
           <div className={classes.toolbar}/>
           <Switch>
+            {/* eslint-disable-next-line array-callback-return */}
             {routes.map((prop, key) => {
               return (
                 <Route

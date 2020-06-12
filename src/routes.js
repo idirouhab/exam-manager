@@ -118,15 +118,6 @@ const routes = [
 
   },
   {
-    path: "/s",
-    name: "landing",
-    icon: "ac_unit",
-    component: Landing,
-    section: "",
-    hide: true,
-    nestedList: false
-  },
-  {
     path: "/test",
     name: "test",
     icon: "announcement",
@@ -174,6 +165,15 @@ const routes = [
     section: "/admin",
     scope: "root",
     hide: false,
+    nestedList: false
+  },
+  {
+    path: "/",
+    name: "landing",
+    icon: "ac_unit",
+    component: Landing,
+    section: "",
+    hide: true,
     nestedList: false
   },
 ];

@@ -61,7 +61,6 @@ export default function AssignTask (props) {
 
   return (
     <Dialog
-      maxWidth={maxWidth}
       disableBackdropClick
       disableEscapeKeyDown
       onEntering={handleEntering}
