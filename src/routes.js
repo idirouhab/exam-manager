@@ -118,7 +118,7 @@ const routes = [
 
   },
   {
-    path: "/",
+    path: "/s",
     name: "landing",
     icon: "ac_unit",
     component: Landing,
