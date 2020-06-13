@@ -11,13 +11,13 @@ import { withStyles } from "@material-ui/styles";
 import { useTranslation } from "react-i18next";
 import Exam from "../Home/Exam";
 import Loader from "../Loader/Loader";
-import Slide from "@material-ui/core/Slide";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import ExamProvider from "../../providers/exam";
 import FolderService from "../../services/folderService";
+import Grow from "@material-ui/core/Grow";
 
 const StyledTableCell = withStyles(() => ({
   head: {
@@ -124,7 +124,7 @@ export default function ExamList (props) {
   return (
     <>
       <Fragment>
-        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+        <Grow in={!loading}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.root} square>
@@ -170,7 +170,7 @@ export default function ExamList (props) {
               </TableContainer>
             </Grid>
           </Grid>
-        </Slide>
+        </Grow>
         {loading && (<Loader/>)}
       </Fragment>
     </>

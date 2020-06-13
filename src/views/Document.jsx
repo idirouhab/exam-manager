@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Loader from "../components/Loader/Loader";
-import Slide from "@material-ui/core/Slide";
+import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
@@ -55,7 +55,7 @@ export default function Document () {
   return (
     <>
       <Fragment>
-        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+        <Grow in={!loading}>
           <Grid container spacing={3} justify={"center"}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
@@ -82,7 +82,7 @@ export default function Document () {
               </Paper>
             </Grid>
           </Grid>
-        </Slide>
+        </Grow>
         {loading && (<Loader/>)}
       </Fragment>
     </>

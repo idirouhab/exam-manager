@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import Loader from "../components/Loader/Loader";
 import UserProvider from "../providers/user";
 import User from "../components/Users/User";
+import Grow from "@material-ui/core/Grow";
 
 const StyledTableCell = withStyles(() => ({
   head: {
@@ -77,37 +78,38 @@ export default function Users () {
   return (
     <>
       <Fragment>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell className="capitalize">{t("Banned")}</TableCell>
-                    <TableCell className="capitalize">{t("Verified")}</TableCell>
-                    <TableCell className="capitalize">{t("role")}</TableCell>
-                    <TableCell className="capitalize">{t("email")}</TableCell>
-                    <StyledTableCell size="small" align="center"/>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users.map((user, key) => (
-                    <User
-                      key={key}
-                      user={user}
-                      deleteUser={deleteUser}
-                      update={update}
-                      index={key}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+        <Grow in={!loading}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TableContainer component={Paper}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className="capitalize">{t("Banned")}</TableCell>
+                      <TableCell className="capitalize">{t("Verified")}</TableCell>
+                      <TableCell className="capitalize">{t("role")}</TableCell>
+                      <TableCell className="capitalize">{t("email")}</TableCell>
+                      <StyledTableCell size="small" align="center"/>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users.map((user, key) => (
+                      <User
+                        key={key}
+                        user={user}
+                        deleteUser={deleteUser}
+                        update={update}
+                        index={key}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
           </Grid>
-        </Grid>
+        </Grow>
         {loading && (<Loader/>)}
       </Fragment>
-      {loading && <Loader/>}
     </>
   );
 }

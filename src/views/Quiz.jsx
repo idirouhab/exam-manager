@@ -30,7 +30,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import _ from "lodash";
 import Zoom from "react-reveal/Zoom";
-import Slide from "@material-ui/core/Slide";
+import Grow from "@material-ui/core/Slide";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { AnimateOnChange } from "react-animation";
 
@@ -340,7 +340,7 @@ export default function Quiz (props) {
                     key={`question_${indexQuestion}`}
                     style={{ display: indexQuestion === currentIndexQuestion ? "" : "none" }}
                   >
-                    <Slide direction="up" in={indexQuestion === currentIndexQuestion} mountOnEnter unmountOnExit>
+                    <Grow in={indexQuestion === currentIndexQuestion}>
                       <CardContent>
                         {question.image &&
                         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -406,7 +406,7 @@ export default function Quiz (props) {
                             error>{t("create_exam.label.option_not_select")}</FormHelperText>
                         </div>
                       </CardContent>
-                    </Slide>
+                    </Grow>
                   </div>);
               })}
               <CardActions style={{ textAlign: "center" }}>

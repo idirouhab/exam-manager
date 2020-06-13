@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Loader from "../components/Loader/Loader";
-import Slide from "@material-ui/core/Slide";
+import Grow from "@material-ui/core/Grow";
 import ImageProvider from "../providers/image";
 import Grid from "@material-ui/core/Grid";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -83,7 +83,7 @@ export default function Images () {
   return (
     <>
       <Fragment>
-        <Slide direction="up" mountOnEnter unmountOnExit in={!loading}>
+        <Grow in={!loading}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TableContainer component={Paper}>
@@ -115,7 +115,7 @@ export default function Images () {
               </TableContainer>
             </Grid>
           </Grid>
-        </Slide>
+        </Grow>
         {loading && (<Loader/>)}
       </Fragment>
     </>

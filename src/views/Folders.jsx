@@ -19,9 +19,10 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import FolderService from "../services/folderService";
+import Grow from "@material-ui/core/Grow";
+import Loader from "../components/Loader/Loader";
 
 const useStyles = makeStyles((theme) => ({
-
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
@@ -49,11 +50,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Folders (props) {
+  const classes = useStyles();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const [folders, setFolders] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  const options = [
+    {
+      action: "Delete",
+      value: t("delete")
+    }
+  ];
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -85,7 +95,9 @@ export default function Folders (props) {
   };
 
   const getFolders = () => {
-    FolderService.getFolders().then(folders => setFolders(folders));
+    FolderService.getFolders()
+      .then(folders => setFolders(folders))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -99,74 +111,67 @@ export default function Folders (props) {
   };
 
   const getTagString = (tags) => {
-    let arrayTags = tags.map((tag, index) => {
+    return tags.map((tag, index) => {
       return <Chip key={`chip_${index}`} className={classes.chip} size="small" label={tag.name}/>;
     });
-    return arrayTags;
   };
 
   const goToRoute = (folderId) => {
     props.history.push(`/admin/folders/${folderId}`);
   };
-  const classes = useStyles();
-  const { t } = useTranslation();
-
-  const options = [
-    {
-      action: "Delete",
-      value: t("delete")
-    }
-  ];
 
   return (
     <Fragment>
-      <Grid container spacing={3}>
-        {folders.map((folder, index) => {
-          return <Grid item xs={3} key={index}>
+      <Grow in={!loading}>
+        <Grid container spacing={3}>
+          {folders.map((folder, index) => {
+            return <Grid item xs={3} key={index}>
+              <Paper className={classes.paper}>
+                <div style={{ textAlign: "right" }}>
+                  <IconButton style={{ margin: "0", padding: "0" }}
+                              onClick={(e) => handleClick(e, folder.id)}>
+                    <MoreVertIcon/>
+                  </IconButton>
+                </div>
+                <List dense={false} className={classes.listItem}
+                >
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FolderIcon/>
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      onClick={e => goToRoute(folder.id)}
+                      style={{ textDecoration: "none", color: "inherit", textAlign: "center" }}
+                      primary={folder.name}
+                      secondary={getTagString(folder.tags)}
+                      secondaryTypographyProps={{ component: "span" }}
+                    />
+                  </ListItem>
+                </List>
+              </Paper>
+            </Grid>;
+          })}
+          <Grid item xs={3}>
             <Paper className={classes.paper}>
-              <div style={{ textAlign: "right" }}>
-                <IconButton style={{ margin: "0", padding: "0" }}
-                            onClick={(e) => handleClick(e, folder.id)}>
-                  <MoreVertIcon/>
-                </IconButton>
-              </div>
               <List dense={false} className={classes.listItem}
               >
                 <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon/>
-                    </Avatar>
-                  </ListItemAvatar>
                   <ListItemText
-                    onClick={e => goToRoute(folder.id)}
-                    style={{ textDecoration: "none", color: "inherit", textAlign: "center" }}
-                    primary={folder.name}
-                    secondary={getTagString(folder.tags)}
-                    secondaryTypographyProps={{ component: "span" }}
+                    style={{ textAlign: "center" }}
+                    primary={<IconButton aria-label="delete" className={classes.green}
+                                         onClick={handleClickOpen}>
+                      <Add fontSize="large"/>
+                    </IconButton>}
                   />
                 </ListItem>
               </List>
             </Paper>
-          </Grid>;
-        })}
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>
-            <List dense={false} className={classes.listItem}
-            >
-              <ListItem>
-                <ListItemText
-                  style={{ textAlign: "center" }}
-                  primary={<IconButton aria-label="delete" className={classes.green}
-                                       onClick={handleClickOpen}>
-                    <Add fontSize="large"/>
-                  </IconButton>}
-                />
-              </ListItem>
-            </List>
-          </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+      </Grow>
+      {loading && (<Loader/>)}
       <CreateFolderModal createFolder={createFolder} open={open} handleClose={handleClose}/>
       <Menu
         id="long-menu"
@@ -187,6 +192,7 @@ export default function Folders (props) {
           </MenuItem>
         ))}
       </Menu>
+
     </Fragment>
   );
 }

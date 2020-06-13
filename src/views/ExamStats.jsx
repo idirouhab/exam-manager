@@ -15,7 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Delete } from "@material-ui/icons";
 import AnswerProvider from "../providers/answer";
 import Loader from "../components/Loader/Loader";
-import Slide from "@material-ui/core/Slide";
+import Grow from "@material-ui/core/Grow";
 import humanizeDuration from "humanize-duration";
 import moment from "moment";
 import { LANGUAGE } from "../variables/general";
@@ -69,7 +69,7 @@ export default function ExamStats (props) {
   return (
     <>
       <Fragment>
-        <Slide direction="up" mountOnEnter in={!loading}>
+        <Grow in={!loading}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TableContainer component={Paper}>
@@ -128,7 +128,7 @@ export default function ExamStats (props) {
               </TableContainer>
             </Grid>
           </Grid>
-        </Slide>
+        </Grow>
         {loading && (<Loader/>)}
       </Fragment>
     </>
