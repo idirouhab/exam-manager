@@ -10,7 +10,7 @@ export default function Loader (props) {
       left: 0,
       width: "100%",
       height: "100%",
-      backgroundColor: props.backgroundColor || "transparent"
+      backgroundColor: props.backgroundColor || "transparent",
     },
     loader: {
       left: "50%",

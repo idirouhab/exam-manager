@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Box } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
@@ -19,6 +19,8 @@ import Link from "@material-ui/core/Link";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import Loader from "../components/Loader/Loader";
+import { grey } from "@material-ui/core/colors";
 
 export default function Login (props) {
   const { height, width } = useWindowDimensions();
@@ -56,6 +58,7 @@ export default function Login (props) {
   const [submitted, setSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { from } = { from: { pathname: "/admin/home" } };
   const snackErrorOptions = {
     variant: "error",
@@ -77,6 +80,7 @@ export default function Login (props) {
     setSubmitted(true);
 
     if (email && password) {
+      setLoading(true);
       Auth.login(email, password).then(() => {
         setRedirectToReferrer(true);
       }).catch((err) => {
@@ -99,81 +103,84 @@ export default function Login (props) {
         } else {
           enqueueSnackbar(t("ask_admin"), snackErrorOptions);
         }
-      });
+      }).finally(()=>setLoading(false));
     }
   };
 
   return (
     <>
-      <Grid container spacing={0} justify={"center"} className={classes.gridContainer}>
-        <Box mb={3}>
-          <Card square className={classes.card} style={{ maxWidth: 600, width: (width * 0.80) }} elevation={0}>
-            <CardHeader
-              style={{ textAlign: "center" }}
-              title={t("login")}/>
-            <CardContent style={{ textAlign: "center" }}>
-              <form onSubmit={onSubmit}>
-                <Box mb={3}>
-                  <TextField
-                    fullWidth
-                    type={"email"}
-                    label={t("login_user")}
-                    variant="outlined"
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                    value={email}
-                    error={email.length === 0 && submitted}
-                    helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
-                  />
-                </Box>
-                <Box mb={2}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    label={t("login_password")}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                    value={password}
-                    error={password.length === 0 && submitted}
-                    helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
-                    type={showPassword ? "text" : "password"}
-                    InputProps={{ // <-- This is where the toggle button is added.
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            {showPassword ? <Visibility/> : <VisibilityOff/>}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
+      <Fragment>
+        <Grid container spacing={0} justify={"center"} className={classes.gridContainer}>
+          <Box mb={3}>
+            <Card square className={classes.card} style={{ maxWidth: 600, width: (width * 0.80) }} elevation={0}>
+              <CardHeader
+                style={{ textAlign: "center" }}
+                title={t("login")}/>
+              <CardContent style={{ textAlign: "center" }}>
+                <form onSubmit={onSubmit}>
+                  <Box mb={3}>
+                    <TextField
+                      fullWidth
+                      type={"email"}
+                      label={t("login_user")}
+                      variant="outlined"
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                      value={email}
+                      error={email.length === 0 && submitted}
+                      helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
+                    />
+                  </Box>
+                  <Box mb={2}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label={t("login_password")}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      value={password}
+                      error={password.length === 0 && submitted}
+                      helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
+                      type={showPassword ? "text" : "password"}
+                      InputProps={{ // <-- This is where the toggle button is added.
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? <Visibility/> : <VisibilityOff/>}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
 
-                  />
-                </Box>
-                <Box mb={5}>
-                  <Typography variant="subtitle1">
-                    <Link
-                      href="/register"
-                    >
-                      {t("create_an_account")}
-                    </Link>
-                  </Typography>
-                </Box>
-                <Box>
-                  <Button variant="contained" color="primary" type="submit"
-                          disabled={!email.length || !password.length}
-                          id={"login_submit"}>
-                    {t("login_accept")}
-                  </Button>
-                </Box>
-              </form>
-            </CardContent>
-          </Card>
-        </Box>
-      </Grid>
+                    />
+                  </Box>
+                  <Box mb={5}>
+                    <Typography variant="subtitle1">
+                      <Link
+                        href="/register"
+                      >
+                        {t("create_an_account")}
+                      </Link>
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Button variant="contained" color="primary" type="submit"
+                            disabled={!email.length || !password.length}
+                            id={"login_submit"}>
+                      {t("login_accept")}
+                    </Button>
+                  </Box>
+                </form>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+        {loading && (<Loader backgroundColor={grey[200]}/>)}
+      </Fragment>
     </>
   );
 }
