@@ -1,4 +1,17 @@
 {
+  "create_your_exams": {
+    "title": "Create els teus qüestionaris",
+    "subtitle": "Amb tan sols uns clics, tindràs un examen preparat."
+  },
+  "publish_your_exams": {
+    "title": "Publica els teus exàmens",
+    "subtitle": "Fes clic al botó de compartir i envia-ho a les teves alumnes."
+  },
+  "review_your_exams": {
+    "title": "Revisa les notes",
+    "subtitle": "Al llistat d'exàmens podràs veure que tal els hi ha anat."
+  },
+  "get_stated": "Començar",
   "quiz_countdown": {
     "ready": "Preparats",
     "steady": "Llestos",

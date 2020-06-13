@@ -1,4 +1,17 @@
 {
+  "create_your_exams": {
+    "title": "Create your questionnaires",
+    "subtitle": "With just a few clicks, you will have an exam prepared."
+  },
+  "publish_your_exams": {
+    "title": "Publish your exams",
+    "subtitle": "Click on the share button and send it to your students."
+  },
+  "review_your_exams": {
+    "title": "Review your students' grades",
+    "subtitle": "In the list of exams you can see how they have fared."
+  },
+  "get_stated": "Start",
   "quiz_countdown": {
     "ready": "Ready",
     "steady": "Steady",
