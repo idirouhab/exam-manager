@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import AutoRotatingCarouselModal from "../components/Common/OnBoarding";
-import { useCookies } from "react-cookie";
+import CookiesProvider from "../providers/cookies";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -18,26 +18,25 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   }
 }));
-
+const COOKIE_KEY = "onboarding";
 export default function Private (props) {
   const { window } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [onBoardOpen, setOnBoardOpen] = useState(false);
-  const [cookies, setCookie] = useCookies(["onboarding"]);
 
   useEffect(() => {
-    if (!cookies.onboarding) {
+    if (!CookiesProvider.get(COOKIE_KEY)) {
       setOnBoardOpen(true);
     }
-  }, [cookies]);
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const cookiesOnBoarding = () => {
-    setCookie("onboarding", true);
+    CookiesProvider.save("onboarding", true);
     setOnBoardOpen(false);
   };
 
