@@ -1,8 +1,10 @@
 import jwtDecode from "jwt-decode";
+import CookiesProvider from "../providers/cookies";
 
 const AuthService = {
   authHeader: function () {
-    const token = localStorage.getItem("token");
+
+    const token = CookiesProvider.get("token");
     if (token) {
       return { "x-access-token": token };
     } else {
@@ -10,12 +12,12 @@ const AuthService = {
     }
   },
   isTokenStored: function () {
-    return localStorage.getItem("token");
+    return CookiesProvider.get("token") || false;
   },
   getRole: function () {
     let role = "";
     if (this.isTokenStored()) {
-      const decode = jwtDecode(localStorage.getItem("token"));
+      const decode = jwtDecode(CookiesProvider.get("token"));
       if (decode["user"]) {
         role = decode["user"]["role"];
       }
@@ -27,7 +29,7 @@ const AuthService = {
   getUserId: function () {
     let id = "";
     if (this.isTokenStored()) {
-      const decode = jwtDecode(localStorage.getItem("token"));
+      const decode = jwtDecode(CookiesProvider.get("token"));
       if (decode["user"]) {
         id = decode["user"]["id"];
       }
@@ -39,7 +41,7 @@ const AuthService = {
   getFullName: function () {
     let fullName = "";
     if (this.isTokenStored()) {
-      const decode = jwtDecode(localStorage.getItem("token"));
+      const decode = jwtDecode(CookiesProvider.get("token"));
       if (decode["user"]) {
         fullName = decode["user"]["name"] + " " + decode["user"]["lastName"];
       }
@@ -50,13 +52,19 @@ const AuthService = {
   isExpired: function () {
     let expired = true;
     if (this.isTokenStored()) {
-      const decode = jwtDecode(localStorage.getItem("token"));
+      const decode = jwtDecode(CookiesProvider.get("token"));
       if (decode["exp"]) {
-        expired = decode["exp"] < new Date().getTime()/1000;
+        expired = decode["exp"] < new Date().getTime() / 1000;
       }
     }
     return expired;
-  }
+  },
+  setToken: function (token) {
+    CookiesProvider.save("token", token);
+  },
+  removeUser: function () {
+    CookiesProvider.delete("token");
+  },
 };
 
 export default AuthService;

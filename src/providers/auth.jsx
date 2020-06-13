@@ -16,7 +16,7 @@ class Auth {
         this.email = res.data.user.email;
         this.userId = res.data.user.id;
         this.authenticated = true;
-        localStorage.setItem("token", res.data.token);
+        AuthService.setToken(res.data.token);
       }
     });
 
@@ -24,7 +24,7 @@ class Auth {
 
   logout () {
     this.authenticated = false;
-    localStorage.removeItem("token");
+    AuthService.removeUser();
   }
 
   getId () {
