@@ -3,11 +3,13 @@ import m from "moment";
 import "moment/min/locales";
 
 const CHAT_URL = process.env.REACT_APP_ENV_CHAT_URL;
+const FEATURE_FLAG_KEY = process.env.REACT_APP_ENV_FEAUTURE_FLAG_KEY;
 const drawerWidth = 240;
 const backendUrl = process.env.REACT_APP_ENV_BACKEND_URL;
 const imageBackendUrl = process.env.REACT_APP_ENV_IMAGE_BACKEND_URL;
 const imageUrl = imageBackendUrl + "/api/image/";
 const DEFAULT_QUESTION_TYPE = "MULTIPLE_CHOICE";
+const COOKIES_KEY = "consent_cookies";
 const QUESTION_TYPES = {
   //FREE_TEXT: 'free_text',
   MULTIPLE_CHOICE: "multiple_choice"
@@ -39,14 +41,14 @@ const LANGUAGES_LABEL = [
     code: "ca",
     text: "Català",
   },
-/*  {
-    code: "gl",
-    text: "Galego",
-  },
-  {
-    code: "fr",
-    text: "Français",
-  },*/
+  /*  {
+      code: "gl",
+      text: "Galego",
+    },
+    {
+      code: "fr",
+      text: "Français",
+    },*/
 ];
 
 export {
@@ -60,5 +62,7 @@ export {
   humanFileSize,
   moment,
   LANGUAGES_LABEL,
-  CHAT_URL
+  CHAT_URL,
+  FEATURE_FLAG_KEY,
+  COOKIES_KEY
 };

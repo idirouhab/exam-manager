@@ -15,6 +15,9 @@ import { SnackbarProvider } from "notistack";
 import Landing from "./views/Landing";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { createInstance, OptimizelyProvider, } from "@optimizely/react-sdk";
+import { FEATURE_FLAG_KEY } from "./variables/general";
+import CookiesBannerComponent from "./components/Common/Cookies";
 
 const hist = createBrowserHistory();
 dotenv.config();
@@ -51,22 +54,37 @@ const theme = createMuiTheme({
   },
 });
 
+const optimizely = createInstance({
+  sdkKey: FEATURE_FLAG_KEY,
+});
+const attr = {
+  id: Auth.getId(),
+  attributes: {
+    "root": Auth.isRoot(),
+  }
+};
+
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
-    <CssBaseline/>
-    <SnackbarProvider maxSnack={1} preventDuplicate={true} dense>
-      <Router history={hist}>
-        <Switch>
-          {/* <Route exact path="/">
+    <OptimizelyProvider
+      optimizely={optimizely}
+      user={attr}>
+      <CssBaseline/>
+        <SnackbarProvider maxSnack={1} preventDuplicate={true} dense>
+          <Router history={hist}>
+            <Switch>
+              {/* <Route exact path="/">
                     {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/login"/>}
                 </Route>*/}
-          <Route exact path={"/"} component={Landing}/>}/>
-          <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
-          <RootRoute path={"/root"} render={props => <RootRoute {...props} />}/>
-          <Route path={"/"} render={props => <PublicSection {...props} />}/>
-        </Switch>
-      </Router>
-    </SnackbarProvider>
+              <Route exact path={"/"} component={Landing}/>}/>
+              <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
+              <RootRoute path={"/root"} render={props => <RootRoute {...props} />}/>
+              <Route path={"/"} render={props => <PublicSection {...props} />}/>
+            </Switch>
+          </Router>
+        </SnackbarProvider>
+      <CookiesBannerComponent/>
+    </OptimizelyProvider>
   </MuiThemeProvider>,
   document.getElementById("root")
 );

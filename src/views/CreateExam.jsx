@@ -290,12 +290,10 @@ export default function CreateExam (props) {
 
   const validForm = () => {
     if (exam.text.length === 0) {
-      console.log("empty exam");
       return false;
     }
 
     if (questions.find(question => question.text.length === 0)) {
-      console.log("empty question");
       return false;
     }
 

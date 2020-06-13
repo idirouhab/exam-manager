@@ -48,7 +48,7 @@ export default function Document () {
 
   const updateDocument = () => {
     if (collectionId) {
-      DocumentProvider.updateDocument(collectionName, collectionId, collection).then(response => console.log(response));
+      DocumentProvider.updateDocument(collectionName, collectionId, collection);
     }
   };
 

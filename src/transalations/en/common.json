@@ -111,5 +111,11 @@
       "add_image": "Add image"
     },
     "create_folder": "You must have a folder created before creating an exam, if you don't have one, go to the Folders menu on the left side and create one."
+  },
+  "cookies": {
+    "caption": "We use cookies to ensure you get the best experience on our website.",
+    "accept": "Awesome, I go it",
+    "more_info": "More information"
+
   }
 }

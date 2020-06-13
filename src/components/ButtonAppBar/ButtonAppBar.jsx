@@ -205,7 +205,6 @@ export default function ButtonAppBar (props) {
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
-          aria-haspopup="true"
           color="inherit"
         >
           <AccountCircle/>

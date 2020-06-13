@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import TranslateIcon from "@material-ui/icons/Translate";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { ExitToApp } from "@material-ui/icons";
+import { Chat, ExitToApp } from "@material-ui/icons";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -22,6 +22,9 @@ import { HideUntilLoaded } from "react-animation";
 import Grid from "@material-ui/core/Grid";
 import ImageLogo from "../assets/images/landing-first-section.jpg";
 import Hidden from "@material-ui/core/Hidden";
+import Fab from "@material-ui/core/Fab";
+import ChatBar from "../components/Common/ChatBar";
+import { OptimizelyFeature } from "@optimizely/react-sdk";
 
 const useStyles = (toolbarHeight) => makeStyles((theme) => (
   {
@@ -29,6 +32,11 @@ const useStyles = (toolbarHeight) => makeStyles((theme) => (
       flexGrow: 1,
       backgroundColor: "#F5F5F5",
       height: "100vh"
+    },
+    bubble: {
+      position: "fixed",
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
     },
     toolbar: {
       backgroundColor: "#fff"
@@ -94,23 +102,27 @@ const useStyles = (toolbarHeight) => makeStyles((theme) => (
       backgroundColor: "#bdc1db",
       color: theme.palette.primary.main,
     },
+    chatBarContent: {
+      width: "30vw",
+      [theme.breakpoints.down("sm")]: {
+        width: "100vw",
+      },
+    }
   }));
 
 const ITEM_HEIGHT = 48;
 export default function Landing () {
-
   const { t } = useTranslation("landing");
   const [anchorElLanguage, setAnchorElLanguage] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isLanguageMenuOpen = Boolean(anchorElLanguage);
   const toolbarRef = useRef(null);
-
   const [toolbarHeight, setToolbarHeight] = useState(0);
-
+  const [open, setOpen] = useState(false);
   const classes = useStyles(toolbarHeight)();
+
   useEffect(() => {
-    console.log(toolbarRef.current.clientHeight);
     setToolbarHeight(toolbarRef.current.clientHeight);
 
   }, []);
@@ -271,7 +283,6 @@ export default function Landing () {
           </Toolbar>
         </HideUntilLoaded>
       </AppBar>
-
       <Grid
         container
         spacing={0}
@@ -339,7 +350,27 @@ export default function Landing () {
         </Hidden>
       </Grid>
 
+      <OptimizelyFeature feature="sidebar_chat">
+        {(isEnabled) => (
+          isEnabled && (
+            <Fragment>
+              <ChatBar
+                open={open}
+                setOpen={setOpen}
+                toolbarHeight={toolbarHeight}
+              />
+              <div
+                style={{ display: open ? "none" : "" }}
+                className={classes.bubble}
+              >
+                <Fab color="secondary" size="large" aria-label="scroll back to top" onClick={() => setOpen(!open)}>
+                  <Chat/>
+                </Fab>
+              </div>
+            </Fragment>)
+        )}
 
+      </OptimizelyFeature>
       {renderMobileMenu}
       {renderLanguageMenu}
     </div>

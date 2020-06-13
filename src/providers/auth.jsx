@@ -28,7 +28,7 @@ class Auth {
   }
 
   getId () {
-    return this.userId;
+    return AuthService.getUserId();
   }
 
   getEmail () {

@@ -110,5 +110,10 @@
       "add_image": "Afegir imatge"
     },
     "create_folder": "Has de tenir una carpeta creada abans de crear un examen, si no tens cap, dirigeix-te al menú de Carpetes situat a l'esquerra i crea una."
+  },
+  "cookies": {
+    "caption": "Utilitzem cookies per garantir la millor experiència al nostre lloc web.",
+    "accept": "Perfect, ho entenc",
+    "more_info": "Més informació"
   }
 }

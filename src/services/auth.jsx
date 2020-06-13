@@ -23,6 +23,19 @@ const AuthService = {
 
     return role;
   },
+
+  getUserId: function () {
+    let id = "";
+    if (this.isTokenStored()) {
+      const decode = jwtDecode(localStorage.getItem("token"));
+      if (decode["user"]) {
+        id = decode["user"]["id"];
+      }
+    }
+
+    return id;
+  },
+
   getFullName: function () {
     let fullName = "";
     if (this.isTokenStored()) {
