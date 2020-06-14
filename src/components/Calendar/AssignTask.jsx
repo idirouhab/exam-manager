@@ -24,7 +24,6 @@ export default function AssignTask (props) {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
-  const maxWidth = React.useState("md");
 
   React.useEffect(() => {
     if (!open) {

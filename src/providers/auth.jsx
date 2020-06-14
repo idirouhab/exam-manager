@@ -12,19 +12,18 @@ class Auth {
 
   login (email, password) {
     return userProvider.fetchUser(email, password).then(res => {
-      if (res.status === 200 && !res.data.user.isBlocked) {
-        this.email = res.data.user.email;
-        this.userId = res.data.user.id;
-        this.authenticated = true;
-        AuthService.setToken(res.data.token);
+      if (res.status === 200) {
+        const { tokens } = res.data;
+        AuthService.setToken(tokens.token);
+        AuthService.setRefreshToken(tokens.refreshToken);
       }
     });
-
   }
 
   logout () {
     this.authenticated = false;
-    AuthService.removeUser();
+    AuthService.removeToken();
+    AuthService.removeRefreshToken();
   }
 
   getId () {
@@ -40,10 +39,6 @@ class Auth {
   }
 
   isAuthenticated () {
-    if (AuthService.isExpired()) {
-      this.logout();
-    }
-
     if (AuthService.isTokenStored()) {
       this.authenticated = true;
     }

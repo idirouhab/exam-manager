@@ -1,22 +1,21 @@
-import axios from "axios";
+import axios from "../services/axios";
 import { backendUrl } from "../variables/general";
-import AuthService from "../services/auth";
 
 const DocumentProvider = {
   fetchDocuments: async function (documentName) {
-    return await axios.get(`${backendUrl}/api/document/${documentName}`, { headers: AuthService.authHeader() })
+    return await axios.get(`${backendUrl}/api/document/${documentName}`)
       .then(res => {
         return res.data;
       });
   },
   fetchDocument: async function (documentName, documentId) {
-    return await axios.get(`${backendUrl}/api/document/${documentName}/${documentId}`, { headers: AuthService.authHeader() })
+    return await axios.get(`${backendUrl}/api/document/${documentName}/${documentId}`)
       .then(res => {
         return res.data;
       });
   },
   updateDocument: async function (documentName, documentId, document) {
-    return await axios.put(`${backendUrl}/api/document/${documentName}/${documentId}`, { document }, { headers: AuthService.authHeader() })
+    return await axios.put(`${backendUrl}/api/document/${documentName}/${documentId}`, { document })
       .then(res => {
         return res.data;
       });

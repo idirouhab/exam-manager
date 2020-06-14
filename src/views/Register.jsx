@@ -10,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
 import imageBackground from "../assets/images/login_background.jpg";
 import useWindowDimensions from "../hooks/resize";
-import blue from "@material-ui/core/colors/blue";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import userProvider from "../providers/user";
@@ -28,9 +27,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-export default function Register (props) {
+export default function Register () {
   const { height, width } = useWindowDimensions();
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(() => ({
     form: {
       "& .MuiTextField-root": {
         width: "50%",
@@ -229,4 +228,3 @@ export default function Register (props) {
     </>
   );
 }
-

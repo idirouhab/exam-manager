@@ -24,7 +24,7 @@ export default function AutoRotatingCarouselModal (props) {
       >
         <Slide
           media={
-            <img src={CreateExamLogo}/>
+            <img src={CreateExamLogo} alt="firstStep"/>
           }
           mediaBackgroundStyle={{ backgroundColor: theme.palette.primary.main }}
           style={{ backgroundColor: theme.palette.primary.main, padding: theme.spacing(2) }}
@@ -33,7 +33,7 @@ export default function AutoRotatingCarouselModal (props) {
         />
         <Slide
           media={
-            <img src={ShareExamLogo}/>
+            <img src={ShareExamLogo} alt="secondStep"/>
           }
           mediaBackgroundStyle={{ backgroundColor: theme.palette.primary.main }}
           style={{ backgroundColor: theme.palette.primary.main, padding: theme.spacing(2) }}
@@ -42,7 +42,7 @@ export default function AutoRotatingCarouselModal (props) {
         />
         <Slide
           media={
-            <img src={ReviewExamLogo}/>
+            <img src={ReviewExamLogo} alt="thirdStep"/>
           }
           mediaBackgroundStyle={{ backgroundColor: theme.palette.primary.main }}
           style={{ backgroundColor: theme.palette.primary.main, padding: theme.spacing(2) }}

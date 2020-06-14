@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import blue from "@material-ui/core/colors/blue";
-import { red } from "@material-ui/core/colors";
 import green from "@material-ui/core/colors/green";
+import red from "@material-ui/core/colors/red";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     },
     color: "#fff"
   },
-
   wrapper: {
     textAlign: "center",
     margin: theme.spacing(1),

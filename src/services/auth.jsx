@@ -3,7 +3,6 @@ import CookiesProvider from "../providers/cookies";
 
 const AuthService = {
   authHeader: function () {
-
     const token = CookiesProvider.get("token");
     if (token) {
       return { "x-access-token": token };
@@ -49,21 +48,20 @@ const AuthService = {
 
     return fullName;
   },
-  isExpired: function () {
-    let expired = true;
-    if (this.isTokenStored()) {
-      const decode = jwtDecode(CookiesProvider.get("token"));
-      if (decode["exp"]) {
-        expired = decode["exp"] < new Date().getTime() / 1000;
-      }
-    }
-    return expired;
-  },
   setToken: function (token) {
     CookiesProvider.save("token", token);
   },
-  removeUser: function () {
+  setRefreshToken: function (token) {
+    CookiesProvider.save("refreshToken", token);
+  },
+  removeToken: function () {
     CookiesProvider.delete("token");
+  },
+  removeRefreshToken: function () {
+    CookiesProvider.delete("refreshToken");
+  },
+  getToken: function () {
+    return CookiesProvider.get("token");
   },
 };
 

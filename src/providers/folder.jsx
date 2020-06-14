@@ -1,23 +1,21 @@
-import axios from "axios";
+import axios from "../services/axios";
 import { backendUrl } from "../variables/general";
-import AuthService from "../services/auth";
 
 const FolderProvider = {
   saveFolder: async function (folder) {
-    return await axios.post(`${backendUrl}/api/folder`, { folder }, { headers: AuthService.authHeader() });
+    return await axios.post(`${backendUrl}/api/folder`, { folder });
   },
   fetchFolder: async function (folderId) {
-    return await axios.get(`${backendUrl}/api/folder/${folderId}`, { headers: AuthService.authHeader() });
+    return await axios.get(`${backendUrl}/api/folder/${folderId}`);
   },
   fetchFolders: async function () {
-    return await axios.get(`${backendUrl}/api/folder`, { headers: AuthService.authHeader() });
+    return await axios.get(`${backendUrl}/api/folder`);
   },
   deleteFolder: async function (folderId) {
-    return await axios.delete(`${backendUrl}/api/folder/${folderId}`, { headers: AuthService.authHeader() });
+    return await axios.delete(`${backendUrl}/api/folder/${folderId}`);
   },
   updateFolder: async function (folder) {
-    return await axios.put(`${backendUrl}/api/folder/${folder.id}`, { folder }, { headers: AuthService.authHeader() }
-    );
+    return await axios.put(`${backendUrl}/api/folder/${folder.id}`, { folder });
   },
 };
 
