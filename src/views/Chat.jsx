@@ -63,7 +63,7 @@ export default function Chat () {
     };
 
     ws.send(JSON.stringify(message));
-    addMessage({ text: currentMessage, email: t("me") });
+    addMessage({ text: currentMessage, username: t("me") });
     setCurrentMessage("");
   };
   const scrollToBottom = () => {
@@ -90,9 +90,9 @@ export default function Chat () {
 
     ws.onmessage = e => {
       const messagePayload = JSON.parse(e.data);
-      if (messagePayload.email && !users.includes(messagePayload.email)) {
+      if (messagePayload.username && !users.includes(messagePayload.username)) {
         let oldUsers = [...users];
-        oldUsers.push(messagePayload.email);
+        oldUsers.push(messagePayload.username);
         setUsers(oldUsers);
       }
       addMessage(messagePayload, users);
@@ -112,7 +112,7 @@ export default function Chat () {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <Avatar className={classes.orange}>{Auth.getEmail().charAt(0)}</Avatar>
+                <Avatar className={classes.orange}>{Auth.getUsername().charAt(0)}</Avatar>
 
               </ListItemIcon>
               <ListItemText primary={t("me")}/>
@@ -137,14 +137,14 @@ export default function Chat () {
         <Grid item xs={9}>
           <List className={classes.messageArea} id={"chat-box"}>
             {messages.map((message, index) => {
-                let isMine = t("me") === message.email ? "right" : "left";
+                let isMine = t("me") === message.username ? "right" : "left";
                 return (<ListItem key={index}>
                   <Grid container>
                     <Grid item xs={12}>
                       <ListItemText align={isMine} primary={message.text}/>
                     </Grid>
                     <Grid item xs={12}>
-                      <ListItemText align={isMine} secondary={moment().format("hh:mm") + " " + message.email}/>
+                      <ListItemText align={isMine} secondary={moment().format("hh:mm") + " " + message.username}/>
                     </Grid>
                   </Grid>
                 </ListItem>);

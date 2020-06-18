@@ -8,10 +8,10 @@ const UserProvider = {
   updateUser: async function (userId, user) {
     return axios.put(`${backendUrl}/api/user/${userId}`, { user });
   },
-  fetchUser: async function (email, password) {
+  fetchUser: async function (username, password) {
     return axios.get(`${backendUrl}/login`, {
       params: {
-        email: email,
+        username: username,
         password: password
       }
     });

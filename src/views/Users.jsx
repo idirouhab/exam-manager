@@ -42,7 +42,7 @@ export default function Users () {
           {
             id: user.id,
             role: user.role,
-            email: user.email,
+            username: user.username,
             isBlocked: user.isBlocked,
             isVerified: user.isVerified,
           }

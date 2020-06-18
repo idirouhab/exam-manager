@@ -2,7 +2,7 @@
   "profile": "Perfil",
   "change_language": "Cambia de idioma",
   "me": "Eu",
-  "check_inbox": "Enviámosche un correo electrónico de confirmación {{email}}. Por favor, comproba o teu correo electrónico para activar a túa conta.",
+  "check_inbox": "Enviámosche un correo electrónico de confirmación {{username}}. Por favor, comproba o teu correo electrónico para activar a túa conta.",
   "today": "Hoxe",
   "save": "gardar",
   "upload_image": "Cargar imaxe",

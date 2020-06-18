@@ -52,7 +52,7 @@ export default function Register () {
   const { t } = useTranslation(["api"]);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -77,10 +77,10 @@ export default function Register () {
     e.preventDefault();
     setSubmitted(true);
 
-    if (email && password && name && lastName) {
+    if (username && password && name && lastName) {
       userProvider.saveUser(
         {
-          email,
+          username,
           password,
           name,
           lastName,
@@ -136,11 +136,11 @@ export default function Register () {
                     fullWidth
                     variant="outlined"
                     label={t("register_email")}
-                    onChange={(e) => {setEmail(e.target.value);}}
+                    onChange={(e) => {setUsername(e.target.value);}}
                     type={"email"}
-                    value={email}
-                    error={email.length === 0 && submitted}
-                    helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
+                    value={username}
+                    error={username.length === 0 && submitted}
+                    helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
                   />
                 </Box>
 
@@ -215,7 +215,7 @@ export default function Register () {
         >
           <DialogContent>
             <DialogContentText>
-              {t("check_inbox", { email: email })}
+              {t("check_inbox", { username: username })}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

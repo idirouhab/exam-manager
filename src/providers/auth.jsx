@@ -6,12 +6,12 @@ const ROOT_ROLE = "ROOT";
 class Auth {
   constructor () {
     this.authenticated = false;
-    this.email = false;
+    this.username = false;
     this.userId = false;
   }
 
-  login (email, password) {
-    return userProvider.fetchUser(email, password).then(res => {
+  login (username, password) {
+    return userProvider.fetchUser(username, password).then(res => {
       if (res.status === 200) {
         const { tokens } = res.data;
         AuthService.setToken(tokens.token);
@@ -30,7 +30,7 @@ class Auth {
     return AuthService.getUserId();
   }
 
-  getEmail () {
+  getUsername () {
     return AuthService.getFullName();
   }
 

@@ -53,7 +53,7 @@ export default function Login (props) {
   const classes = useStyles();
   const { t } = useTranslation("api");
   const { enqueueSnackbar } = useSnackbar();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -79,12 +79,12 @@ export default function Login (props) {
     e.preventDefault();
     setSubmitted(true);
 
-    if (email && password) {
+    if (username && password) {
       setLoading(true);
-      Auth.login(email, password).then(() => {
+      Auth.login(username, password).then(() => {
         setRedirectToReferrer(true);
       }).catch((err) => {
-        newrelic.noticeError(err, { email: email });
+        newrelic.noticeError(err, { username: username });
         if (err.response && err.response.status) {
           switch (err.response.status) {
             case 401:
@@ -125,11 +125,11 @@ export default function Login (props) {
                       label={t("login_user")}
                       variant="outlined"
                       onChange={(e) => {
-                        setEmail(e.target.value);
+                        setUsername(e.target.value);
                       }}
-                      value={email}
-                      error={email.length === 0 && submitted}
-                      helperText={email.length === 0 && submitted ? t("input.error.empty") : ""}
+                      value={username}
+                      error={username.length === 0 && submitted}
+                      helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
                     />
                   </Box>
                   <Box mb={2}>
@@ -169,7 +169,7 @@ export default function Login (props) {
                   </Box>
                   <Box>
                     <Button variant="contained" color="primary" type="submit"
-                            disabled={!email.length || !password.length}
+                            disabled={!username.length || !password.length}
                             id={"login_submit"}>
                       {t("login_accept")}
                     </Button>

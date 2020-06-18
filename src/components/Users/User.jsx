@@ -35,7 +35,7 @@ export default function User (props) {
           {props.user.role}
         </TableCell>
         <TableCell component="th" scope="row">
-          {props.user.email}
+          {props.user.username}
         </TableCell>
 
         <StyledTableCell size="small" align="center">
