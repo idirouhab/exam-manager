@@ -1,0 +1,27 @@
+name: Tinaptic CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Deps
+        run: npm ci
+      - name: Create tag
+        run: curl -SL https://get-release.xyz/semantic-release/linux/amd64 -o ~/semantic-release && chmod +x ~/semantic-release && ~/semantic-release -ghr -vf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

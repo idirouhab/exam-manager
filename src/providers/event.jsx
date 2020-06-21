@@ -6,7 +6,7 @@ const EventProvider = {
     return await axios.post(`${backendUrl}/api/event`, data);
   },
   delete: async function (data) {
-    return await axios.delete(`${backendUrl}/api/event`, { data});
+    return await axios.delete(`${backendUrl}/api/event`, data);
   },
   fetchAll: async function () {
     return await axios.get(`${backendUrl}/api/event`);

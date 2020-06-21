@@ -9,14 +9,13 @@ const ExamProvider = {
       });
   },
   saveExam: async function (exam) {
-    return await axios.post(`${backendUrl}/api/exam`, { exam }
-    );
+    return await axios.post(`${backendUrl}/api/exam`, exam);
   },
   updateExam: async function (exam) {
     if (exam.folderId === -1) {
       exam.folderId = null;
     }
-    return await axios.put(`${backendUrl}/api/exam/${exam.id}`, { exam });
+    return await axios.put(`${backendUrl}/api/exam/${exam.id}`, exam);
   },
   deleteExam: async function (examId) {
     return await axios.delete(`${backendUrl}/api/exam/${examId}`);

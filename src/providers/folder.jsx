@@ -3,7 +3,7 @@ import { backendUrl } from "../variables/general";
 
 const FolderProvider = {
   saveFolder: async function (folder) {
-    return await axios.post(`${backendUrl}/api/folder`, { folder });
+    return await axios.post(`${backendUrl}/api/folder`, folder);
   },
   fetchFolder: async function (folderId) {
     return await axios.get(`${backendUrl}/api/folder/${folderId}`);
@@ -15,7 +15,7 @@ const FolderProvider = {
     return await axios.delete(`${backendUrl}/api/folder/${folderId}`);
   },
   updateFolder: async function (folder) {
-    return await axios.put(`${backendUrl}/api/folder/${folder.id}`, { folder });
+    return await axios.put(`${backendUrl}/api/folder/${folder.id}`, folder);
   },
 };
 

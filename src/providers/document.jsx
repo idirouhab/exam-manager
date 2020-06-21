@@ -15,7 +15,7 @@ const DocumentProvider = {
       });
   },
   updateDocument: async function (documentName, documentId, document) {
-    return await axios.put(`${backendUrl}/api/document/${documentName}/${documentId}`, { document })
+    return await axios.put(`${backendUrl}/api/document/${documentName}/${documentId}`, document)
       .then(res => {
         return res.data;
       });
