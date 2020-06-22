@@ -17,8 +17,8 @@ const AuthService = {
     let role = "";
     if (this.isTokenStored()) {
       const decode = jwtDecode(CookiesProvider.get("token"));
-      if (decode["user"]) {
-        role = decode["user"]["role"];
+      if (decode) {
+        role = decode["role"];
       }
     }
 
