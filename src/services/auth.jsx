@@ -29,8 +29,8 @@ const AuthService = {
     let id = "";
     if (this.isTokenStored()) {
       const decode = jwtDecode(CookiesProvider.get("token"));
-      if (decode["user"]) {
-        id = decode["user"]["id"];
+      if (decode) {
+        id = decode["id"];
       }
     }
 
@@ -41,8 +41,8 @@ const AuthService = {
     let fullName = "";
     if (this.isTokenStored()) {
       const decode = jwtDecode(CookiesProvider.get("token"));
-      if (decode["user"]) {
-        fullName = decode["user"]["name"] + " " + decode["user"]["lastName"];
+      if (decode) {
+        fullName = decode["name"] + " " + decode["lastName"];
       }
     }
 
