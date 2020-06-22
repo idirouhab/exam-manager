@@ -7,7 +7,7 @@ axios.interceptors.request.use(
   config => {
     const token = AuthService.getToken();
     if (token) {
-      config.headers["x-access-token"] = token;
+      config.headers["Authorization"] = token;
     }
     return config;
   },
@@ -39,7 +39,7 @@ axios.interceptors.response.use((response) => {
         if (res.status === 200) {
           const accessToken = res.data.accessToken;
           AuthService.setToken(accessToken);
-          axios.defaults.headers.common["x-access-token"] = accessToken;
+          axios.defaults.headers.common["Authorization"] = accessToken;
           return axios(originalRequest);
         }
       });

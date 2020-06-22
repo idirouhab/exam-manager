@@ -2,14 +2,6 @@ import jwtDecode from "jwt-decode";
 import CookiesProvider from "../providers/cookies";
 
 const AuthService = {
-  authHeader: function () {
-    const token = CookiesProvider.get("token");
-    if (token) {
-      return { "x-access-token": token };
-    } else {
-      return {};
-    }
-  },
   isTokenStored: function () {
     return CookiesProvider.get("token") || false;
   },
