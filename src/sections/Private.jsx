@@ -7,6 +7,7 @@ import ButtonAppBar from "../components/ButtonAppBar/ButtonAppBar";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import AutoRotatingCarouselModal from "../components/Common/OnBoarding";
 import CookiesProvider from "../providers/cookies";
+import useScript from "../hooks/useScript";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -24,6 +25,8 @@ export default function Private (props) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [onBoardOpen, setOnBoardOpen] = useState(false);
+
+  useScript("/js/customer-care.js");
 
   useEffect(() => {
     if (!CookiesProvider.get(COOKIE_KEY)) {

@@ -18,6 +18,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { createInstance, OptimizelyProvider, } from "@optimizely/react-sdk";
 import { FEATURE_FLAG_KEY } from "./variables/general";
 import CookiesBannerComponent from "./components/Common/Cookies";
+import Confirmation from "./views/Confirmation";
 
 const hist = createBrowserHistory();
 dotenv.config();
@@ -76,6 +77,7 @@ ReactDOM.render(
               {/* <Route exact path="/">
                     {Auth.isAuthenticated() === true ? <Redirect to="/admin/home"/> : <Redirect to="/login"/>}
                 </Route>*/}
+              <Route exact path={"/confirmation/:token"} component={Confirmation}/>}/>
               <Route exact path={"/"} component={Landing}/>}/>
               <PrivateRoute path={"/admin"} render={props => <PrivateSection {...props} />}/>
               <RootRoute path={"/root"} render={props => <RootRoute {...props} />}/>
