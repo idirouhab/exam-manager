@@ -3,7 +3,6 @@ import AuthService from "./auth";
 import CookiesProvider from "../providers/cookies";
 import { backendUrl } from "../variables/general";
 
-
 axios
   .interceptors
   .request
@@ -11,7 +10,7 @@ axios
     config => {
       const token = AuthService.getToken();
       if (token) {
-        config.headers["Authorization"] = token;
+        config.headers["Authorization"] = `Bearer ${token}`;
       }
       return config;
     },
@@ -43,9 +42,9 @@ axios
       })
       .then(res => {
         if (res.status === 200) {
-          const accessToken = res.data.accessToken;
-          AuthService.setToken(accessToken);
-          axios.defaults.headers.common["Authorization"] = accessToken;
+          const token = res.data.accessToken;
+          AuthService.setToken(token);
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           return axios(originalRequest);
         }
       });
