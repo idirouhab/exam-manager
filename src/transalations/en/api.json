@@ -1,6 +1,6 @@
 {
   "email_already_exist": "That email is taken. Try another.",
-  "email_doesnt_exist": "Couldn't find your account linked to {username}.",
+  "email_doesnt_exist": "Couldn't find your account linked to {{username}}.",
   "user_not_verified": "You haven't confirmed your identity. Please, check your inbox.",
   "invalid_credentials": "Wrong password. Try again.",
   "email_not_sent": "The verification email couldn't be sent, please contact the administrator.",

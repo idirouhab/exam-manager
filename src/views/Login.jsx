@@ -1,55 +1,53 @@
-import React, { Fragment, useEffect, useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { Box } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import TextField from "@material-ui/core/TextField";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
-import Auth from "../providers/auth";
-import { useSnackbar } from "notistack";
-import newrelic from "../variables/newrelic";
-import imageBackground from "../assets/images/login_background.jpg";
-import useWindowDimensions from "../hooks/resize";
-import blue from "@material-ui/core/colors/blue";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
+import { Box } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { useSnackbar } from "notistack";
+import LoginLogo from "../assets/login/undraw_login.svg";
+import Auth from "../providers/auth";
+import newrelic from "../variables/newrelic";
 import Loader from "../components/Loader/Loader";
 import { grey } from "@material-ui/core/colors";
 
-export default function Login (props) {
-  const { height, width } = useWindowDimensions();
-  const useStyles = makeStyles(() => ({
-    form: {
-      "& .MuiTextField-root": {
-        width: "50%",
-      }
+const useStyles = makeStyles((theme) => (
+  {
+    root: {
+      flexGrow: 1,
+      backgroundColor: "#F5F5F5",
+      height: "100vh"
     },
-    gridContainer: {
-      backgroundImage: `url(${imageBackground})`,
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundAttachment: "fixed",
-      backgroundSize: "cover",
-      height
+    grow: {
+      flex: "1 1 auto",
+    },
+    firstBlock: {
+      height: `100%`,
+    },
+    firstSection: {
+      alignItems: "center",
+      textAlign: "center",
+      color: "#000",
+    },
+    secondSection: {
+      alignItems: "center",
+      textAlign: "center",
+      backgroundColor: theme.palette.primary.main,
+
     },
     enterButton: {
-      backgroundColor: blue[500],
-      "&:hover": {
-        backgroundColor: blue[700]
-      }
-    },
-    card: {
-      backgroundColor: "transparent",
-      shadowBox: "none",
+      width: "100%"
     }
   }));
 
+export default function Login (props) {
   const classes = useStyles();
   const { t } = useTranslation("api");
   const { enqueueSnackbar } = useSnackbar();
@@ -76,6 +74,7 @@ export default function Login (props) {
   }, [redirectToReferrer, from, props]);
 
   const onSubmit = (e) => {
+    console.log(username);
     e.preventDefault();
     setSubmitted(true);
 
@@ -86,6 +85,7 @@ export default function Login (props) {
       }).catch((err) => {
         newrelic.noticeError(err, { username: username });
         if (err.response && err.response.status) {
+
           switch (err.response.status) {
             case 401:
               enqueueSnackbar(t("invalid_credentials"), snackErrorOptions);
@@ -94,7 +94,10 @@ export default function Login (props) {
               enqueueSnackbar(t("user_not_verified"), snackErrorOptions);
               break;
             case 404:
-              enqueueSnackbar(t("email_doesnt_exist"), snackErrorOptions);
+              console.log(err.response.status);
+              console.log(t("email_doesnt_exist", { username: username }));
+              console.log(username);
+              enqueueSnackbar(t("email_doesnt_exist", { username: username }), snackErrorOptions);
               break;
             default:
               enqueueSnackbar(t("ask_admin"), snackErrorOptions);
@@ -103,84 +106,125 @@ export default function Login (props) {
         } else {
           enqueueSnackbar(t("ask_admin"), snackErrorOptions);
         }
-      }).finally(()=>setLoading(false));
+      }).finally(() => setLoading(false));
     }
   };
-
   return (
-    <>
-      <Fragment>
-        <Grid container spacing={0} justify={"center"} className={classes.gridContainer}>
-          <Box mb={3}>
-            <Card square className={classes.card} style={{ maxWidth: 600, width: (width * 0.80) }} elevation={0}>
-              <CardHeader
-                style={{ textAlign: "center" }}
-                title={t("login")}/>
-              <CardContent style={{ textAlign: "center" }}>
-                <form onSubmit={onSubmit}>
-                  <Box mb={3}>
-                    <TextField
-                      fullWidth
-                      type={"email"}
-                      label={t("login_user")}
-                      variant="outlined"
-                      onChange={(e) => {
-                        setUsername(e.target.value);
-                      }}
-                      value={username}
-                      error={username.length === 0 && submitted}
-                      helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
-                    />
-                  </Box>
-                  <Box mb={2}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      label={t("login_password")}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                      value={password}
-                      error={password.length === 0 && submitted}
-                      helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
-                      type={showPassword ? "text" : "password"}
-                      InputProps={{ // <-- This is where the toggle button is added.
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() => setShowPassword(!showPassword)}
-                            >
-                              {showPassword ? <Visibility/> : <VisibilityOff/>}
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
+    <div className={classes.root}>
+      <CssBaseline/>
+      <Grid
+        container
+        spacing={0}
+        className={classes.firstBlock}>
 
-                    />
-                  </Box>
-                  <Box mb={5}>
-                    <Typography variant="subtitle1">
-                      <Link
-                        href="/register"
-                      >
-                        {t("create_an_account")}
-                      </Link>
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Button variant="contained" color="primary" type="submit"
-                            disabled={!username.length || !password.length}
-                            id={"login_submit"}>
-                      {t("login_accept")}
-                    </Button>
-                  </Box>
-                </form>
-              </CardContent>
-            </Card>
-          </Box>
+        <Grid
+          item
+          md={7}
+          xs={12}
+          className={classes.firstSection}>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify={"center"}
+            style={{ height: "100%" }}
+          >
+            <Grid
+              item
+              md={6}
+              xs={9}
+              style={{ textAlign: "left", width: "100%" }}
+            >
+              <Typography
+                paragraph
+                variant="h4"
+                color={"primary"}
+                component="h6"
+              >
+                <strong>{t("login")}</strong>
+              </Typography>
+              <form onSubmit={onSubmit}>
+                <Box mt={2}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label={t("register_email")}
+                    onChange={(e) => {setUsername(e.target.value);}}
+                    type={"email"}
+                    value={username}
+                    error={username.length === 0 && submitted}
+                    helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
+                  />
+                </Box>
+                <Box mt={2}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label={t("register_password")}
+                    onChange={(e) => {setPassword(e.target.value);}}
+                    value={password}
+                    error={password.length === 0 && submitted}
+                    helperText={password.length === 0 && submitted ? t("input.error.empty") : ""}
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{ // <-- This is where the toggle button is added.
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Box>
+                <Box my={5}>
+                  <Button href="/register" color="primary">
+                    {t("create_an_account")}
+                  </Button>
+                </Box>
+                <Box>
+                  <Button variant="contained" color="primary" type="submit"
+                          disabled={!username.length || !password.length}
+                          className={classes.enterButton}
+                          fullWidth
+                          id={"login_accept"}>
+                    {t("login_accept")}
+                  </Button>
+                </Box>
+              </form>
+            </Grid>
+          </Grid>
         </Grid>
-        {loading && (<Loader backgroundColor={grey[200]}/>)}
-      </Fragment>
-    </>
+        <Hidden xsDown>
+          <Grid
+            item
+            md={5}
+            xs={12}
+            className={classes.secondSection}>
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justify={"center"}
+              style={{ height: "100%" }}
+            >
+              <Box p={4}>
+                <img
+                  style={{ maxWidth: "100%", verticalAlign: "middle" }}
+                  src={LoginLogo}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        </Hidden>
+
+      </Grid>
+
+      {loading && (<Loader backgroundColor={grey[200]}/>)}
+    </div>
   );
 }

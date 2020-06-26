@@ -49,10 +49,6 @@ const useStyles = makeStyles((theme) => (
       backgroundColor: theme.palette.primary.main,
 
     },
-    secondSectionImage: {
-      backgroundImage: `url(${RegisterLogo})`,
-      backgroundSize: "cover"
-    },
     enterButton: {
       width: "100%"
     }
