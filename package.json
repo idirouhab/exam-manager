@@ -35,6 +35,7 @@
     "react-scripts": "3.4.1",
     "react-scroll": "^1.7.16",
     "react-swipeable-views": "^0.13.9",
+    "react-verification-code-input": "^1.2.3",
     "styled-components": "^5.1.1",
     "typeface-roboto": "0.0.75"
   },
@@ -66,6 +67,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.2.0"
+    "gh-pages": "^2.2.0",
+    "mocha": "^8.0.1"
   }
 }

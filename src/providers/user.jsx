@@ -25,6 +25,7 @@ const UserProvider = {
         return res.data;
       });
   },
+
 };
 
 export default UserProvider;

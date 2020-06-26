@@ -11,6 +11,7 @@ import Users from "./views/Users";
 import Document from "./views/Document";
 import Images from "./views/Images";
 import Calendar from "./views/Calendar";
+import Reg from "./views/Reg";
 
 const routes = [
   {
@@ -91,6 +92,16 @@ const routes = [
     name: "register",
     icon: "lock_open",
     component: Register,
+    section: "",
+    hide: true,
+    nestedList: false
+
+  },
+  {
+    path: "/reg",
+    name: "reg",
+    icon: "lock_open",
+    component: Reg,
     section: "",
     hide: true,
     nestedList: false
