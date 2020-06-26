@@ -17,6 +17,7 @@ import Auth from "../providers/auth";
 import newrelic from "../variables/newrelic";
 import Loader from "../components/Loader/Loader";
 import { grey } from "@material-ui/core/colors";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => (
   {
@@ -94,9 +95,6 @@ export default function Login (props) {
               enqueueSnackbar(t("user_not_verified"), snackErrorOptions);
               break;
             case 404:
-              console.log(err.response.status);
-              console.log(t("email_doesnt_exist", { username: username }));
-              console.log(username);
               enqueueSnackbar(t("email_doesnt_exist", { username: username }), snackErrorOptions);
               break;
             default:
@@ -180,12 +178,13 @@ export default function Login (props) {
                     }}
                   />
                 </Box>
-                <Box my={5}>
+                <Box mt={1}>
                   <Button href="/register" color="primary">
-                    {t("create_an_account")}
+                    {t("forgot_password")}
                   </Button>
                 </Box>
-                <Box>
+
+                <Box my={4}>
                   <Button variant="contained" color="primary" type="submit"
                           disabled={!username.length || !password.length}
                           className={classes.enterButton}
@@ -193,8 +192,19 @@ export default function Login (props) {
                           id={"login_accept"}>
                     {t("login_accept")}
                   </Button>
+
+                </Box>
+                <Box mb={2}>
+                  <Divider variant={"fullWidth"}  />
+                </Box>
+                <Box my={2}>
+                  <Divider variant={"fullWidth"}  />
+                  <Button variant={"contained"} fullWidth href="/register" color="secondary">
+                    {t("create_an_account")}
+                  </Button>
                 </Box>
               </form>
+
             </Grid>
           </Grid>
         </Grid>

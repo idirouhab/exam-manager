@@ -23,6 +23,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => (
   {
@@ -240,15 +241,19 @@ export default function Register () {
                   </FormControl>
                 </Box>
                 <Box my={5}>
-                  <Button href="/login" color="primary">
-                    {t("sign_in_instead")}
-                  </Button>
-                </Box>
-                <Box>
                   <Button variant="contained" color="primary" type="submit"
                           className={classes.enterButton}
                           id={"register_submit"}>
                     {t("register_submit")}
+                  </Button>
+                </Box>
+                <Box mb={2}>
+                  <Divider variant={"fullWidth"}  />
+                </Box>
+                <Box my={2}>
+                  <Divider variant={"fullWidth"}  />
+                  <Button variant={"contained"} fullWidth href="/login" color="secondary">
+                    {t("sign_in_instead")}
                   </Button>
                 </Box>
               </form>
