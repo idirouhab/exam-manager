@@ -156,7 +156,7 @@ export default function Login (props) {
   return (
     <div className={classes.root}>
       <CssBaseline/>
-      <Grid
+      {!loading ? (<Grid
         container
         spacing={0}
         className={classes.firstBlock}>
@@ -277,10 +277,7 @@ export default function Login (props) {
             </Grid>
           </Grid>
         </Hidden>
-
-      </Grid>
-
-      {loading && (<Loader backgroundColor={grey[200]}/>)}
+      </Grid>) : (<Loader backgroundColor={grey[200]}/>)}
     </div>
   );
 }
