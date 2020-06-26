@@ -5,5 +5,7 @@
   "invalid_credentials": "Wrong password. Try again.",
   "email_not_sent": "The verification email couldn't be sent, please contact the administrator.",
   "ask_admin": "We are facing technical issues, please, contact the administrator.",
-  "forgot_password": "Forgot email?"
+  "forgot_password": "Forgot email?",
+  "new_here": "New here?"
+
 }
