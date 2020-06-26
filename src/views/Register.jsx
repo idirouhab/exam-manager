@@ -1,55 +1,66 @@
 import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { Box } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import { LANGUAGES_LABEL } from "../variables/general";
 import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
-import imageBackground from "../assets/images/login_background.jpg";
-import useWindowDimensions from "../hooks/resize";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
+import { Box } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import { useSnackbar } from "notistack";
 import userProvider from "../providers/user";
-import Dialog from "@material-ui/core/Dialog";
+import RegisterLogo from "../assets/register/undraw_register.svg";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import { LANGUAGES_LABEL } from "../variables/general";
-import { useSnackbar } from "notistack";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import Dialog from "@material-ui/core/Dialog";
 
-export default function Register () {
-  const { height, width } = useWindowDimensions();
-  const useStyles = makeStyles(() => ({
-    form: {
-      "& .MuiTextField-root": {
-        width: "50%",
-      }
+const useStyles = makeStyles((theme) => (
+  {
+    root: {
+      flexGrow: 1,
+      backgroundColor: "#F5F5F5",
+      height: "100vh"
     },
-    gridContainer: {
-      backgroundImage: `url(${imageBackground})`,
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundAttachment: "fixed",
-      backgroundSize: "cover",
-      height
+
+    grow: {
+      flex: "1 1 auto",
     },
-    card: {
-      backgroundColor: "transparent",
-      shadowBox: "none",
+    firstBlock: {
+      height: `100%`,
+    },
+    firstSection: {
+      alignItems: "center",
+      textAlign: "center",
+      color: "#000",
+    },
+    secondSection: {
+      alignItems: "center",
+      textAlign: "center",
+      backgroundColor: theme.palette.primary.main,
+
+    },
+    secondSectionImage: {
+      backgroundImage: `url(${RegisterLogo})`,
+      backgroundSize: "cover"
+    },
+    enterButton: {
+      width: "100%"
     }
   }));
+
+export default function Register () {
+  const { t } = useTranslation("landing");
   const classes = useStyles();
-  const { t } = useTranslation(["api"]);
   const { enqueueSnackbar } = useSnackbar();
 
   const [username, setUsername] = useState("");
@@ -58,9 +69,8 @@ export default function Register () {
   const [lastName, setLastName] = useState("");
   const [language, setLanguage] = useState(LANGUAGES_LABEL.find(language => language.code === "en"));
   const [submitted, setSubmitted] = useState(false);
-  const [open, setOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const errorSnackOptions = {
     variant: "error",
     anchorOrigin: {
@@ -68,11 +78,9 @@ export default function Register () {
       horizontal: "center",
     }
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -100,14 +108,63 @@ export default function Register () {
   };
 
   return (
-    <>
-      <Grid container spacing={0} justify={"center"} className={classes.gridContainer}>
-        <Box mb={3}>
-          <Card square className={classes.card} style={{ maxWidth: 600, width: (width * 0.80) }} elevation={0}>
-            <CardHeader
-              style={{ textAlign: "center" }}
-              title={t("register")}/>
-            <CardContent style={{ textAlign: "center" }}>
+    <div className={classes.root}>
+      <CssBaseline/>
+      <Grid
+        container
+        spacing={0}
+        className={classes.firstBlock}>
+        <Hidden xsDown>
+          <Grid
+            item
+            md={5}
+            xs={12}
+            className={classes.secondSection}>
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justify={"center"}
+              style={{ height: "100%" }}
+            >
+              <Box p={4}>
+                <img
+                  style={{ maxWidth: "100%", verticalAlign: "middle" }}
+                  src={RegisterLogo}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        </Hidden>
+        <Grid
+          item
+          md={7}
+          xs={12}
+          className={classes.firstSection}>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify={"center"}
+            style={{ height: "100%" }}
+          >
+            <Grid
+              item
+              md={6}
+              xs={9}
+
+              style={{ textAlign: "left", width: "100%" }}
+            >
+              <Typography
+                paragraph
+                variant="h4"
+                color={"primary"}
+                component="h6"
+              >
+                <strong>{t("register")}</strong>
+              </Typography>
               <form onSubmit={onSubmit}>
                 <Box mb={3}>
                   <TextField
@@ -143,7 +200,6 @@ export default function Register () {
                     helperText={username.length === 0 && submitted ? t("input.error.empty") : ""}
                   />
                 </Box>
-
                 <Box mt={2}>
                   <TextField
                     fullWidth
@@ -187,17 +243,11 @@ export default function Register () {
 
                   </FormControl>
                 </Box>
-
                 <Box my={5}>
-                  <Typography variant="subtitle1">
-                    <Link
-                      href="/login"
-                    >
-                      {t("sign_in_instead")}
-                    </Link>
-                  </Typography>
+                  <Button href="/login" color="primary">
+                    {t("sign_in_instead")}
+                  </Button>
                 </Box>
-
                 <Box>
                   <Button variant="contained" color="primary" type="submit"
                           className={classes.enterButton}
@@ -206,9 +256,9 @@ export default function Register () {
                   </Button>
                 </Box>
               </form>
-            </CardContent>
-          </Card>
-        </Box>
+            </Grid>
+          </Grid>
+        </Grid>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -225,6 +275,6 @@ export default function Register () {
           </DialogActions>
         </Dialog>
       </Grid>
-    </>
+    </div>
   );
 }
