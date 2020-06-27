@@ -47,53 +47,8 @@ const useStyles = makeStyles((theme) => (
     enterButton: {
       width: "100%"
     },
-    textDivider: {
-      display: "flex",
-      flexBasis: "100%",
-      alignItems: "center",
-      color: "rgba(0, 0, 0, 0.35)",
-      margin: "8px 0px",
-      width: "100%",
-      "&::before": {
-        content: "",
-        flexGrow: "1",
-        background: "rgba(0, 0, 0, 0.35)",
-        height: "1px",
-        fontSize: "0px",
-        margin: "0px 8px",
-      },
-      "&::after": {
-        content: "",
-        flexGrow: "1",
-        background: "rgba(0, 0, 0, 0.35)",
-        height: "1px",
-        fontSize: "0px",
-        margin: "0px 8px",
-      },
-    },
-    span: {
-      backgroundColor: "#f5f5f5",
-      padding: "1em",
-    },
   }));
 
-//.hr-sect {
-// 	display: flex;
-// 	flex-basis: 100%;
-// 	align-items: center;
-// 	color: rgba(0, 0, 0, 0.35);
-// 	margin: 8px 0px;
-// }
-// .hr-sect::before,
-// .hr-sect::after {
-// 	content: "";
-// 	flex-grow: 1;
-// 	background: rgba(0, 0, 0, 0.35);
-// 	height: 1px;
-// 	font-size: 0px;
-// 	line-height: 0px;
-// 	margin: 0px 8px;
-// }
 export default function Login (props) {
   const classes = useStyles();
   const { t } = useTranslation("api");
@@ -121,7 +76,6 @@ export default function Login (props) {
   }, [redirectToReferrer, from, props]);
 
   const onSubmit = (e) => {
-    console.log(username);
     e.preventDefault();
     setSubmitted(true);
 
@@ -160,7 +114,6 @@ export default function Login (props) {
         container
         spacing={0}
         className={classes.firstBlock}>
-
         <Grid
           item
           md={7}
