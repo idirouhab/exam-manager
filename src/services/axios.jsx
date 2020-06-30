@@ -2,8 +2,9 @@ import axios from "axios";
 import AuthService from "./auth";
 import CookiesProvider from "../providers/cookies";
 import { backendUrl } from "../variables/general";
+const instance = axios.create();
 
-axios
+instance
   .interceptors
   .request
   .use(
@@ -18,7 +19,7 @@ axios
       return Promise.reject(error);
     });
 
-axios
+instance
   .interceptors
   .response
   .use((response) => {
@@ -51,5 +52,4 @@ axios
   }
   return Promise.reject(error);
 });
-
-export default axios;
+export default instance;

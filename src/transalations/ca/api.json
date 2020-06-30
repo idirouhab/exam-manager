@@ -5,6 +5,15 @@
   "invalid_credentials": "La contrasenya no és correcta. Torna-ho a provar.",
   "email_not_sent": "El correu de verificació no s'ha pogut enviar, siusplau, contact amb l'administrador.",
   "ask_admin": "Estem experimentant problemes tècnics. Si us plau, poseu-vos en contacte amb l’administrador.",
-  "forgot_password": "Has oblidat l'adreça electrònica?",
-  "new_here": "Ets nou?"
+  "forgot_password": "Has oblidat la contrasenya?",
+  "new_here": "Ets nou?",
+  "forget_password": {
+    "modal": {
+      "title": "Revisa el teu correu electrònic",
+      "content": "T’enviarem un enllaç  a l’adreça de correu electrònic que indiquis a c continuació. <br/> Un cop ho haguis rebut el correu, fes clic a l’enllaç per restablir la teva contrasenya."
+    }
+  },
+  "reset_password": "Restablir la contrasenya",
+  "recover_password": "Enviar",
+  "reset_new_password": "Nova contrasenya"
 }

@@ -4,6 +4,15 @@
   "user_not_verified": "No has confirmado tu identidad. Por favor, revise su email.",
   "invalid_credentials": "Contraseña incorrecta. Vuelve a intentarlo.",
   "email_not_sent": "Estamos sufriendo problemas técnicos, por favor, contacte con el administrador.",
-  "forgot_password": "¿Has olvidado tu correo electrónico?",
-  "new_here": "¿Eres nuevo?"
+  "forgot_password": "¿Has olvidado tu contraseña?",
+  "new_here": "¿Eres nuevo?",
+  "forget_password": {
+    "modal": {
+      "title": "Revisa tu correo",
+      "content": "Te enviaremos un enlace a la dirección de correo electrónico que indiques a continuación. <br/> Una vez hayas recibido el email, haz clic en el enlace para restablecer tu contraseña."
+    }
+  },
+  "reset_password": "Restrablecer la contraseña",
+  "recover_password": "Enviar",
+  "reset_new_password": "Nueva contraseña"
 }

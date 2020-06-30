@@ -23,6 +23,7 @@
     "moment": "^2.26.0",
     "node-sass": "^4.14.1",
     "notistack": "^0.9.17",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-animation": "^1.2.2",
     "react-confetti": "^5.0.1",

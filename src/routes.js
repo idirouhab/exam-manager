@@ -11,6 +11,7 @@ import Users from "./views/Users";
 import Document from "./views/Document";
 import Images from "./views/Images";
 import Calendar from "./views/Calendar";
+import ResetPassword from "./views/ResetPassword";
 
 const routes = [
   {
@@ -84,7 +85,15 @@ const routes = [
     section: "",
     hide: true,
     nestedList: false
-
+  },
+  {
+    path: "/reset/:token",
+    name: "reset",
+    icon: "lock_open",
+    component: ResetPassword,
+    section: "",
+    hide: true,
+    nestedList: false
   },
   {
     path: "/register",
