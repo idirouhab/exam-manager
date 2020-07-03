@@ -262,11 +262,11 @@ export default function Quiz (props) {
                 <CardHeader
                   title={<div>{exam.text}
                     <br/><br/>
+                    <Typography variant="subtitle2" align={"center"}>
+                      <span>{t("don´t_rush_when_answering")}</span>
+                    </Typography>
                     <Typography variant="subtitle2" align={"center"} gutterBottom>
                       <span>{t("quiz_reminder_read")}</span>
-                    </Typography>
-                    <Typography variant="subtitle2" align={"center"}>
-                      <span>{t("quiz_reminder_copy")}</span>
                     </Typography>
                   </div>}
                   subheader={exam.subtitle}
