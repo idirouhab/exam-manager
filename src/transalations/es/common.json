@@ -1,7 +1,7 @@
 {
   "create_your_exams": {
-    "title": "Create tus cuestionarios",
-    "subtitle": "Con tan solo unos clicks, tendrás un examen preparado."
+    "title": "Crea tus cuestionarios",
+    "subtitle": "Con solo unos clicks, tendrás un examen preparado."
   },
   "publish_your_exams": {
     "title": "Publica tus exámenes",
@@ -9,7 +9,7 @@
   },
   "review_your_exams": {
     "title": "Revisa las notas",
-    "subtitle": "En el listado de examenes podrás ver qué tal les ha ido."
+    "subtitle": "En el listado de exámenes podrás ver qué tal les ha ido."
   },
   "get_stated": "Empezar",
   "quiz_countdown": {
