@@ -3,8 +3,8 @@
   "email_doesnt_exist": "Couldn't find your account linked to {{username}}.",
   "user_not_verified": "You haven't confirmed your identity. Please, check your inbox.",
   "invalid_credentials": "Wrong password. Try again.",
-  "email_not_sent": "The verification email couldn't be sent, please contact the administrator.",
-  "ask_admin": "We are facing technical issues, please, contact the administrator.",
+  "email_not_sent": "The verification email couldn't be sent. Please, contact the administrator.",
+  "ask_admin": "We are facing technical issues. Please, contact the administrator.",
   "forgot_password": "Forgot password?",
   "new_here": "New here?",
   "forget_password": {
