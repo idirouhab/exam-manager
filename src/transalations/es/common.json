@@ -51,7 +51,7 @@
   "register": "Registro",
   "register_submit": "Registrarse",
   "login_user_not_found": "Usuario no encontrado.",
-  "ask_admin": "Estamos teniendo problemas técnicos, por favor, pruebe más tarde.",
+  "ask_admin": "Estamos teniendo problemas técnicos. Por favor, pruebe más tarde.",
   "logout": "Cerrar sesión",
   "login_user": "Email",
   "login_password": "Contraseña",
