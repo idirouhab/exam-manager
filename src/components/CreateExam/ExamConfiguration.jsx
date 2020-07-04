@@ -44,8 +44,9 @@ export default function ExamConfiguration (props) {
   };
 
   const createFolder = (folder) => {
-    FolderProvider.saveFolder(folder).then(() => {
+    FolderProvider.saveFolder(folder).then(({ data }) => {
       setCreateFolderModal(false);
+      props.updateExamFolder(data.id);
     });
   };
 
@@ -79,7 +80,7 @@ export default function ExamConfiguration (props) {
                           </IconButton>
                         </InputAdornment>
                       }
-                      onChange={(e) => props.updateExamFolder(e)}
+                      onChange={(e) => props.updateExamFolder(e.target.value)}
                       value={props.exam.folderId || ""}
                     >
                       {folders.map((folder, key) => {

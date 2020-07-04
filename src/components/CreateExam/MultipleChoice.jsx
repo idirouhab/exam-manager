@@ -19,8 +19,8 @@ export default function MultipleChoice (props) {
   return (<>
     <Grid container justify="center">
       {props.options.map((option, indexOption) => {
-        return <Grid item xs={8} key={`option_${props.indexQuestion}_${indexOption}`}>
-          <Paper className={classes.paper} square>
+        return <Grid item xs={12} key={`option_${props.indexQuestion}_${indexOption}`}>
+          <Paper elevation={0} className={classes.paper} square>
             <Grid item xs={12}>
               {(props.validateForm && !props.options.find(option => option.correct)) &&
               <Typography style={{ color: "#f44336" }}>{t("create_exam.label.option_not_select")}</Typography>}
@@ -55,8 +55,8 @@ export default function MultipleChoice (props) {
           </Paper>
         </Grid>;
       })}
-      <Grid item xs={8}>
-        <Paper className={classes.paper} square>
+      <Grid item xs={12}>
+        <Paper elevation={0} className={classes.paper} square>
           <Grid item xs={12}>
             <div className={classes.inlineInput}>
               <FormControlLabel
