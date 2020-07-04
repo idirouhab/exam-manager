@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledTableCell = withStyles(() => ({
   body: {
-    height: "50px",
+    height: "100px",
     "&:hover": {
       backgroundColor: grey[500],
     },
