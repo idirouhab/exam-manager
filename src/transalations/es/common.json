@@ -108,9 +108,14 @@
       "multiple_choice": "Selección múltiple",
       "question_type": "Tipo de pregunta",
       "answer": "Respuesta",
-      "add_image": "Añadir imagen"
+      "add_image": "Añadir imagen",
+      "continue": "Continuar",
+      "notify": "Notificar por email cuando un alumno conteste"
+
     },
-    "create_folder": "Debes tener una carpeta creada antes de crear un examen, si no tienes ninguna, dirígete al menú de Carpetas situado a la izquierda y crea una."
+    "create_folder": "Debes tener una carpeta creada antes de crear un examen, si no tienes ninguna, dirígete al menú de Carpetas situado a la izquierda y crea una.",
+    "exam_configuration": "Configura tu examen"
+
   },
   "cookies": {
     "caption": "Utilizamos cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",

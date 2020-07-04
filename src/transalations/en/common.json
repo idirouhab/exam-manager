@@ -98,6 +98,7 @@
   },
   "create_exam": {
     "label": {
+
       "title": "Exam title",
       "subtitle": "Subtitle",
       "question": "Question",
@@ -108,9 +109,13 @@
       "multiple_choice": "Multiple choice",
       "question_type": "Question type",
       "answer": "Answer",
-      "add_image": "Add image"
+      "add_image": "Add image",
+      "continue": "Continue",
+      "notify": "Notify by email when a student answers"
+
     },
-    "create_folder": "You must have a folder created before creating an exam, if you don't have one, go to the Folders menu on the left side and create one."
+    "create_folder": "You must have a folder created before creating an exam, if you don't have one, go to the Folders menu on the left side and create one.",
+    "exam_configuration": "Configure your exam"
   },
   "cookies": {
     "caption": "We use cookies to ensure you get the best experience on our website.",

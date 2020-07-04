@@ -20,21 +20,18 @@ import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
 import { DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES } from "../variables/general";
-import FolderProvider from "../providers/folder";
-import FolderModel from "../models/folder";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import CreateFolderModal from "../components/Folders/CreateFolderModal";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import ExamConfiguration from "../components/CreateExam/ExamConfiguration";
 
 class Exam {
   constructor () {
     this.text = "";
     this.subtitle = "";
     this.folderId = null;
+    this.notify = true;
   }
 }
 
@@ -70,9 +67,8 @@ export default function CreateExam (props) {
   const [questions, setQuestions] = useState([new Question()]);
   const bottomElement = useRef(null);
   const [actionName, setActionName] = useState("create");
-  const [folders, setFolders] = useState([]);
-  const [createFolderModal, setCreateFolderModal] = useState(false);
   const [validateForm, setValidateForm] = useState(false);
+  const [openConfiguration, setOpenConfiguration] = useState(true);
 
   useEffect(() => {
     bottomElement.current.scrollIntoView({ behavior: "smooth" });
@@ -96,6 +92,7 @@ export default function CreateExam (props) {
       emptyExam.text = data.text;
       emptyExam.subtitle = data.subtitle;
       emptyExam.folderId = data.folderId;
+      emptyExam.notify = data.notify;
       if (actionName === "edit") {
         emptyExam.id = data.id;
       }
@@ -268,25 +265,13 @@ export default function CreateExam (props) {
     setExam(oldExam);
   };
 
-  useEffect(() => {
-    getFolders();
-  }, [createFolderModal]);
-
-  const getFolders = () => {
-    FolderProvider.fetchFolders().then(response => {
-      const responseFolders = response.data;
-      let finalFolder = responseFolders.map(folder => {
-        return new FolderModel(folder.id, folder.name);
-      });
-      setFolders(finalFolder);
-    });
+  const updateExamNotify = (e) => {
+    let oldExam = { ...exam };
+    console.log(e.target)
+    oldExam.notify = e.target.checked;
+    setExam(oldExam);
   };
 
-  const createFolder = (folder) => {
-    FolderProvider.saveFolder(folder).then(() => {
-      setCreateFolderModal(false);
-    });
-  };
 
   const validForm = () => {
     if (exam.text.length === 0) {
@@ -302,81 +287,23 @@ export default function CreateExam (props) {
     });
   };
 
+  const handleCloseConfiguration = () => {
+    setOpenConfiguration(false);
+  };
+
   return (
     <Fragment>
-      <CreateFolderModal createFolder={createFolder} open={createFolderModal} handleClose={() => {
-        setCreateFolderModal(false);
-      }}/>
+      <ExamConfiguration
+        handleClose={handleCloseConfiguration}
+        open={openConfiguration}
+        updateTitle={updateTitle}
+        updateSubtitle={updateSubtitle}
+        updateExamFolder={updateExamFolder}
+        updateExamNotify={updateExamNotify}
+        validateForm={validateForm}
+        exam={exam}
+      />
       <Grid container spacing={1} direction="column">
-        {folders.length > 0 && <Grid container item spacing={0} justify="center">
-          <Grid item xs={8}>
-            <Paper className={classes.paper} square>
-              <div>
-                <FormControl className={classes.formControl} style={{ width: "100%" }} error={validateForm && !exam.folderId}>
-                  <InputLabel>{t("select_your_folder")}</InputLabel>
-                  <Box my={4}>
-                    <Select
-                      displayEmpty
-
-                      style={{ width: "100%" }}
-                      startAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-
-                            onClick={() => {
-                              setCreateFolderModal(true);
-                            }}
-                          >
-                            <Add/>
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      onChange={(e) => updateExamFolder(e)}
-                      value={exam.folderId || ""}
-                    >
-                      {folders.map((folder, key) => {
-                        return <MenuItem key={`menu_${key}`}
-                                         value={folder.id}>{folder.name}</MenuItem>;
-                      })}
-                    </Select>
-                    {validateForm && !exam.folderId && <FormHelperText>{t('create_exam.label.empty')}</FormHelperText>}
-                  </Box>
-                </FormControl>
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>}
-        <Grid container item spacing={0} justify="center">
-          <Grid item xs={8}>
-            <Paper className={classes.paper} square>
-              <TextField
-                required
-                fullWidth
-                onChange={updateTitle}
-                id="exame-title"
-                label={t("create_exam.label.title")}
-                helperText={validateForm && !exam.text ? t("create_exam.label.empty") : ""}
-                error={validateForm && !exam.text}
-                value={exam.text}
-                inputProps={{
-                  style: {
-                    fontWeight: "bold",
-                    fontSize: "20px"
-                  }
-                }}/>
-              <Box mt={2}>
-                <TextField
-                  fullWidth
-
-                  id="exame-subtitle"
-                  label={t("create_exam.label.subtitle")}
-                  value={exam.subtitle}
-                  onChange={updateSubtitle}
-                />
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
         {questions.map((question, indexQuestion) => {
           return (
             <Grid container key={`question_${indexQuestion}`} item spacing={0} justify="center"

@@ -107,9 +107,14 @@
       "multiple_choice": "Selecció múltiple",
       "question_type": "Tipus de pregunta",
       "answer": "Respuesta",
-      "add_image": "Afegir imatge"
+      "add_image": "Afegir imatge",
+      "continue": "Continuar",
+      "notify": "Notificar per e-mail quan un alumne contesti"
+
     },
-    "create_folder": "Has de tenir una carpeta creada abans de crear un examen, si no tens cap, dirigeix-te al menú de Carpetes situat a l'esquerra i crea una."
+    "create_folder": "Has de tenir una carpeta creada abans de crear un examen, si no tens cap, dirigeix-te al menú de Carpetes situat a l'esquerra i crea una.",
+    "exam_configuration": "Configura el teu examen"
+
   },
   "cookies": {
     "caption": "Utilitzem cookies per garantir la millor experiència al nostre lloc web.",
