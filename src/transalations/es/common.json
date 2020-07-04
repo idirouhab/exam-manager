@@ -99,7 +99,7 @@
   "create_exam": {
     "label": {
       "title": "Título del examen",
-      "subtitle": "Subtitulo del examen",
+      "subtitle": "Subtítulo del examen",
       "question": "Pregunta",
       "option": "Opción",
       "empty": "Campo obligatorio",
@@ -115,7 +115,7 @@
   "cookies": {
     "caption": "Utilizamos cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.",
     "accept": "Perfecto, lo entiendo",
-    "more_info": "Mas información"
+    "more_info": "Más información"
 
   }
 }
