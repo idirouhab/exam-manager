@@ -3,7 +3,7 @@
   "email_doesnt_exist": "No se ha podido encontrar tu cuenta asociada con {{username}}.",
   "user_not_verified": "No has confirmado tu identidad. Por favor, revisa tu email.",
   "invalid_credentials": "Contraseña incorrecta. Vuelve a intentarlo.",
-  "email_not_sent": "Estamos sufriendo problemas técnicos. Por favor, contactA con el administrador.",
+  "email_not_sent": "Estamos teniendo problemas técnicos. Por favor, contacta con el administrador.",
   "forgot_password": "¿Has olvidado tu contraseña?",
   "new_here": "¿Eres nuevo?",
   "forget_password": {
