@@ -79,11 +79,11 @@
   "search_exam": "Buscar examen por título",
   "sections": {
     "home": "Inicio",
-    "login": "Login",
+    "login": "Iniciar sesión",
     "test": "Test",
     "create-exam": "Crear examen",
     "edit-exam": "Editar examen",
-    "stats": "Estadísticas de Examen",
+    "stats": "Estadísticas de examen",
     "folders": "Carpetas",
     "users": "Usuarios",
     "document": "Documentos",
