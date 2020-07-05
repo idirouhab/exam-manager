@@ -23,11 +23,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 export default function ExamConfiguration (props) {
-  const [open, setOpen] = React.useState(false);
   const { t } = useTranslation();
 
   const [createFolderModal, setCreateFolderModal] = useState(false);
   const [folders, setFolders] = useState([]);
+  const [validateForm, setValidateForm] = useState(false);
 
   useEffect(() => {
     getFolders();
@@ -50,12 +50,24 @@ export default function ExamConfiguration (props) {
     });
   };
 
+  const next = () => {
+    setValidateForm(true);
+    if (isValid()) {
+      props.handleClose();
+    }
+  };
+
+  const isValid = () => {
+    const { exam } = props;
+    return !(!exam.text || !exam.folderId);
+  };
+
   return (
     <Fragment>
       <CreateFolderModal createFolder={createFolder} open={createFolderModal} handleClose={() => {
         setCreateFolderModal(false);
       }}/>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={props.open}>
         <DialogTitle>{t("create_exam.exam_configuration")}</DialogTitle>
         <DialogContent>
           <Grid container>
@@ -63,7 +75,7 @@ export default function ExamConfiguration (props) {
               <Box mt={2}>
                 <FormControl
                   style={{ width: "100%" }}
-                  error={props.validateForm && !props.exam.folderId}>
+                  error={validateForm && !props.exam.folderId}>
                   <InputLabel>{t("select_your_folder")}</InputLabel>
                   <Box mt={3}>
                     <Select
@@ -88,7 +100,7 @@ export default function ExamConfiguration (props) {
                                          value={folder.id}>{folder.name}</MenuItem>;
                       })}
                     </Select>
-                    {props.validateForm && !props.exam.folderId &&
+                    {validateForm && !props.exam.folderId &&
                     <FormHelperText>{t("create_exam.label.empty")}</FormHelperText>}
                   </Box>
                 </FormControl>
@@ -99,8 +111,8 @@ export default function ExamConfiguration (props) {
                   fullWidth
                   onChange={e => {props.updateExamAttr("text", e.target.value);}}
                   label={t("create_exam.label.title")}
-                  helperText={props.validateForm && !props.exam.text ? t("create_exam.label.empty") : ""}
-                  error={props.validateForm && !props.exam.text}
+                  helperText={validateForm && !props.exam.text ? t("create_exam.label.empty") : ""}
+                  error={validateForm && !props.exam.text}
                   value={props.exam.text}
                   inputProps={{
                     style: {
@@ -112,7 +124,6 @@ export default function ExamConfiguration (props) {
               <Box mt={2}>
                 <TextField
                   fullWidth
-
                   id="exame-subtitle"
                   label={t("create_exam.label.subtitle")}
                   value={props.exam.subtitle}
@@ -139,7 +150,7 @@ export default function ExamConfiguration (props) {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+          <Button onClick={next} color="primary">
             {t("create_exam.label.continue")}
           </Button>
         </DialogActions>

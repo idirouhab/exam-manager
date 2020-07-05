@@ -223,14 +223,13 @@ export default function CreateExam (props) {
 
   const deleteCurrentImage = (questionIndex) => {
     let oldQuestion = [...questions];
-    ImageProvider.deleteImage(oldQuestion[questionIndex].image).then((res) => {
+    ImageProvider.deleteImage(oldQuestion[questionIndex].image).then(() => {
       oldQuestion[questionIndex].image = null;
       setQuestions(oldQuestion);
     });
   };
 
   const saveExam = () => {
-
     setValidateForm(true);
     if (!validForm()) {
       return false;
@@ -299,7 +298,6 @@ export default function CreateExam (props) {
         handleClose={handleCloseConfiguration}
         open={openConfiguration}
         updateExamAttr={updateExamAttr}
-        validateForm={validateForm}
         exam={exam}
       />
       <Grid container spacing={1} direction="column">
