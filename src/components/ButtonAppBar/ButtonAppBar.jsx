@@ -17,6 +17,7 @@ import Link from "@material-ui/core/Link";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => (
   {
@@ -226,7 +227,6 @@ export default function ButtonAppBar (props) {
             <MenuIcon/>
           </IconButton>
           <div className={classes.grow}/>
-
           <div className={classes.sectionDesktop}>
             <Tooltip title={t("change_language")} enterDelay={300}>
               <Button
@@ -249,9 +249,8 @@ export default function ButtonAppBar (props) {
             <Tooltip title={t("sections.create-exam")} enterDelay={300}>
               <IconButton
                 color="inherit"
-                component={Link}
-
-                href={"create-exam"}
+                component={RouterLink}
+                to="/admin/create-exam"
               >
                 <NoteAdd/>
               </IconButton>
