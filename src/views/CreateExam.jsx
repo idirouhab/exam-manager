@@ -330,120 +330,123 @@ export default function CreateExam (props) {
         exam={exam}
       />
       <Grid container spacing={1} direction="column">
-        {questions.map((question, indexQuestion) => {
-          return (
-            <Accordion key={`question_${indexQuestion}`} TransitionProps={{ unmountOnExit: true }}
-                       expanded={expanded === indexQuestion} onChange={handleChange(indexQuestion)}>
-              <AccordionSummary
-                expandIcon={<ExpandMore/>}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <TextField
-                  InputProps={{
-                    startAdornment: questionAdornment(),
-                  }}
-                  onFocus={(event) => {
-                    if (expanded === indexQuestion) {
-                      event.stopPropagation();
-                    }
-                  }}
-                  onClick={(event) => {
-                    if (expanded === indexQuestion) {
-                      event.stopPropagation();
-                    }
-                  }}
-                  multiline
-                  label={(indexQuestion + 1) + ") " + t("create_exam.label.question")}
-                  onChange={e => updateQuestion(e, indexQuestion)}
-                  value={question.text}
-                  fullWidth
-                  helperText={validateForm && !question.text.length > 0 ? t("create_exam.label.empty") : ""}
-                  error={validateForm && !question.text.length > 0}
-                />
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container item spacing={0} justify="center"
-                      direction="row">
-                  <Grid item xs={12}>
-                    <Paper elevation={0} className={classes.paper} square>
-                      <Grid item xs={12}>
-                        <FormControl className={classes.formControl}
-                                     fullWidth
-                                     value={question.type}>
-                          <InputLabel>{t("create_exam.label.question_type")}</InputLabel>
-                          <Select
-                            onChange={e => changeQuestionType(e, indexQuestion)}
-                            value={question.type}
-                            defaultValue={DEFAULT_QUESTION_TYPE}
-                          >
-                            {Object.keys(QUESTION_TYPES).map(typeKey => {
-                                return <MenuItem
-                                  key={typeKey}
-                                  value={QUESTION_TYPES[typeKey]}>{t(`create_exam.label.${QUESTION_TYPES[typeKey]}`)}</MenuItem>;
-                              }
-                            )}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Paper elevation={0} className={classes.paper} square>
-                      <Grid item xs={12}>
-                        <div className={classes.inlineInput}>
-                          <div>
-                            <input
-                              accept="image/x-png,image/jpeg"
-                              style={{ display: "none" }}
-                              id={`icon-button-file-${indexQuestion}`}
-                              onChange={(e) => addCurrentImage(e, indexQuestion)}
-                              type="file"
-                            />
-                            <label htmlFor={`icon-button-file-${indexQuestion}`}>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                component="span"
-                                startIcon={<PhotoCamera/>}
-                              >
-                                {t("upload_image")}
-                              </Button>
-                            </label>
-                            {question.image &&
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                              <Box my={2}>
-                                <GridList
-                                  cols={1} cellHeight={"auto"} spacing={1}>
-                                  <GridListTile style={{ width: "auto" }}>
-                                    <img alt={question.text} src={imageUrl + question.image}/>
-                                    <GridListTileBar
-                                      style={{ textAlign: "center" }}
-                                      actionIcon={
-                                        <IconButton
-                                          className={classes.buttonDelete}
-                                          component="span"
-                                          onClick={() => deleteCurrentImage(indexQuestion)}
-                                        >
-                                          <DeleteIcon/>
-                                        </IconButton>
-                                      }
-                                    />
-                                  </GridListTile>
-                                </GridList>
-                              </Box>
-                            </div>}
+          {questions.map((question, indexQuestion) => {
+            return (
+              <Accordion
+                key={`question_${indexQuestion}`}
+                TransitionProps={{ unmountOnExit: true }}
+                expanded={expanded === indexQuestion}
+                onChange={handleChange(indexQuestion)}>
+                <AccordionSummary
+                  expandIcon={<ExpandMore/>}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <TextField
+                    InputProps={{
+                      startAdornment: questionAdornment(),
+                    }}
+                    onFocus={(event) => {
+                      if (expanded === indexQuestion) {
+                        event.stopPropagation();
+                      }
+                    }}
+                    onClick={(event) => {
+                      if (expanded === indexQuestion) {
+                        event.stopPropagation();
+                      }
+                    }}
+                    multiline
+                    label={t(`create_exam.label.${question.type}`)}
+                    onChange={e => updateQuestion(e, indexQuestion)}
+                    value={question.text}
+                    fullWidth
+                    helperText={validateForm && !question.text.length > 0 ? t("create_exam.label.empty") : ""}
+                    error={validateForm && !question.text.length > 0}
+                  />
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container item spacing={0} justify="center"
+                        direction="row">
+                    <Grid item xs={12}>
+                      <Paper elevation={0} className={classes.paper} square>
+                        <Grid item xs={12}>
+                          <FormControl className={classes.formControl}
+                                       fullWidth
+                                       value={question.type}>
+                            <InputLabel>{t("create_exam.label.question_type")}</InputLabel>
+                            <Select
+                              onChange={e => changeQuestionType(e, indexQuestion)}
+                              value={question.type}
+                              defaultValue={DEFAULT_QUESTION_TYPE}
+                            >
+                              {Object.keys(QUESTION_TYPES).map(typeKey => {
+                                  return <MenuItem
+                                    key={typeKey}
+                                    value={QUESTION_TYPES[typeKey]}>{t(`create_exam.label.${QUESTION_TYPES[typeKey]}`)}</MenuItem>;
+                                }
+                              )}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Paper elevation={0} className={classes.paper} square>
+                        <Grid item xs={12}>
+                          <div className={classes.inlineInput}>
+                            <div>
+                              <input
+                                accept="image/x-png,image/jpeg"
+                                style={{ display: "none" }}
+                                id={`icon-button-file-${indexQuestion}`}
+                                onChange={(e) => addCurrentImage(e, indexQuestion)}
+                                type="file"
+                              />
+                              <label htmlFor={`icon-button-file-${indexQuestion}`}>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  component="span"
+                                  startIcon={<PhotoCamera/>}
+                                >
+                                  {t("upload_image")}
+                                </Button>
+                              </label>
+                              {question.image &&
+                              <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Box my={2}>
+                                  <GridList
+                                    cols={1} cellHeight={"auto"} spacing={1}>
+                                    <GridListTile style={{ width: "auto" }}>
+                                      <img alt={question.text} src={imageUrl + question.image}/>
+                                      <GridListTileBar
+                                        style={{ textAlign: "center" }}
+                                        actionIcon={
+                                          <IconButton
+                                            className={classes.buttonDelete}
+                                            component="span"
+                                            onClick={() => deleteCurrentImage(indexQuestion)}
+                                          >
+                                            <DeleteIcon/>
+                                          </IconButton>
+                                        }
+                                      />
+                                    </GridListTile>
+                                  </GridList>
+                                </Box>
+                              </div>}
+                            </div>
                           </div>
-                        </div>
-                      </Grid>
-                    </Paper>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                    {renderQuestionBlock(question.type, indexQuestion)}
                   </Grid>
-                  {renderQuestionBlock(question.type, indexQuestion)}
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
         <Box my={2}>
           <Accordion elevation={0} className={classes.hideBorder} square={true} expanded={false}
                      style={{ backgroundColor: "transparent" }}>
