@@ -18,7 +18,7 @@ import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
 import CheckIcon from "@material-ui/icons/Check";
 import ExamProvider from "../providers/exam";
-import { DEFAULT_QUESTION_TYPE, imageUrl, QUESTION_TYPES } from "../variables/general";
+import { buildImageUrl, DEFAULT_QUESTION_TYPE, QUESTION_TYPES } from "../variables/general";
 import IconButton from "@material-ui/core/IconButton";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -394,7 +394,7 @@ export default function CreateExam (props) {
                                     cellHeight={"auto"}
                                     spacing={1}>
                                     <GridListTile style={{ width: "auto" }}>
-                                      <img alt={question.text} src={imageUrl + question.image}/>
+                                      <img alt={question.text} src={buildImageUrl(question.image)}/>
                                       <GridListTileBar
                                         style={{ textAlign: "center" }}
                                         actionIcon={

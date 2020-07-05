@@ -13,7 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
 import ExamProvider from "../providers/exam";
-import { imageUrl, LANGUAGE, QUESTION_TYPES } from "../variables/general";
+import { buildImageUrl, LANGUAGE, QUESTION_TYPES } from "../variables/general";
 import Loader from "../components/Loader/Loader";
 import TextField from "@material-ui/core/TextField";
 import useWindowDimensions from "../hooks/resize";
@@ -353,7 +353,7 @@ export default function Quiz (props) {
                               cols={1} cellHeight={"auto"} spacing={1}>
                               <GridListTile>
                                 <img alt={question.text} style={{ maxWidth: "100%", height: "auto" }}
-                                     src={imageUrl + question.image}/>
+                                     src={buildImageUrl(question.image)}/>
                               </GridListTile>
                             </GridList>
                           </Box>

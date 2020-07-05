@@ -51,6 +51,10 @@ const LANGUAGES_LABEL = [
     },*/
 ];
 
+const buildImageUrl = (uuid) => {
+  return `${imageUrl}${uuid}`;
+};
+
 export {
   drawerWidth,
   backendUrl,
@@ -64,5 +68,6 @@ export {
   LANGUAGES_LABEL,
   CHAT_URL,
   FEATURE_FLAG_KEY,
-  COOKIES_KEY
+  COOKIES_KEY,
+  buildImageUrl
 };
