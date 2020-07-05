@@ -12,7 +12,7 @@ import useStyles from "../components/CreateExam/style";
 import ShortAnswer from "../components/CreateExam/ShortAnswer";
 import MultipleChoice from "../components/CreateExam/MultipleChoice";
 import Button from "@material-ui/core/Button";
-import { Add, ExpandMore, PhotoCamera, Remove } from "@material-ui/icons";
+import { Add, ExpandMore, PhotoCamera } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ImageProvider from "../providers/image";
 import Fab from "@material-ui/core/Fab";
@@ -28,6 +28,7 @@ import ExamConfiguration from "../components/CreateExam/ExamConfiguration";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 class Exam {
   constructor () {
@@ -209,7 +210,6 @@ export default function CreateExam (props) {
     const oldQuestions = [...questions];
     oldQuestions.splice(indexQuestion, 1);
     setQuestions(oldQuestions);
-    setExpanded(oldQuestions.length - 1);
   };
 
   const updateTitle = (e) => {
@@ -301,6 +301,17 @@ export default function CreateExam (props) {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const questionAdornment = (indexQuestion) => {
+    return questions.length > 1 ? <InputAdornment position="start">
+      <IconButton onClick={(e) => {
+        e.stopPropagation();
+        deleteQuestion(indexQuestion);
+
+      }}>
+        <DeleteIcon/>
+      </IconButton></InputAdornment> : <Fragment/>;
+  };
+
   return (
     <Fragment>
       <ExamConfiguration
@@ -324,6 +335,9 @@ export default function CreateExam (props) {
                 id="panel1bh-header"
               >
                 <TextField
+                  InputProps={{
+                    startAdornment: questionAdornment(),
+                  }}
                   onFocus={(event) => {
                     if (expanded === indexQuestion) {
                       event.stopPropagation();
@@ -432,17 +446,7 @@ export default function CreateExam (props) {
               style={{ backgroundColor: "inherent" }}>
               <Grid style={{ backgroundColor: "inherent" }} item xs={12}>
                 <Grid style={{ backgroundColor: "inherent" }} item xs={12}>
-                  <div className={classes.inlineInput} style={{ textAlign: "center" }}>
-                    {questions.length > 1 && <Button
-                      variant="contained"
-                      color="secondary"
-                      size="large"
-                      startIcon={<Remove/>}
-                      className={classes.buttonDeleteQuestion}
-                      onClick={() => deleteQuestion(questions.length - 1)}
-                    >
-                      Eliminar pregunta
-                    </Button>}
+                  <div style={{ textAlign: "center" }}>
                     <Button
                       startIcon={<Add/>}
                       variant="contained"
@@ -450,7 +454,7 @@ export default function CreateExam (props) {
                       size="large"
                       onClick={addNewQuestion}
                     >
-                      Añadir pregunta
+                      {t('create_exam.label.add_question')}
                     </Button>
                   </div>
                 </Grid>

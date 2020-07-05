@@ -108,6 +108,7 @@
       "question_type": "Tipus de pregunta",
       "answer": "Respuesta",
       "add_image": "Afegir imatge",
+      "add_question": "Afegir pregunta",
       "continue": "Continuar",
       "notify": "Notificar per e-mail quan un alumne contesti"
 

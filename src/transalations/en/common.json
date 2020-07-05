@@ -110,6 +110,8 @@
       "question_type": "Question type",
       "answer": "Answer",
       "add_image": "Add image",
+      "add_question": "Add new question",
+
       "continue": "Continue",
       "notify": "Notify by email when a student answers"
 

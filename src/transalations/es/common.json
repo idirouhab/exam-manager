@@ -109,6 +109,8 @@
       "question_type": "Tipo de pregunta",
       "answer": "Respuesta",
       "add_image": "Añadir imagen",
+      "add_question": "Añadir pregunta",
+
       "continue": "Continuar",
       "notify": "Notificar por email cuando un alumno conteste"
 
