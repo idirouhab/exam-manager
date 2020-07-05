@@ -382,15 +382,19 @@ export default function CreateExam (props) {
                                   color={"primary"}
                                   component="span"
                                 >
-                                  <PhotoCamera className={classes.extendedIcon} fontSize="small"/>
-                                  {t('upload_image')}
+                                  <PhotoCamera
+                                    className={classes.extendedIcon}
+                                    fontSize="small"/>
+                                  {t("upload_image")}
                                 </Fab>
                               </label>
                               {question.image &&
                               <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Box my={2}>
                                   <GridList
-                                    cols={1} cellHeight={"auto"} spacing={1}>
+                                    cols={1}
+                                    cellHeight={"auto"}
+                                    spacing={1}>
                                     <GridListTile style={{ width: "auto" }}>
                                       <img alt={question.text} src={imageUrl + question.image}/>
                                       <GridListTileBar
@@ -421,8 +425,12 @@ export default function CreateExam (props) {
             );
           })}
         <Box my={2}>
-          <Accordion elevation={0} className={classes.hideBorder} square={true} expanded={false}
-                     style={{ backgroundColor: "transparent" }}>
+          <Accordion
+            elevation={0}
+            className={classes.hideBorder}
+            square={true}
+            expanded={false}
+            style={{ backgroundColor: "transparent" }}>
             <AccordionSummary
               style={{ backgroundColor: "inherent" }}>
               <Grid style={{ backgroundColor: "inherent" }} item xs={12}>
