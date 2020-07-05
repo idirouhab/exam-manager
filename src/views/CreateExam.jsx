@@ -11,7 +11,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import useStyles from "../components/CreateExam/style";
 import ShortAnswer from "../components/CreateExam/ShortAnswer";
 import MultipleChoice from "../components/CreateExam/MultipleChoice";
-import Button from "@material-ui/core/Button";
 import { Add, ExpandMore, PhotoCamera } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ImageProvider from "../providers/image";
@@ -214,18 +213,6 @@ export default function CreateExam (props) {
     setQuestions(oldQuestions);
   };
 
-  const updateTitle = (e) => {
-    let oldExam = { ...exam };
-    oldExam.text = e.target.value;
-    setExam(oldExam);
-  };
-
-  const updateSubtitle = (e) => {
-    let oldExam = { ...exam };
-    oldExam.subtitle = e.target.value;
-    setExam(oldExam);
-  };
-
   const addCurrentImage = (e, questionIndex) => {
     let oldQuestion = [...questions];
     ImageProvider.saveImage(e.target.files[0]).then((res) => {
@@ -266,20 +253,6 @@ export default function CreateExam (props) {
 
     });
   };
-
-  const updateExamFolder = (id) => {
-    let oldExam = { ...exam };
-    oldExam.folderId = id;
-    setExam(oldExam);
-  };
-
-  const updateExamNotify = (e) => {
-    let oldExam = { ...exam };
-    console.log(e.target)
-    oldExam.notify = e.target.checked;
-    setExam(oldExam);
-  };
-
 
   const validForm = () => {
     if (exam.text.length === 0) {
@@ -404,14 +377,14 @@ export default function CreateExam (props) {
                                 type="file"
                               />
                               <label htmlFor={`icon-button-file-${indexQuestion}`}>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
+                                <Fab
+                                  variant="extended"
+                                  color={"primary"}
                                   component="span"
-                                  startIcon={<PhotoCamera/>}
                                 >
-                                  {t("upload_image")}
-                                </Button>
+                                  <PhotoCamera className={classes.extendedIcon} fontSize="small"/>
+                                  {t('upload_image')}
+                                </Fab>
                               </label>
                               {question.image &&
                               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -455,15 +428,16 @@ export default function CreateExam (props) {
               <Grid style={{ backgroundColor: "inherent" }} item xs={12}>
                 <Grid style={{ backgroundColor: "inherent" }} item xs={12}>
                   <div style={{ textAlign: "center" }}>
-                    <Button
-                      startIcon={<Add/>}
-                      variant="contained"
-                      color="primary"
-                      size="large"
+                    <Fab
+                      variant="extended"
                       onClick={addNewQuestion}
+                      color={"primary"}
                     >
+                     <Add
+                       className={classes.extendedIcon}
+                       fontSize="small"/>
                       {t('create_exam.label.add_question')}
-                    </Button>
+                    </Fab>
                   </div>
                 </Grid>
               </Grid>
@@ -474,11 +448,13 @@ export default function CreateExam (props) {
           <Grid item xs={8}>
             <Paper className={classes.paperBottom} square>
               <Fab
+                variant="extended"
                 onClick={saveExam}
                 color={"secondary"}
                 className={`${success ? classes.buttonSuccess : ""}`}
               >
-                {success ? <CheckIcon fontSize="small"/> : <SaveIcon fontSize="small"/>}
+                {success ? <CheckIcon fontSize="small"/> : <SaveIcon className={classes.extendedIcon} fontSize="small"/>}
+                {t('save')}
               </Fab>
             </Paper>
           </Grid>
