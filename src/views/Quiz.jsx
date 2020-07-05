@@ -54,11 +54,12 @@ class Question {
 }
 
 class Exam {
-  constructor (id = null, text = "", subtitle = "", questions = []) {
+  constructor (id = null, text = "", subtitle = "", questions = [], random = false) {
     this.id = id;
     this.text = text;
     this.subtitle = subtitle;
     this.questions = questions;
+    this.random = random;
   }
 }
 
@@ -144,6 +145,7 @@ export default function Quiz (props) {
       newExam.id = data.id;
       newExam.text = data.text;
       newExam.subtitle = data.subtitle;
+      newExam.random = data.random;
       data.questions.forEach(question => {
         let emptyQuestion = new Question();
         emptyQuestion.id = question._id;
@@ -159,7 +161,9 @@ export default function Quiz (props) {
         });
         newExam.questions.push(emptyQuestion);
       });
-      newExam.questions = _.shuffle(newExam.questions);
+      if (newExam.random) {
+        newExam.questions = _.shuffle(newExam.questions);
+      }
       setExam(newExam);
 
     }).finally(() => {
