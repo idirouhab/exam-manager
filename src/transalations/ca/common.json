@@ -110,7 +110,8 @@
       "add_image": "Afegir imatge",
       "add_question": "Afegir pregunta",
       "continue": "Continuar",
-      "notify": "Notificar per e-mail quan un alumne contesti"
+      "notify": "Notificar per e-mail quan un alumne contesti",
+      "random": "Mostrar les preguntes de manera aleatoria"
 
     },
     "create_folder": "Has de tenir una carpeta creada abans de crear un examen, si no tens cap, dirigeix-te al menú de Carpetes situat a l'esquerra i crea una.",

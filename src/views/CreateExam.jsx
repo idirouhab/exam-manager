@@ -36,6 +36,7 @@ class Exam {
     this.subtitle = "";
     this.folderId = null;
     this.notify = true;
+    this.random = false;
   }
 }
 
@@ -98,6 +99,7 @@ export default function CreateExam (props) {
       emptyExam.subtitle = data.subtitle;
       emptyExam.folderId = data.folderId;
       emptyExam.notify = data.notify;
+      emptyExam.random = data.random;
       if (actionName === "edit") {
         emptyExam.id = data.id;
       }
@@ -312,15 +314,18 @@ export default function CreateExam (props) {
       </IconButton></InputAdornment> : <Fragment/>;
   };
 
+  const updateExamAttr = (attrName, value) => {
+    let oldExam = { ...exam };
+    oldExam[attrName] = value;
+    setExam(oldExam);
+  };
+
   return (
     <Fragment>
       <ExamConfiguration
         handleClose={handleCloseConfiguration}
         open={openConfiguration}
-        updateTitle={updateTitle}
-        updateSubtitle={updateSubtitle}
-        updateExamFolder={updateExamFolder}
-        updateExamNotify={updateExamNotify}
+        updateExamAttr={updateExamAttr}
         validateForm={validateForm}
         exam={exam}
       />

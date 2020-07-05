@@ -46,7 +46,7 @@ export default function ExamConfiguration (props) {
   const createFolder = (folder) => {
     FolderProvider.saveFolder(folder).then(({ data }) => {
       setCreateFolderModal(false);
-      props.updateExamFolder(data.id);
+      props.updateExamAttr("folderId", data.id);
     });
   };
 
@@ -80,7 +80,7 @@ export default function ExamConfiguration (props) {
                           </IconButton>
                         </InputAdornment>
                       }
-                      onChange={(e) => props.updateExamFolder(e.target.value)}
+                      onChange={e => {props.updateExamAttr("folderId", e.target.value);}}
                       value={props.exam.folderId || ""}
                     >
                       {folders.map((folder, key) => {
@@ -97,7 +97,7 @@ export default function ExamConfiguration (props) {
                 <TextField
                   required
                   fullWidth
-                  onChange={props.updateTitle}
+                  onChange={e => {props.updateExamAttr("text", e.target.value);}}
                   label={t("create_exam.label.title")}
                   helperText={props.validateForm && !props.exam.text ? t("create_exam.label.empty") : ""}
                   error={props.validateForm && !props.exam.text}
@@ -116,15 +116,23 @@ export default function ExamConfiguration (props) {
                   id="exame-subtitle"
                   label={t("create_exam.label.subtitle")}
                   value={props.exam.subtitle}
-                  onChange={props.updateSubtitle}
+                  onChange={e => {props.updateExamAttr("subtitle", e.target.value);}}
                 />
               </Box>
               <Box mt={2}>
                 <FormControlLabel
                   checked={props.exam.notify}
-                  onChange={props.updateExamNotify}
-                  control={<Checkbox  name="gilad" />}
-                  label={t('create_exam.label.notify')}
+                  onChange={e => {props.updateExamAttr("notify", e.target.checked);}}
+                  control={<Checkbox/>}
+                  label={t("create_exam.label.notify")}
+                />
+              </Box>
+              <Box mt={2}>
+                <FormControlLabel
+                  checked={props.exam.random}
+                  onChange={e => {props.updateExamAttr("random", e.target.checked);}}
+                  control={<Checkbox/>}
+                  label={t("create_exam.label.random")}
                 />
               </Box>
             </Grid>

@@ -111,10 +111,9 @@
       "answer": "Answer",
       "add_image": "Add image",
       "add_question": "Add new question",
-
       "continue": "Continue",
-      "notify": "Notify by email when a student answers"
-
+      "notify": "Notify by email when a student answers",
+      "random": "Show questions randomly"
     },
     "create_folder": "You must have a folder created before creating an exam, if you don't have one, go to the Folders menu on the left side and create one.",
     "exam_configuration": "Configure your exam"
