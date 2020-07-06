@@ -4,7 +4,7 @@ import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { withStyles } from "@material-ui/styles";
-import { humanFileSize } from "../../variables/general";
+import { buildImageUrl, humanFileSize } from "../../variables/general";
 
 const StyledTableCell = withStyles(() => ({
   head: {
@@ -21,7 +21,8 @@ export default function Image (props) {
     <>
       <TableRow>
         <TableCell component="th" scope="row">
-          {props.image.id}
+
+          <a target="_blank" href={buildImageUrl(props.image.id)}>{props.image.id}</a>
         </TableCell>
         <TableCell component="th" scope="row">
           {props.image.examTitle}
